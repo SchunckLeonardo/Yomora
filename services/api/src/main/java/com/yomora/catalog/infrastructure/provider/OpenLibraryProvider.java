@@ -14,6 +14,7 @@ import java.time.Duration;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Component("openLibraryProvider")
@@ -48,11 +49,15 @@ class OpenLibraryProvider implements BookProvider {
             try {
                 return client.get()
                         .uri(uri -> uri.path("/search.json")
-                                .queryParam("q", query.query())
-                                .queryParam("language", query.language())
-                                .queryParam("limit", query.limit())
+                                .queryParam("q", "{query}")
+                                .queryParam("language", "{language}")
+                                .queryParam("limit", "{limit}")
                                 .queryParam("fields", "key,title,author_name,isbn,publisher,first_publish_year,language,cover_i,number_of_pages_median,subject")
-                                .build())
+                                .build(Map.of(
+                                        "query", query.query(),
+                                        "language", query.language(),
+                                        "limit", query.limit()
+                                )))
                         .retrieve()
                         .body(OpenLibraryResponse.class);
             } catch (RestClientException exception) {

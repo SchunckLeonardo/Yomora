@@ -90,14 +90,14 @@
     "semantic_hash": "af4bdb389879171bd3941d69482aa379"
   },
   "src/main/java/com/yomora/catalog/infrastructure/provider/GoogleBooksProvider.java": {
-    "mtime": 1783960623.0,
-    "ast_hash": "3797e678b5d96b07a687cc4c495dcb84",
-    "semantic_hash": "3797e678b5d96b07a687cc4c495dcb84"
+    "mtime": 1783970646.2285283,
+    "ast_hash": "410b5c5e36b054d7e3516a5095308ed8",
+    "semantic_hash": "410b5c5e36b054d7e3516a5095308ed8"
   },
   "src/main/java/com/yomora/catalog/infrastructure/provider/OpenLibraryProvider.java": {
-    "mtime": 1783960623.0,
-    "ast_hash": "4d48d307f8f6a132e0cf4968eb4dc92e",
-    "semantic_hash": "4d48d307f8f6a132e0cf4968eb4dc92e"
+    "mtime": 1783970646.3307166,
+    "ast_hash": "ef7a75fae64491c809f6cfd535c96ab2",
+    "semantic_hash": "ef7a75fae64491c809f6cfd535c96ab2"
   },
   "src/main/java/com/yomora/catalog/web/BookCatalogController.java": {
     "mtime": 1783958823.0,
@@ -918,5 +918,10 @@
     "mtime": 1783970119.288939,
     "ast_hash": "3ec0ebd3eb612a01bea7836abdea84a8",
     "semantic_hash": "3ec0ebd3eb612a01bea7836abdea84a8"
+  },
+  "src/test/java/com/yomora/catalog/infrastructure/provider/ExternalBookProviderUriTest.java": {
+    "mtime": 1783970614.9154637,
+    "ast_hash": "fbebedb0c611e66df0cd967d43782b57",
+    "semantic_hash": "fbebedb0c611e66df0cd967d43782b57"
   }
 }

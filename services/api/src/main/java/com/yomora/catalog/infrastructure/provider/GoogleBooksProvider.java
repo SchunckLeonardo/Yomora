@@ -17,7 +17,9 @@ import java.time.LocalDate;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.format.DateTimeParseException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Component("googleBooksProvider")
@@ -53,15 +55,20 @@ class GoogleBooksProvider implements BookProvider {
             try {
                 return client.get()
                         .uri(uri -> {
+                            Map<String, Object> variables = new LinkedHashMap<>();
+                            variables.put("query", query.query());
+                            variables.put("language", query.language());
+                            variables.put("limit", query.limit());
                             var builder = uri.path("/books/v1/volumes")
-                                    .queryParam("q", query.query())
-                                    .queryParam("langRestrict", query.language())
-                                    .queryParam("maxResults", query.limit())
+                                    .queryParam("q", "{query}")
+                                    .queryParam("langRestrict", "{language}")
+                                    .queryParam("maxResults", "{limit}")
                                     .queryParam("printType", "books");
                             if (!apiKey.isBlank()) {
-                                builder.queryParam("key", apiKey);
+                                builder.queryParam("key", "{apiKey}");
+                                variables.put("apiKey", apiKey);
                             }
-                            return builder.build();
+                            return builder.build(variables);
                         })
                         .retrieve()
                         .body(GoogleBooksResponse.class);
