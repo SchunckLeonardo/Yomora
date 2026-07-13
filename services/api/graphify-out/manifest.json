@@ -1,6 +1,6 @@
 {
   "build.gradle.kts": {
-    "mtime": 1783962019.1163483,
+    "mtime": 1783962019.0,
     "ast_hash": "601c6c468774fc6c4557cb323d7e819f",
     "semantic_hash": "601c6c468774fc6c4557cb323d7e819f"
   },
@@ -15,822 +15,822 @@
     "semantic_hash": "e0664266880a3fbb87c807cb5f17ac5e"
   },
   "src/main/java/com/yomora/YomoraApiApplication.java": {
-    "mtime": 1783958294.9422681,
+    "mtime": 1783958294.0,
     "ast_hash": "56b71e4153d875a8c83bf55db0fd05da",
     "semantic_hash": "56b71e4153d875a8c83bf55db0fd05da"
   },
   "src/main/java/com/yomora/catalog/application/BookCatalogAggregator.java": {
-    "mtime": 1783958823.3827329,
+    "mtime": 1783958823.0,
     "ast_hash": "19d69aa92adc35afaa9503ea1556481d",
     "semantic_hash": "19d69aa92adc35afaa9503ea1556481d"
   },
   "src/main/java/com/yomora/catalog/application/BookProviderUnavailableException.java": {
-    "mtime": 1783962450.9416757,
+    "mtime": 1783962450.0,
     "ast_hash": "7f2546d143b71897e56295b80d777f0d",
     "semantic_hash": "7f2546d143b71897e56295b80d777f0d"
   },
   "src/main/java/com/yomora/catalog/application/SearchBooksQuery.java": {
-    "mtime": 1783958628.0545628,
+    "mtime": 1783958628.0,
     "ast_hash": "cde5ed217d8e4286b2a06e2bf173d4ec",
     "semantic_hash": "cde5ed217d8e4286b2a06e2bf173d4ec"
   },
   "src/main/java/com/yomora/catalog/domain/BookCandidate.java": {
-    "mtime": 1783958627.6234615,
+    "mtime": 1783958627.0,
     "ast_hash": "0459613a3a6bd26057bc1e068fb9d699",
     "semantic_hash": "0459613a3a6bd26057bc1e068fb9d699"
   },
   "src/main/java/com/yomora/catalog/domain/BookCatalogRepository.java": {
-    "mtime": 1783958725.6773798,
+    "mtime": 1783958725.0,
     "ast_hash": "6a66b67b3183f74f6249e3b00587c3b8",
     "semantic_hash": "6a66b67b3183f74f6249e3b00587c3b8"
   },
   "src/main/java/com/yomora/catalog/domain/BookProvider.java": {
-    "mtime": 1783958627.7963166,
+    "mtime": 1783958627.0,
     "ast_hash": "1d0753a95ca01607120ce8528e5c73f9",
     "semantic_hash": "1d0753a95ca01607120ce8528e5c73f9"
   },
   "src/main/java/com/yomora/catalog/domain/BookProviderQuery.java": {
-    "mtime": 1783958627.7105675,
+    "mtime": 1783958627.0,
     "ast_hash": "a540b77840354c70eea8fe96a602f2f4",
     "semantic_hash": "a540b77840354c70eea8fe96a602f2f4"
   },
   "src/main/java/com/yomora/catalog/domain/BookSearchResult.java": {
-    "mtime": 1783958627.882405,
+    "mtime": 1783958627.0,
     "ast_hash": "0e223f64c90e02b47e8e8c61a4609585",
     "semantic_hash": "0e223f64c90e02b47e8e8c61a4609585"
   },
   "src/main/java/com/yomora/catalog/infrastructure/config/CatalogConfiguration.java": {
-    "mtime": 1783958795.7273672,
+    "mtime": 1783958795.0,
     "ast_hash": "ebc3694812e69b0b527eca42251008ad",
     "semantic_hash": "ebc3694812e69b0b527eca42251008ad"
   },
   "src/main/java/com/yomora/catalog/infrastructure/persistence/BookEditionEntity.java": {
-    "mtime": 1783958725.8499289,
+    "mtime": 1783958725.0,
     "ast_hash": "2084b9f74bed196fd93a0aab42f966ad",
     "semantic_hash": "2084b9f74bed196fd93a0aab42f966ad"
   },
   "src/main/java/com/yomora/catalog/infrastructure/persistence/BookWorkEntity.java": {
-    "mtime": 1783958725.7645564,
+    "mtime": 1783958725.0,
     "ast_hash": "3ddb9b561058c27afc07843385940781",
     "semantic_hash": "3ddb9b561058c27afc07843385940781"
   },
   "src/main/java/com/yomora/catalog/infrastructure/persistence/JpaBookCatalogRepository.java": {
-    "mtime": 1783958726.108012,
+    "mtime": 1783958726.0,
     "ast_hash": "190a02270675ba14321c90a432f39c15",
     "semantic_hash": "190a02270675ba14321c90a432f39c15"
   },
   "src/main/java/com/yomora/catalog/infrastructure/persistence/SpringDataBookEditionRepository.java": {
-    "mtime": 1783958726.021953,
-    "ast_hash": "068a6371eadfe8caf770b746275b9ee5",
-    "semantic_hash": "068a6371eadfe8caf770b746275b9ee5"
+    "mtime": 1783966224.3899841,
+    "ast_hash": "57bd81a089d9975150b74c266d9e0827",
+    "semantic_hash": "57bd81a089d9975150b74c266d9e0827"
   },
   "src/main/java/com/yomora/catalog/infrastructure/persistence/SpringDataBookWorkRepository.java": {
-    "mtime": 1783958725.93585,
+    "mtime": 1783958725.0,
     "ast_hash": "af4bdb389879171bd3941d69482aa379",
     "semantic_hash": "af4bdb389879171bd3941d69482aa379"
   },
   "src/main/java/com/yomora/catalog/infrastructure/provider/GoogleBooksProvider.java": {
-    "mtime": 1783960623.8390467,
+    "mtime": 1783960623.0,
     "ast_hash": "3797e678b5d96b07a687cc4c495dcb84",
     "semantic_hash": "3797e678b5d96b07a687cc4c495dcb84"
   },
   "src/main/java/com/yomora/catalog/infrastructure/provider/OpenLibraryProvider.java": {
-    "mtime": 1783960623.9250896,
+    "mtime": 1783960623.0,
     "ast_hash": "4d48d307f8f6a132e0cf4968eb4dc92e",
     "semantic_hash": "4d48d307f8f6a132e0cf4968eb4dc92e"
   },
   "src/main/java/com/yomora/catalog/web/BookCatalogController.java": {
-    "mtime": 1783958823.4697556,
+    "mtime": 1783958823.0,
     "ast_hash": "6091b18739a2fef1d2a8a502a0b0f18b",
     "semantic_hash": "6091b18739a2fef1d2a8a502a0b0f18b"
   },
   "src/main/java/com/yomora/identity/application/AccessTokenIssuer.java": {
-    "mtime": 1783958295.6861227,
+    "mtime": 1783958295.0,
     "ast_hash": "c8d32f591ab496c80a3f3387476838bd",
     "semantic_hash": "c8d32f591ab496c80a3f3387476838bd"
   },
   "src/main/java/com/yomora/identity/application/AuthenticationService.java": {
-    "mtime": 1783958296.0466633,
+    "mtime": 1783958296.0,
     "ast_hash": "4fe543da46761dfd28874b82838dca8f",
     "semantic_hash": "4fe543da46761dfd28874b82838dca8f"
   },
   "src/main/java/com/yomora/identity/application/IdentityConflictException.java": {
-    "mtime": 1783962451.0337238,
+    "mtime": 1783962451.0,
     "ast_hash": "d77d8c9c0f45519d98b99649ae9ba9f2",
     "semantic_hash": "d77d8c9c0f45519d98b99649ae9ba9f2"
   },
   "src/main/java/com/yomora/identity/application/InvalidCredentialsException.java": {
-    "mtime": 1783962451.124479,
+    "mtime": 1783962451.0,
     "ast_hash": "0b0d08ba676a0bf2e8acb2681f235a36",
     "semantic_hash": "0b0d08ba676a0bf2e8acb2681f235a36"
   },
   "src/main/java/com/yomora/identity/application/InvalidPasswordResetTokenException.java": {
-    "mtime": 1783962451.2143192,
+    "mtime": 1783962451.0,
     "ast_hash": "1081e7c29e3e9b0175cedddd6deaa448",
     "semantic_hash": "1081e7c29e3e9b0175cedddd6deaa448"
   },
   "src/main/java/com/yomora/identity/application/InvalidRefreshTokenException.java": {
-    "mtime": 1783962451.313663,
+    "mtime": 1783962451.0,
     "ast_hash": "519a5bfd2dc1b3f325f2e0cbfce8f109",
     "semantic_hash": "519a5bfd2dc1b3f325f2e0cbfce8f109"
   },
   "src/main/java/com/yomora/identity/application/PasswordResetNotifier.java": {
-    "mtime": 1783960588.7692366,
+    "mtime": 1783960588.0,
     "ast_hash": "57a79009d5537a48736db2f4e4922cd9",
     "semantic_hash": "57a79009d5537a48736db2f4e4922cd9"
   },
   "src/main/java/com/yomora/identity/application/PasswordResetService.java": {
-    "mtime": 1783960588.958721,
+    "mtime": 1783960588.0,
     "ast_hash": "ea06ac1f83e0aaf53fadcaf51a582b1a",
     "semantic_hash": "ea06ac1f83e0aaf53fadcaf51a582b1a"
   },
   "src/main/java/com/yomora/identity/application/ProfileMetrics.java": {
-    "mtime": 1783962311.8494189,
+    "mtime": 1783962311.0,
     "ast_hash": "4077b31526b5f11aa0cc9c5ce3197bbf",
     "semantic_hash": "4077b31526b5f11aa0cc9c5ce3197bbf"
   },
   "src/main/java/com/yomora/identity/application/ProfileMetricsService.java": {
-    "mtime": 1783962311.9386473,
+    "mtime": 1783962311.0,
     "ast_hash": "50ad300ec18ee212bc63c30f52357909",
     "semantic_hash": "50ad300ec18ee212bc63c30f52357909"
   },
   "src/main/java/com/yomora/identity/application/RegisterCommand.java": {
-    "mtime": 1783957940.5354066,
+    "mtime": 1783957940.0,
     "ast_hash": "ad0298e7a1a07750b01840461ee28df4",
     "semantic_hash": "ad0298e7a1a07750b01840461ee28df4"
   },
   "src/main/java/com/yomora/identity/application/TokenPair.java": {
-    "mtime": 1783958295.776572,
+    "mtime": 1783958295.0,
     "ast_hash": "1bdbb3bd0263c4cb128445d89b7035ca",
     "semantic_hash": "1bdbb3bd0263c4cb128445d89b7035ca"
   },
   "src/main/java/com/yomora/identity/application/UpdateProfileCommand.java": {
-    "mtime": 1783960482.0297503,
+    "mtime": 1783960482.0,
     "ast_hash": "2b98daf1d8e49a217ac1dd0f4e0bf207",
     "semantic_hash": "2b98daf1d8e49a217ac1dd0f4e0bf207"
   },
   "src/main/java/com/yomora/identity/application/UserApplicationConfiguration.java": {
-    "mtime": 1783958296.136622,
+    "mtime": 1783958296.0,
     "ast_hash": "a7abee2510d2b899a233c466bb9a6195",
     "semantic_hash": "a7abee2510d2b899a233c466bb9a6195"
   },
   "src/main/java/com/yomora/identity/application/UserProfileService.java": {
-    "mtime": 1783960623.7521772,
+    "mtime": 1783960623.0,
     "ast_hash": "127ff211f20bcdd670ec64cbf0d50a55",
     "semantic_hash": "127ff211f20bcdd670ec64cbf0d50a55"
   },
   "src/main/java/com/yomora/identity/application/UserRegistrationService.java": {
-    "mtime": 1783957940.7070975,
+    "mtime": 1783957940.0,
     "ast_hash": "b6f11437a5496fca1a41c50903372d20",
     "semantic_hash": "b6f11437a5496fca1a41c50903372d20"
   },
   "src/main/java/com/yomora/identity/domain/PasswordResetToken.java": {
-    "mtime": 1783960588.5868998,
+    "mtime": 1783960588.0,
     "ast_hash": "5980a66d71585eb6ffa7136d9a1113c8",
     "semantic_hash": "5980a66d71585eb6ffa7136d9a1113c8"
   },
   "src/main/java/com/yomora/identity/domain/PasswordResetTokenRepository.java": {
-    "mtime": 1783960588.676771,
+    "mtime": 1783960588.0,
     "ast_hash": "5624027415bcbc09d03667467516b1da",
     "semantic_hash": "5624027415bcbc09d03667467516b1da"
   },
   "src/main/java/com/yomora/identity/domain/RefreshToken.java": {
-    "mtime": 1783958295.5044231,
+    "mtime": 1783958295.0,
     "ast_hash": "4d33abc0c8a9399f67a3d46b28f7b8d8",
     "semantic_hash": "4d33abc0c8a9399f67a3d46b28f7b8d8"
   },
   "src/main/java/com/yomora/identity/domain/RefreshTokenRepository.java": {
-    "mtime": 1783958295.5943003,
+    "mtime": 1783958295.0,
     "ast_hash": "41e455ff0e7acc108eea6ed6f804d69f",
     "semantic_hash": "41e455ff0e7acc108eea6ed6f804d69f"
   },
   "src/main/java/com/yomora/identity/domain/User.java": {
-    "mtime": 1783957940.3630285,
+    "mtime": 1783957940.0,
     "ast_hash": "38bb5a5a00dd50c3a392e0369a457d5f",
     "semantic_hash": "38bb5a5a00dd50c3a392e0369a457d5f"
   },
   "src/main/java/com/yomora/identity/domain/UserRepository.java": {
-    "mtime": 1783960481.768832,
+    "mtime": 1783960481.0,
     "ast_hash": "70942604d7d02d230bc18d8540d3abcc",
     "semantic_hash": "70942604d7d02d230bc18d8540d3abcc"
   },
   "src/main/java/com/yomora/identity/infrastructure/notification/DiscardingPasswordResetNotifier.java": {
-    "mtime": 1783960589.3774557,
+    "mtime": 1783960589.0,
     "ast_hash": "39b89c115ad680f36a3c8b974f333e4e",
     "semantic_hash": "39b89c115ad680f36a3c8b974f333e4e"
   },
   "src/main/java/com/yomora/identity/infrastructure/notification/LocalPasswordResetMailbox.java": {
-    "mtime": 1783960589.4677212,
+    "mtime": 1783960589.0,
     "ast_hash": "e8e9f60499651e8dd7c60d9132299528",
     "semantic_hash": "e8e9f60499651e8dd7c60d9132299528"
   },
   "src/main/java/com/yomora/identity/infrastructure/persistence/JpaPasswordResetTokenRepositoryAdapter.java": {
-    "mtime": 1783960589.2221253,
+    "mtime": 1783960589.0,
     "ast_hash": "a1ea18ebc1e21d53a5e9e168881abb30",
     "semantic_hash": "a1ea18ebc1e21d53a5e9e168881abb30"
   },
   "src/main/java/com/yomora/identity/infrastructure/persistence/JpaRefreshTokenRepositoryAdapter.java": {
-    "mtime": 1783958379.4086177,
+    "mtime": 1783958379.0,
     "ast_hash": "bfd5adaac8b067ad7de31f03c77b4b94",
     "semantic_hash": "bfd5adaac8b067ad7de31f03c77b4b94"
   },
   "src/main/java/com/yomora/identity/infrastructure/persistence/JpaUserRepositoryAdapter.java": {
-    "mtime": 1783960481.8570423,
+    "mtime": 1783960481.0,
     "ast_hash": "9285112d0d9ea789e6ca715f709f3427",
     "semantic_hash": "9285112d0d9ea789e6ca715f709f3427"
   },
   "src/main/java/com/yomora/identity/infrastructure/persistence/PasswordResetTokenEntity.java": {
-    "mtime": 1783960589.044981,
+    "mtime": 1783960589.0,
     "ast_hash": "d2569dab5c6ce67c5229d16f187f2bf1",
     "semantic_hash": "d2569dab5c6ce67c5229d16f187f2bf1"
   },
   "src/main/java/com/yomora/identity/infrastructure/persistence/RefreshTokenEntity.java": {
-    "mtime": 1783958379.232303,
+    "mtime": 1783958379.0,
     "ast_hash": "9876535c9021260dd2e3803a2e24efd1",
     "semantic_hash": "9876535c9021260dd2e3803a2e24efd1"
   },
   "src/main/java/com/yomora/identity/infrastructure/persistence/SpringDataPasswordResetTokenRepository.java": {
-    "mtime": 1783960589.1310344,
+    "mtime": 1783960589.0,
     "ast_hash": "ea62fcd1a01d46022a1237a5f5e2b083",
     "semantic_hash": "ea62fcd1a01d46022a1237a5f5e2b083"
   },
   "src/main/java/com/yomora/identity/infrastructure/persistence/SpringDataRefreshTokenRepository.java": {
-    "mtime": 1783958379.321226,
+    "mtime": 1783958379.0,
     "ast_hash": "6d8bb97ee4b07bce8b43cf9355058d06",
     "semantic_hash": "6d8bb97ee4b07bce8b43cf9355058d06"
   },
   "src/main/java/com/yomora/identity/infrastructure/persistence/SpringDataUserRepository.java": {
-    "mtime": 1783958379.0598629,
+    "mtime": 1783958379.0,
     "ast_hash": "dd824b465d864828b7d777bf294ceb6b",
     "semantic_hash": "dd824b465d864828b7d777bf294ceb6b"
   },
   "src/main/java/com/yomora/identity/infrastructure/persistence/UserEntity.java": {
-    "mtime": 1783958378.9739869,
+    "mtime": 1783958378.0,
     "ast_hash": "9bf1f3eb1d22136e7055b513ce1014af",
     "semantic_hash": "9bf1f3eb1d22136e7055b513ce1014af"
   },
   "src/main/java/com/yomora/identity/infrastructure/security/JwtAccessTokenIssuer.java": {
-    "mtime": 1783958379.4928808,
+    "mtime": 1783958379.0,
     "ast_hash": "3b36c4eba83dbcdb8d02dd6046afac71",
     "semantic_hash": "3b36c4eba83dbcdb8d02dd6046afac71"
   },
   "src/main/java/com/yomora/identity/web/AuthController.java": {
-    "mtime": 1783960589.6493225,
+    "mtime": 1783960589.0,
     "ast_hash": "57607bcc35b31e0292144705fbecbe48",
     "semantic_hash": "57607bcc35b31e0292144705fbecbe48"
   },
   "src/main/java/com/yomora/identity/web/LocalPasswordResetMailboxController.java": {
-    "mtime": 1783960589.5582197,
+    "mtime": 1783960589.0,
     "ast_hash": "885a533a38afc6013963988e6c6b6a87",
     "semantic_hash": "885a533a38afc6013963988e6c6b6a87"
   },
   "src/main/java/com/yomora/identity/web/UserController.java": {
-    "mtime": 1783962312.0284889,
+    "mtime": 1783962312.0,
     "ast_hash": "8746c8d29302756c60ebb798c1a490db",
     "semantic_hash": "8746c8d29302756c60ebb798c1a490db"
   },
   "src/main/java/com/yomora/identity/web/UserNotFoundException.java": {
-    "mtime": 1783962451.406273,
+    "mtime": 1783962451.0,
     "ast_hash": "98ce19e36c40a2897395f2b1115bee4a",
     "semantic_hash": "98ce19e36c40a2897395f2b1115bee4a"
   },
   "src/main/java/com/yomora/library/application/InvalidBookProgressException.java": {
-    "mtime": 1783962451.4974837,
+    "mtime": 1783962451.0,
     "ast_hash": "d0cc71d85f037b283e90451207ed9491",
     "semantic_hash": "d0cc71d85f037b283e90451207ed9491"
   },
   "src/main/java/com/yomora/library/application/LibraryConflictException.java": {
-    "mtime": 1783962451.5896163,
+    "mtime": 1783962451.0,
     "ast_hash": "9e6b5f66f48328397d4fbf9a8f0748ef",
     "semantic_hash": "9e6b5f66f48328397d4fbf9a8f0748ef"
   },
   "src/main/java/com/yomora/library/application/LibraryEntryNotFoundException.java": {
-    "mtime": 1783962451.6850631,
+    "mtime": 1783962451.0,
     "ast_hash": "d9d6dc647cec8d657e024dd556a0fa24",
     "semantic_hash": "d9d6dc647cec8d657e024dd556a0fa24"
   },
   "src/main/java/com/yomora/library/application/LibraryService.java": {
-    "mtime": 1783959142.860759,
+    "mtime": 1783959142.0,
     "ast_hash": "ce54a2818326cf0242e0ca787e64009d",
     "semantic_hash": "ce54a2818326cf0242e0ca787e64009d"
   },
   "src/main/java/com/yomora/library/application/ShelfNotFoundException.java": {
-    "mtime": 1783962451.7773132,
+    "mtime": 1783962451.0,
     "ast_hash": "587aa8ffea7c23cee12288c01a354009",
     "semantic_hash": "587aa8ffea7c23cee12288c01a354009"
   },
   "src/main/java/com/yomora/library/application/ShelfService.java": {
-    "mtime": 1783959057.2993987,
+    "mtime": 1783959057.0,
     "ast_hash": "4bd103ee4544f1c4ec08058f6843c35b",
     "semantic_hash": "4bd103ee4544f1c4ec08058f6843c35b"
   },
   "src/main/java/com/yomora/library/domain/ReadingStatus.java": {
-    "mtime": 1783958979.4054103,
+    "mtime": 1783958979.0,
     "ast_hash": "6aa7879312de680e8f36e85094737234",
     "semantic_hash": "6aa7879312de680e8f36e85094737234"
   },
   "src/main/java/com/yomora/library/domain/Shelf.java": {
-    "mtime": 1783959057.043746,
+    "mtime": 1783959057.0,
     "ast_hash": "58f70a384a49b46b038090a70b4bc985",
     "semantic_hash": "58f70a384a49b46b038090a70b4bc985"
   },
   "src/main/java/com/yomora/library/domain/ShelfRepository.java": {
-    "mtime": 1783959057.128147,
+    "mtime": 1783959057.0,
     "ast_hash": "511bef47b1833ac8b926f0e8d619d106",
     "semantic_hash": "511bef47b1833ac8b926f0e8d619d106"
   },
   "src/main/java/com/yomora/library/domain/UserBook.java": {
-    "mtime": 1783958979.490059,
+    "mtime": 1783958979.0,
     "ast_hash": "c90e012ae35d3de74caabe8b1da1b160",
     "semantic_hash": "c90e012ae35d3de74caabe8b1da1b160"
   },
   "src/main/java/com/yomora/library/domain/UserBookRepository.java": {
-    "mtime": 1783958979.573956,
+    "mtime": 1783958979.0,
     "ast_hash": "21b4ac682bd7f6b1ba7870c3897967eb",
     "semantic_hash": "21b4ac682bd7f6b1ba7870c3897967eb"
   },
   "src/main/java/com/yomora/library/infrastructure/config/LibraryConfiguration.java": {
-    "mtime": 1783959189.5641303,
+    "mtime": 1783959189.0,
     "ast_hash": "77dedd68a32e0b66736b41e08532981e",
     "semantic_hash": "77dedd68a32e0b66736b41e08532981e"
   },
   "src/main/java/com/yomora/library/infrastructure/persistence/JpaShelfRepository.java": {
-    "mtime": 1783959143.3812702,
+    "mtime": 1783959143.0,
     "ast_hash": "68f761553495bbaaa60abc35103f5ec6",
     "semantic_hash": "68f761553495bbaaa60abc35103f5ec6"
   },
   "src/main/java/com/yomora/library/infrastructure/persistence/JpaUserBookRepository.java": {
-    "mtime": 1783959143.1175628,
+    "mtime": 1783959143.0,
     "ast_hash": "a7fc22e63135ffa834119734cea232b5",
     "semantic_hash": "a7fc22e63135ffa834119734cea232b5"
   },
   "src/main/java/com/yomora/library/infrastructure/persistence/ShelfEntity.java": {
-    "mtime": 1783959143.2022374,
+    "mtime": 1783959143.0,
     "ast_hash": "bb23176824d82445e0c768a9aa28131f",
     "semantic_hash": "bb23176824d82445e0c768a9aa28131f"
   },
   "src/main/java/com/yomora/library/infrastructure/persistence/SpringDataShelfRepository.java": {
-    "mtime": 1783959143.2880063,
+    "mtime": 1783959143.0,
     "ast_hash": "8a11a7548bea29a42405d674b8c7be97",
     "semantic_hash": "8a11a7548bea29a42405d674b8c7be97"
   },
   "src/main/java/com/yomora/library/infrastructure/persistence/SpringDataUserBookRepository.java": {
-    "mtime": 1783959143.031901,
+    "mtime": 1783959143.0,
     "ast_hash": "c43820e1bbe0ee4b4d047606ce5b0771",
     "semantic_hash": "c43820e1bbe0ee4b4d047606ce5b0771"
   },
   "src/main/java/com/yomora/library/infrastructure/persistence/UserBookEntity.java": {
-    "mtime": 1783959142.9449553,
+    "mtime": 1783959142.0,
     "ast_hash": "eabeff2ab612753f74a0e8305289a203",
     "semantic_hash": "eabeff2ab612753f74a0e8305289a203"
   },
   "src/main/java/com/yomora/library/web/LibraryController.java": {
-    "mtime": 1783959189.6485233,
+    "mtime": 1783959189.0,
     "ast_hash": "c9d7ee6ed7a7aaf1b4ab2971f7ab60f4",
     "semantic_hash": "c9d7ee6ed7a7aaf1b4ab2971f7ab60f4"
   },
   "src/main/java/com/yomora/library/web/ShelfController.java": {
-    "mtime": 1783959189.7329192,
+    "mtime": 1783959189.0,
     "ast_hash": "72227aa272b0f78e192aa1f7c8d503d6",
     "semantic_hash": "72227aa272b0f78e192aa1f7c8d503d6"
   },
   "src/main/java/com/yomora/moderation/application/ModerationService.java": {
-    "mtime": 1783960214.7245457,
+    "mtime": 1783960214.0,
     "ast_hash": "5e9e06e7de56155bc476a947c2c7ef2a",
     "semantic_hash": "5e9e06e7de56155bc476a947c2c7ef2a"
   },
   "src/main/java/com/yomora/moderation/domain/BlockedUser.java": {
-    "mtime": 1783960214.4556303,
+    "mtime": 1783960214.0,
     "ast_hash": "a04a1fa9b4239a0318fbb2455ec9e954",
     "semantic_hash": "a04a1fa9b4239a0318fbb2455ec9e954"
   },
   "src/main/java/com/yomora/moderation/domain/ModerationRepository.java": {
-    "mtime": 1783960214.6317182,
+    "mtime": 1783960214.0,
     "ast_hash": "443ca2ef728365fb2a37bc5045007e49",
     "semantic_hash": "443ca2ef728365fb2a37bc5045007e49"
   },
   "src/main/java/com/yomora/moderation/domain/Report.java": {
-    "mtime": 1783960214.5457656,
+    "mtime": 1783960214.0,
     "ast_hash": "726d048ab2cb41720f1e62df8d1f17ee",
     "semantic_hash": "726d048ab2cb41720f1e62df8d1f17ee"
   },
   "src/main/java/com/yomora/moderation/infrastructure/config/ModerationConfiguration.java": {
-    "mtime": 1783960283.8570561,
+    "mtime": 1783960283.0,
     "ast_hash": "d64c2ffe9c1b10dd7b3412308706f38f",
     "semantic_hash": "d64c2ffe9c1b10dd7b3412308706f38f"
   },
   "src/main/java/com/yomora/moderation/infrastructure/persistence/BlockedUserEntity.java": {
-    "mtime": 1783960283.4195616,
+    "mtime": 1783960283.0,
     "ast_hash": "2dd804ee2208e3289f07751086039a38",
     "semantic_hash": "2dd804ee2208e3289f07751086039a38"
   },
   "src/main/java/com/yomora/moderation/infrastructure/persistence/JpaModerationRepository.java": {
-    "mtime": 1783960283.770772,
+    "mtime": 1783960283.0,
     "ast_hash": "e1d1204f8ebc037cf884ee300c9c057c",
     "semantic_hash": "e1d1204f8ebc037cf884ee300c9c057c"
   },
   "src/main/java/com/yomora/moderation/infrastructure/persistence/ReportEntity.java": {
-    "mtime": 1783960283.5102046,
+    "mtime": 1783960283.0,
     "ast_hash": "e8545c38e97b04fe26883ff8860fd06e",
     "semantic_hash": "e8545c38e97b04fe26883ff8860fd06e"
   },
   "src/main/java/com/yomora/moderation/infrastructure/persistence/SpringDataBlockedUserRepository.java": {
-    "mtime": 1783960283.596244,
+    "mtime": 1783960283.0,
     "ast_hash": "f86e3f4321d4c9bf1b141e72b390e0cb",
     "semantic_hash": "f86e3f4321d4c9bf1b141e72b390e0cb"
   },
   "src/main/java/com/yomora/moderation/infrastructure/persistence/SpringDataReportRepository.java": {
-    "mtime": 1783960283.6844976,
+    "mtime": 1783960283.0,
     "ast_hash": "7d8b8c14058634a320706c6c2112a36d",
     "semantic_hash": "7d8b8c14058634a320706c6c2112a36d"
   },
   "src/main/java/com/yomora/moderation/web/ModerationController.java": {
-    "mtime": 1783960283.9431841,
+    "mtime": 1783960283.0,
     "ast_hash": "850645a575d71a318d8a9ebf5b3d14e5",
     "semantic_hash": "850645a575d71a318d8a9ebf5b3d14e5"
   },
   "src/main/java/com/yomora/notification/package-info.java": {
-    "mtime": 1783960290.4631536,
+    "mtime": 1783960290.0,
     "ast_hash": "95ec399e9ecb8730a72dd81f97cb2be3",
     "semantic_hash": "95ec399e9ecb8730a72dd81f97cb2be3"
   },
   "src/main/java/com/yomora/reading/application/ConsistencySummary.java": {
-    "mtime": 1783959359.2149215,
+    "mtime": 1783959359.0,
     "ast_hash": "3ca5a2cdd9abebcbfd42799c58f54670",
     "semantic_hash": "3ca5a2cdd9abebcbfd42799c58f54670"
   },
   "src/main/java/com/yomora/reading/application/DailyReading.java": {
-    "mtime": 1783959359.1306646,
+    "mtime": 1783959359.0,
     "ast_hash": "dfd52b0ce5a6aa1e00a1b617cf8060a2",
     "semantic_hash": "dfd52b0ce5a6aa1e00a1b617cf8060a2"
   },
   "src/main/java/com/yomora/reading/application/ReadingConsistencyCalculator.java": {
-    "mtime": 1783959359.3009493,
+    "mtime": 1783959359.0,
     "ast_hash": "f557484fd9df269d74ba3a788d0790b9",
     "semantic_hash": "f557484fd9df269d74ba3a788d0790b9"
   },
   "src/main/java/com/yomora/reading/application/ReadingGoalService.java": {
-    "mtime": 1783959507.1289077,
+    "mtime": 1783959507.0,
     "ast_hash": "ee5cbd3d5167bacb2f90c9d4a064cd94",
     "semantic_hash": "ee5cbd3d5167bacb2f90c9d4a064cd94"
   },
   "src/main/java/com/yomora/reading/application/ReadingSessionNotFoundException.java": {
-    "mtime": 1783962451.8662212,
+    "mtime": 1783962451.0,
     "ast_hash": "1b83fad7c03191681954e30b48d99313",
     "semantic_hash": "1b83fad7c03191681954e30b48d99313"
   },
   "src/main/java/com/yomora/reading/application/ReadingSessionService.java": {
-    "mtime": 1783959448.1059694,
+    "mtime": 1783959448.0,
     "ast_hash": "f75b3aaf2251abd03f33f9eea55b619a",
     "semantic_hash": "f75b3aaf2251abd03f33f9eea55b619a"
   },
   "src/main/java/com/yomora/reading/application/ReadingSessionSummary.java": {
-    "mtime": 1783959359.3877482,
+    "mtime": 1783959359.0,
     "ast_hash": "6806dec6c1f66e8eb27aa59486bd3693",
     "semantic_hash": "6806dec6c1f66e8eb27aa59486bd3693"
   },
   "src/main/java/com/yomora/reading/application/StatisticsService.java": {
-    "mtime": 1783959507.3869498,
+    "mtime": 1783959507.0,
     "ast_hash": "43eaaf2948039e8ffb39ef4f3df3c2f3",
     "semantic_hash": "43eaaf2948039e8ffb39ef4f3df3c2f3"
   },
   "src/main/java/com/yomora/reading/application/StatisticsSummary.java": {
-    "mtime": 1783959507.2518692,
+    "mtime": 1783959507.0,
     "ast_hash": "ae5f66c52b86070b14fe00afb27a76dc",
     "semantic_hash": "ae5f66c52b86070b14fe00afb27a76dc"
   },
   "src/main/java/com/yomora/reading/domain/ReadingGoal.java": {
-    "mtime": 1783959358.8772573,
+    "mtime": 1783959358.0,
     "ast_hash": "8aad22a78ba45df9ec57df9c1b729d90",
     "semantic_hash": "8aad22a78ba45df9ec57df9c1b729d90"
   },
   "src/main/java/com/yomora/reading/domain/ReadingGoalRepository.java": {
-    "mtime": 1783959448.0215924,
+    "mtime": 1783959448.0,
     "ast_hash": "8a57ee5f303691a266776a45f8a7caec",
     "semantic_hash": "8a57ee5f303691a266776a45f8a7caec"
   },
   "src/main/java/com/yomora/reading/domain/ReadingSession.java": {
-    "mtime": 1783959358.9625356,
+    "mtime": 1783959358.0,
     "ast_hash": "a584ac7c21c1c165b4b7fbfa95fb58da",
     "semantic_hash": "a584ac7c21c1c165b4b7fbfa95fb58da"
   },
   "src/main/java/com/yomora/reading/domain/ReadingSessionRepository.java": {
-    "mtime": 1783959359.0467908,
+    "mtime": 1783959359.0,
     "ast_hash": "ad0befff9b7e9d4277c93104a579d214",
     "semantic_hash": "ad0befff9b7e9d4277c93104a579d214"
   },
   "src/main/java/com/yomora/reading/infrastructure/config/ReadingConfiguration.java": {
-    "mtime": 1783959507.504273,
+    "mtime": 1783959507.0,
     "ast_hash": "0bf974db154c58c4c636de1d9524522b",
     "semantic_hash": "0bf974db154c58c4c636de1d9524522b"
   },
   "src/main/java/com/yomora/reading/infrastructure/persistence/DailyReadingProjection.java": {
-    "mtime": 1783959448.2753806,
+    "mtime": 1783959448.0,
     "ast_hash": "888c24a19d6e46491f18df99a3c3142c",
     "semantic_hash": "888c24a19d6e46491f18df99a3c3142c"
   },
   "src/main/java/com/yomora/reading/infrastructure/persistence/JpaReadingGoalRepository.java": {
-    "mtime": 1783959507.0100968,
+    "mtime": 1783959507.0,
     "ast_hash": "055a645cc8d1fd2fb1877d6605225c1c",
     "semantic_hash": "055a645cc8d1fd2fb1877d6605225c1c"
   },
   "src/main/java/com/yomora/reading/infrastructure/persistence/JpaReadingSessionRepository.java": {
-    "mtime": 1783959448.4473164,
+    "mtime": 1783959448.0,
     "ast_hash": "f56c9d85b979af913fe4c83ffb7310b6",
     "semantic_hash": "f56c9d85b979af913fe4c83ffb7310b6"
   },
   "src/main/java/com/yomora/reading/infrastructure/persistence/ReadingGoalEntity.java": {
-    "mtime": 1783959506.7680178,
+    "mtime": 1783959506.0,
     "ast_hash": "6b77cdf16632ab38bbf70fecde38e906",
     "semantic_hash": "6b77cdf16632ab38bbf70fecde38e906"
   },
   "src/main/java/com/yomora/reading/infrastructure/persistence/ReadingSessionEntity.java": {
-    "mtime": 1783959448.1905363,
+    "mtime": 1783959448.0,
     "ast_hash": "b787815cfca58a5fe4e6c657d2f587c0",
     "semantic_hash": "b787815cfca58a5fe4e6c657d2f587c0"
   },
   "src/main/java/com/yomora/reading/infrastructure/persistence/SpringDataReadingGoalRepository.java": {
-    "mtime": 1783959506.8872337,
+    "mtime": 1783959506.0,
     "ast_hash": "5cfb496b5242e73217d93f0ab2487b89",
     "semantic_hash": "5cfb496b5242e73217d93f0ab2487b89"
   },
   "src/main/java/com/yomora/reading/infrastructure/persistence/SpringDataReadingSessionRepository.java": {
-    "mtime": 1783959448.3619518,
+    "mtime": 1783959448.0,
     "ast_hash": "21dffa96ff74a7596f69e2dc83103682",
     "semantic_hash": "21dffa96ff74a7596f69e2dc83103682"
   },
   "src/main/java/com/yomora/reading/web/ReadingGoalController.java": {
-    "mtime": 1783959539.780063,
+    "mtime": 1783959539.0,
     "ast_hash": "7eb3cd7a61641753576d0a183d8c79cf",
     "semantic_hash": "7eb3cd7a61641753576d0a183d8c79cf"
   },
   "src/main/java/com/yomora/reading/web/ReadingSessionController.java": {
-    "mtime": 1783959539.693562,
+    "mtime": 1783959539.0,
     "ast_hash": "033bb44006e5de37dec963f073c8e087",
     "semantic_hash": "033bb44006e5de37dec963f073c8e087"
   },
   "src/main/java/com/yomora/reading/web/StatisticsController.java": {
-    "mtime": 1783959539.8651698,
+    "mtime": 1783959539.0,
     "ast_hash": "a97d4d8c5f7929a7b7da1558f4260faf",
     "semantic_hash": "a97d4d8c5f7929a7b7da1558f4260faf"
   },
   "src/main/java/com/yomora/review/application/NoteNotFoundException.java": {
-    "mtime": 1783962451.953809,
+    "mtime": 1783962451.0,
     "ast_hash": "bf1d21992e5d3ea537b0ced2fd6b7032",
     "semantic_hash": "bf1d21992e5d3ea537b0ced2fd6b7032"
   },
   "src/main/java/com/yomora/review/application/NoteService.java": {
-    "mtime": 1783959999.2892547,
+    "mtime": 1783959999.0,
     "ast_hash": "a3e734eb2e6797288456eaff1bf03f8d",
     "semantic_hash": "a3e734eb2e6797288456eaff1bf03f8d"
   },
   "src/main/java/com/yomora/review/application/ReviewNotFoundException.java": {
-    "mtime": 1783962452.0412817,
+    "mtime": 1783962452.0,
     "ast_hash": "460b82217fd2dda2f8dd380f33719c70",
     "semantic_hash": "460b82217fd2dda2f8dd380f33719c70"
   },
   "src/main/java/com/yomora/review/application/ReviewService.java": {
-    "mtime": 1783960091.8940792,
+    "mtime": 1783960091.0,
     "ast_hash": "b13c7f6df39ede385d77ebf63cdeadac",
     "semantic_hash": "b13c7f6df39ede385d77ebf63cdeadac"
   },
   "src/main/java/com/yomora/review/application/SocialPublisher.java": {
-    "mtime": 1783959998.9455929,
+    "mtime": 1783959998.0,
     "ast_hash": "36c16fe4dc80d7a3a4ebe59ca627d603",
     "semantic_hash": "36c16fe4dc80d7a3a4ebe59ca627d603"
   },
   "src/main/java/com/yomora/review/domain/Note.java": {
-    "mtime": 1783959998.7722945,
+    "mtime": 1783959998.0,
     "ast_hash": "80b695e411687d40d76784bb7a14dc11",
     "semantic_hash": "80b695e411687d40d76784bb7a14dc11"
   },
   "src/main/java/com/yomora/review/domain/NoteRepository.java": {
-    "mtime": 1783959998.8587978,
+    "mtime": 1783959998.0,
     "ast_hash": "6287230d9847f2a4b20d8a119b769942",
     "semantic_hash": "6287230d9847f2a4b20d8a119b769942"
   },
   "src/main/java/com/yomora/review/domain/Review.java": {
-    "mtime": 1783959998.594878,
+    "mtime": 1783959998.0,
     "ast_hash": "0d7c0222163c6e0b0503eb7b3cf979a0",
     "semantic_hash": "0d7c0222163c6e0b0503eb7b3cf979a0"
   },
   "src/main/java/com/yomora/review/domain/ReviewRepository.java": {
-    "mtime": 1783959998.6862018,
+    "mtime": 1783959998.0,
     "ast_hash": "ec64b5f6c99a8eb1f07e3ab6e628c284",
     "semantic_hash": "ec64b5f6c99a8eb1f07e3ab6e628c284"
   },
   "src/main/java/com/yomora/review/infrastructure/config/ReviewConfiguration.java": {
-    "mtime": 1783960147.1682196,
+    "mtime": 1783960147.0,
     "ast_hash": "481fa3bd3ddd4f69bd6bf6e4a7add5e9",
     "semantic_hash": "481fa3bd3ddd4f69bd6bf6e4a7add5e9"
   },
   "src/main/java/com/yomora/review/infrastructure/persistence/JpaNoteRepository.java": {
-    "mtime": 1783960092.4205675,
+    "mtime": 1783960092.0,
     "ast_hash": "8e6f6cc0700ade1c4b6ae3c1458370ee",
     "semantic_hash": "8e6f6cc0700ade1c4b6ae3c1458370ee"
   },
   "src/main/java/com/yomora/review/infrastructure/persistence/JpaReviewRepository.java": {
-    "mtime": 1783960092.2453556,
+    "mtime": 1783960092.0,
     "ast_hash": "f723a97ee01a3adcd29085c37d522669",
     "semantic_hash": "f723a97ee01a3adcd29085c37d522669"
   },
   "src/main/java/com/yomora/review/infrastructure/persistence/NoteEntity.java": {
-    "mtime": 1783960092.0721893,
+    "mtime": 1783960092.0,
     "ast_hash": "b2ebccdcaea4800501d6b53a29ef04da",
     "semantic_hash": "b2ebccdcaea4800501d6b53a29ef04da"
   },
   "src/main/java/com/yomora/review/infrastructure/persistence/ReviewEntity.java": {
-    "mtime": 1783960091.9842377,
+    "mtime": 1783960091.0,
     "ast_hash": "7e14c4896e94fc4e3cde2a0cb30667a9",
     "semantic_hash": "7e14c4896e94fc4e3cde2a0cb30667a9"
   },
   "src/main/java/com/yomora/review/infrastructure/persistence/SpringDataNoteRepository.java": {
-    "mtime": 1783960092.333345,
+    "mtime": 1783960092.0,
     "ast_hash": "a7850a4fa516b9d3bd39675d634d25f1",
     "semantic_hash": "a7850a4fa516b9d3bd39675d634d25f1"
   },
   "src/main/java/com/yomora/review/infrastructure/persistence/SpringDataReviewRepository.java": {
-    "mtime": 1783960092.1596797,
+    "mtime": 1783960092.0,
     "ast_hash": "13e2e71906fd0a4c711841e053b4204c",
     "semantic_hash": "13e2e71906fd0a4c711841e053b4204c"
   },
   "src/main/java/com/yomora/review/infrastructure/social/SocialPublisherAdapter.java": {
-    "mtime": 1783960147.0794315,
+    "mtime": 1783960147.0,
     "ast_hash": "9cf485063e3291a7d92f1c2797258dba",
     "semantic_hash": "9cf485063e3291a7d92f1c2797258dba"
   },
   "src/main/java/com/yomora/review/web/NoteController.java": {
-    "mtime": 1783960147.3430533,
+    "mtime": 1783960147.0,
     "ast_hash": "4e43e4efa575819d6be994e83ab35c2f",
     "semantic_hash": "4e43e4efa575819d6be994e83ab35c2f"
   },
   "src/main/java/com/yomora/review/web/ReviewController.java": {
-    "mtime": 1783960147.2556782,
+    "mtime": 1783960147.0,
     "ast_hash": "2fd33cf15f443d870752072fe0f5a48c",
     "semantic_hash": "2fd33cf15f443d870752072fe0f5a48c"
   },
   "src/main/java/com/yomora/shared/config/ApplicationConfiguration.java": {
-    "mtime": 1783958295.414269,
+    "mtime": 1783958295.0,
     "ast_hash": "59f32f9de8e3aa94d6521cd9a598a3a2",
     "semantic_hash": "59f32f9de8e3aa94d6521cd9a598a3a2"
   },
   "src/main/java/com/yomora/shared/config/SecurityProperties.java": {
-    "mtime": 1783958295.3247836,
+    "mtime": 1783958295.0,
     "ast_hash": "a8a6601355532650c3db5835b15b0e4f",
     "semantic_hash": "a8a6601355532650c3db5835b15b0e4f"
   },
   "src/main/java/com/yomora/shared/security/CurrentUser.java": {
-    "mtime": 1783958379.583155,
+    "mtime": 1783958379.0,
     "ast_hash": "3edbdc9d665c222727366029709b3ce9",
     "semantic_hash": "3edbdc9d665c222727366029709b3ce9"
   },
   "src/main/java/com/yomora/shared/security/SecurityConfiguration.java": {
-    "mtime": 1783960589.738651,
+    "mtime": 1783960589.0,
     "ast_hash": "c023cd9ccaecbfb24c94d1dd517e81f9",
     "semantic_hash": "c023cd9ccaecbfb24c94d1dd517e81f9"
   },
   "src/main/java/com/yomora/shared/web/GlobalExceptionHandler.java": {
-    "mtime": 1783960589.8297255,
+    "mtime": 1783960589.0,
     "ast_hash": "1c71b3a3b443b9604358cfdea4b4c0d3",
     "semantic_hash": "1c71b3a3b443b9604358cfdea4b4c0d3"
   },
   "src/main/java/com/yomora/social/application/ContentForbiddenException.java": {
-    "mtime": 1783962452.1281207,
+    "mtime": 1783962452.0,
     "ast_hash": "5f7c00960c0d5696d244d8e21e16e4ef",
     "semantic_hash": "5f7c00960c0d5696d244d8e21e16e4ef"
   },
   "src/main/java/com/yomora/social/application/ContentNotFoundException.java": {
-    "mtime": 1783962452.2151246,
+    "mtime": 1783962452.0,
     "ast_hash": "4bed56551742a9b7d4a89f5e23dda7f4",
     "semantic_hash": "4bed56551742a9b7d4a89f5e23dda7f4"
   },
   "src/main/java/com/yomora/social/application/InvalidFollowException.java": {
-    "mtime": 1783962452.3027315,
+    "mtime": 1783962452.0,
     "ast_hash": "daa12dc18cff238a3021e1e4415b537c",
     "semantic_hash": "daa12dc18cff238a3021e1e4415b537c"
   },
   "src/main/java/com/yomora/social/application/SocialService.java": {
-    "mtime": 1783959891.035504,
+    "mtime": 1783959891.0,
     "ast_hash": "d801964d0360f0141a034d5b51ccb1ab",
     "semantic_hash": "d801964d0360f0141a034d5b51ccb1ab"
   },
   "src/main/java/com/yomora/social/domain/Comment.java": {
-    "mtime": 1783959687.5921123,
+    "mtime": 1783959687.0,
     "ast_hash": "7f77c7fc0524a61341e5e9fa4575b912",
     "semantic_hash": "7f77c7fc0524a61341e5e9fa4575b912"
   },
   "src/main/java/com/yomora/social/domain/Post.java": {
-    "mtime": 1783959687.507317,
+    "mtime": 1783959687.0,
     "ast_hash": "c1d745c0dd463df662cd9109c0a31f75",
     "semantic_hash": "c1d745c0dd463df662cd9109c0a31f75"
   },
   "src/main/java/com/yomora/social/domain/PostType.java": {
-    "mtime": 1783959687.3375547,
+    "mtime": 1783959687.0,
     "ast_hash": "317407c508bd0efee70b5fbb69fbb998",
     "semantic_hash": "317407c508bd0efee70b5fbb69fbb998"
   },
   "src/main/java/com/yomora/social/domain/SocialRepository.java": {
-    "mtime": 1783959687.6773477,
+    "mtime": 1783959687.0,
     "ast_hash": "88979e65fdccc09944881bd34172f73d",
     "semantic_hash": "88979e65fdccc09944881bd34172f73d"
   },
   "src/main/java/com/yomora/social/domain/Visibility.java": {
-    "mtime": 1783959687.4229615,
+    "mtime": 1783959687.0,
     "ast_hash": "aa01e0d8fd8634eb4545a776ae620e73",
     "semantic_hash": "aa01e0d8fd8634eb4545a776ae620e73"
   },
   "src/main/java/com/yomora/social/infrastructure/config/SocialConfiguration.java": {
-    "mtime": 1783959835.1692295,
+    "mtime": 1783959835.0,
     "ast_hash": "231bfac70fdc863fe503ab2cdb94a988",
     "semantic_hash": "231bfac70fdc863fe503ab2cdb94a988"
   },
   "src/main/java/com/yomora/social/infrastructure/persistence/CommentEntity.java": {
-    "mtime": 1783959785.6197453,
+    "mtime": 1783959785.0,
     "ast_hash": "bfaf1006fc1e282b8147340ba35cb623",
     "semantic_hash": "bfaf1006fc1e282b8147340ba35cb623"
   },
   "src/main/java/com/yomora/social/infrastructure/persistence/FollowEntity.java": {
-    "mtime": 1783959785.7095,
+    "mtime": 1783959785.0,
     "ast_hash": "e6379c23078eca071b4804a8d8c916ca",
     "semantic_hash": "e6379c23078eca071b4804a8d8c916ca"
   },
   "src/main/java/com/yomora/social/infrastructure/persistence/JpaSocialRepository.java": {
-    "mtime": 1783959835.0822334,
+    "mtime": 1783959835.0,
     "ast_hash": "0370e8a4d28378312fcf73ab022deb96",
     "semantic_hash": "0370e8a4d28378312fcf73ab022deb96"
   },
   "src/main/java/com/yomora/social/infrastructure/persistence/LikeEntity.java": {
-    "mtime": 1783959785.5294428,
+    "mtime": 1783959785.0,
     "ast_hash": "add83d1fbabecf6e687c81da95fead2e",
     "semantic_hash": "add83d1fbabecf6e687c81da95fead2e"
   },
   "src/main/java/com/yomora/social/infrastructure/persistence/PostEntity.java": {
-    "mtime": 1783959785.4278657,
+    "mtime": 1783959785.0,
     "ast_hash": "2e40877d9d8d4b6d41f09f77b9791233",
     "semantic_hash": "2e40877d9d8d4b6d41f09f77b9791233"
   },
   "src/main/java/com/yomora/social/infrastructure/persistence/SpringDataCommentRepository.java": {
-    "mtime": 1783959834.9071927,
+    "mtime": 1783959834.0,
     "ast_hash": "aad691f879a491b7b3f6872f175c1a6c",
     "semantic_hash": "aad691f879a491b7b3f6872f175c1a6c"
   },
   "src/main/java/com/yomora/social/infrastructure/persistence/SpringDataFollowRepository.java": {
-    "mtime": 1783959834.9944541,
+    "mtime": 1783959834.0,
     "ast_hash": "bb060e3208945d68b67cf41b6ff0f025",
     "semantic_hash": "bb060e3208945d68b67cf41b6ff0f025"
   },
   "src/main/java/com/yomora/social/infrastructure/persistence/SpringDataLikeRepository.java": {
-    "mtime": 1783959834.819508,
+    "mtime": 1783959834.0,
     "ast_hash": "875e4b786e242bcaa319355051675105",
     "semantic_hash": "875e4b786e242bcaa319355051675105"
   },
   "src/main/java/com/yomora/social/infrastructure/persistence/SpringDataPostRepository.java": {
-    "mtime": 1783959834.7284608,
-    "ast_hash": "40073b85f3e4df6f1959ab3e3cc48b20",
-    "semantic_hash": "40073b85f3e4df6f1959ab3e3cc48b20"
+    "mtime": 1783966224.4794686,
+    "ast_hash": "ec67e3a5d0dc73361e924add5cb07081",
+    "semantic_hash": "ec67e3a5d0dc73361e924add5cb07081"
   },
   "src/main/java/com/yomora/social/web/FollowController.java": {
-    "mtime": 1783959891.2142959,
+    "mtime": 1783959891.0,
     "ast_hash": "23601f3987634bf3b50cb5cbbd8631d4",
     "semantic_hash": "23601f3987634bf3b50cb5cbbd8631d4"
   },
   "src/main/java/com/yomora/social/web/PostController.java": {
-    "mtime": 1783959891.1273222,
+    "mtime": 1783959891.0,
     "ast_hash": "a12145b594404ec0d9cc497432127c66",
     "semantic_hash": "a12145b594404ec0d9cc497432127c66"
   },
   "src/main/resources/db/migration/V1__create_identity_schema.sql": {
-    "mtime": 1783958469.8865752,
+    "mtime": 1783958469.0,
     "ast_hash": "cf2d3d4849673cf5868e4c5763277a90",
     "semantic_hash": "cf2d3d4849673cf5868e4c5763277a90"
   },
   "src/main/resources/db/migration/V2__create_catalog_schema.sql": {
-    "mtime": 1783958725.5918586,
+    "mtime": 1783958725.0,
     "ast_hash": "a445997a2d6e08b0dc80077f6ca430ab",
     "semantic_hash": "a445997a2d6e08b0dc80077f6ca430ab"
   },
   "src/main/resources/db/migration/V3__create_library_schema.sql": {
-    "mtime": 1783959142.7762828,
+    "mtime": 1783959142.0,
     "ast_hash": "570d7420e2803a200984fe03958e55aa",
     "semantic_hash": "570d7420e2803a200984fe03958e55aa"
   },
   "src/main/resources/db/migration/V4__create_reading_schema.sql": {
-    "mtime": 1783959447.9349341,
+    "mtime": 1783959447.0,
     "ast_hash": "bb8a00a57bb1ebe7e31693a3dfd0e9ee",
     "semantic_hash": "bb8a00a57bb1ebe7e31693a3dfd0e9ee"
   },
   "src/main/resources/db/migration/V5__create_social_and_review_schema.sql": {
-    "mtime": 1783959785.3203697,
+    "mtime": 1783959785.0,
     "ast_hash": "08cb130e7cda99a30393df2e78cfa6b7",
     "semantic_hash": "08cb130e7cda99a30393df2e78cfa6b7"
   },
   "src/test/java/com/yomora/AuthApiIntegrationTest.java": {
-    "mtime": 1783958142.1140327,
+    "mtime": 1783958142.0,
     "ast_hash": "2127821dedd7763b0faab0122bcff8a6",
     "semantic_hash": "2127821dedd7763b0faab0122bcff8a6"
   },
   "src/test/java/com/yomora/ModularArchitectureTest.java": {
-    "mtime": 1783960624.0115507,
+    "mtime": 1783960624.0,
     "ast_hash": "765f1aae9f78f373f80298599a00d453",
     "semantic_hash": "765f1aae9f78f373f80298599a00d453"
   },
@@ -850,62 +850,62 @@
     "semantic_hash": "8a94a431070fd69538f7bd979ef1787c"
   },
   "src/test/java/com/yomora/catalog/application/BookCatalogAggregatorTest.java": {
-    "mtime": 1783958559.5547252,
+    "mtime": 1783958559.0,
     "ast_hash": "d4d0022913264ea71b6e4d413d725ee9",
     "semantic_hash": "d4d0022913264ea71b6e4d413d725ee9"
   },
   "src/test/java/com/yomora/identity/application/PasswordResetServiceTest.java": {
-    "mtime": 1783960514.3893085,
+    "mtime": 1783960514.0,
     "ast_hash": "2d209628a6445b06c62bebbefb0c31cf",
     "semantic_hash": "2d209628a6445b06c62bebbefb0c31cf"
   },
   "src/test/java/com/yomora/identity/application/ProfileMetricsServiceTest.java": {
-    "mtime": 1783962278.218874,
+    "mtime": 1783962278.0,
     "ast_hash": "7f46a8f4a9c09c907f99aa09c764be20",
     "semantic_hash": "7f46a8f4a9c09c907f99aa09c764be20"
   },
   "src/test/java/com/yomora/identity/application/UserProfileServiceTest.java": {
-    "mtime": 1783960436.713707,
+    "mtime": 1783960436.0,
     "ast_hash": "a2ce672464fc0497b0f1decd355711f5",
     "semantic_hash": "a2ce672464fc0497b0f1decd355711f5"
   },
   "src/test/java/com/yomora/identity/application/UserRegistrationServiceTest.java": {
-    "mtime": 1783960481.943826,
+    "mtime": 1783960481.0,
     "ast_hash": "03e5b3499cd98c8a1f2c2252e2018f1a",
     "semantic_hash": "03e5b3499cd98c8a1f2c2252e2018f1a"
   },
   "src/test/java/com/yomora/library/application/LibraryServiceTest.java": {
-    "mtime": 1783958924.333183,
+    "mtime": 1783958924.0,
     "ast_hash": "7ed2195eff6648b0273fabec5456697d",
     "semantic_hash": "7ed2195eff6648b0273fabec5456697d"
   },
   "src/test/java/com/yomora/library/application/ShelfServiceTest.java": {
-    "mtime": 1783959019.5973213,
+    "mtime": 1783959019.0,
     "ast_hash": "54542739ebe8e13f4b684c0cd3f05f2b",
     "semantic_hash": "54542739ebe8e13f4b684c0cd3f05f2b"
   },
   "src/test/java/com/yomora/moderation/application/ModerationServiceTest.java": {
-    "mtime": 1783960181.193137,
+    "mtime": 1783960181.0,
     "ast_hash": "5fdd9fdac54b3617410608bc4999f718",
     "semantic_hash": "5fdd9fdac54b3617410608bc4999f718"
   },
   "src/test/java/com/yomora/reading/application/ReadingConsistencyCalculatorTest.java": {
-    "mtime": 1783959274.749444,
+    "mtime": 1783959274.0,
     "ast_hash": "d1b1056739ffceea2815c36df86ccf76",
     "semantic_hash": "d1b1056739ffceea2815c36df86ccf76"
   },
   "src/test/java/com/yomora/reading/application/ReadingSessionServiceTest.java": {
-    "mtime": 1783959274.663426,
+    "mtime": 1783959274.0,
     "ast_hash": "ff65442798a831b4a8f293a3e8dae00f",
     "semantic_hash": "ff65442798a831b4a8f293a3e8dae00f"
   },
   "src/test/java/com/yomora/review/application/ReviewAndNoteServiceTest.java": {
-    "mtime": 1783960019.6389334,
+    "mtime": 1783960019.0,
     "ast_hash": "05f6b238d4ba18f0dc390eb338b64f40",
     "semantic_hash": "05f6b238d4ba18f0dc390eb338b64f40"
   },
   "src/test/java/com/yomora/social/application/SocialServiceTest.java": {
-    "mtime": 1783959621.7672436,
+    "mtime": 1783959621.0,
     "ast_hash": "c52d92fad92da11d437e62eb8a643b49",
     "semantic_hash": "c52d92fad92da11d437e62eb8a643b49"
   },
@@ -913,5 +913,10 @@
     "mtime": 1783958295.1457984,
     "ast_hash": "e4f8364b3290f460ea8498f22ed47730",
     "semantic_hash": "e4f8364b3290f460ea8498f22ed47730"
+  },
+  "src/test/java/com/yomora/PersistenceQueryIntegrationTest.java": {
+    "mtime": 1783966172.729251,
+    "ast_hash": "ae260e88abc3895c19bcdc2418a62973",
+    "semantic_hash": "ae260e88abc3895c19bcdc2418a62973"
   }
 }

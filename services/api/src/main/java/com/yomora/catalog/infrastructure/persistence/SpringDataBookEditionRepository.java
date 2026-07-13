@@ -15,12 +15,16 @@ interface SpringDataBookEditionRepository extends JpaRepository<BookEditionEntit
     Optional<BookEditionEntity> findByExternalProviderAndExternalId(String provider, String externalId);
 
     @Query("""
-            select distinct edition from BookEditionEntity edition
+            select edition from BookEditionEntity edition
             join edition.work work
-            left join work.authors author
             where (:language = '' or edition.language = :language)
               and (lower(work.title) like lower(concat('%', :query, '%'))
-                   or lower(author) like lower(concat('%', :query, '%'))
+                   or exists (
+                       select author from BookWorkEntity matchedWork
+                       join matchedWork.authors author
+                       where matchedWork = work
+                         and lower(author) like lower(concat('%', :query, '%'))
+                   )
                    or edition.isbn10 = :normalizedQuery
                    or edition.isbn13 = :normalizedQuery)
             order by work.title

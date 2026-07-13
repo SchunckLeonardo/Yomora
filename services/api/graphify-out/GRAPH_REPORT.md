@@ -1,73 +1,81 @@
 # Graph Report - .  (2026-07-13)
 
 ## Corpus Check
-- Corpus is ~19,073 words - fits in a single context window. You may not need a graph.
+- cluster-only mode — file stats not available
 
 ## Summary
-- 1252 nodes · 2952 edges · 62 communities (59 shown, 3 thin omitted)
+- 1270 nodes · 2985 edges · 65 communities (61 shown, 4 thin omitted)
 - Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 250 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
+## Graph Freshness
+- Built from commit: `01834f94`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
+
 ## Community Hubs (Navigation)
-- Shelves and Collections
-- User Moderation
-- Moderation Persistence
-- Token Issuance
-- API Error Handling
-- Review Persistence
-- Security Configuration
-- Reading Status
-- Reading Goals
-- Note Persistence
-- Password Reset Ports
-- Profile Metrics
-- Profile Updates
-- Reset Token Domain
-- User Persistence
-- Library Service
-- Feed Queries
-- Catalog Orchestration
-- Catalog Domain
-- Social Service
-- Post HTTP API
-- Session Service Tests
-- Reading Sessions
-- Session Summaries
-- Social Publishing
-- User Profile API
-- Notes Service
-- Comments Domain
-- Library Catalog Bridge
-- Reading Projections
-- Catalog Persistence
-- Goal HTTP API
-- Google Books Provider
-- Reading Statistics
-- Review Service
-- Library HTTP API
-- Review HTTP API
-- Provider Failover
-- User Registration
-- Local Reset Mailbox
-- User Repository Adapter
-- Password Reset Tests
-- Search Query Mapping
-- Note HTTP API
-- Follow HTTP API
-- Edition Persistence
-- Runtime Configuration
-- Authentication Integration Tests
-- Review Note Tests
-- Testcontainers Setup
-- Identity Configuration
-- Application Context Tests
-- Spring Boot Entry
-- Consistency Unit Tests
-- Shared Clock Configuration
-- Social Configuration
-- Architecture Rules
-- Gradle Wrapper
-- Test Application Entry
+- Shelf
+- BlockedUser
+- AuthenticationService
+- GlobalExceptionHandler.java
+- PasswordResetToken
+- JpaRepository
+- Review
+- SocialService
+- SecurityProperties
+- ReadingStatus
+- UserController.java
+- PostType
+- Note
+- Post
+- ReadingGoal
+- .finish
+- UserBook
+- CurrentUser
+- PostController.java
+- BookCatalogRepository
+- .update
+- BookCandidate
+- ReadingSession
+- ReviewRepository
+- JpaBookCatalogRepository
+- UserRepository
+- NoteRepository
+- GoogleBooksProvider.java
+- UserBookRepository
+- ReadingGoalRepository
+- User
+- ReadingSessionRepository
+- StatisticsService
+- ReviewController.java
+- PersistenceQueryIntegrationTest
+- LocalPasswordResetMailbox
+- JpaUserRepositoryAdapter
+- NoteController.java
+- FollowController.java
+- Comment
+- LibraryServiceTest.java
+- BookCatalogController.java
+- BookSearchResult
+- BookWorkEntity
+- ReadingSessionService.java
+- Yomora API Application Configuration
+- BookCatalogAggregatorTest.java
+- JpaReadingGoalRepository
+- AuthApiIntegrationTest.java
+- InMemoryUserRepository
+- InMemoryUserRepository
+- ReviewAndNoteServiceTest.java
+- TestcontainersConfiguration.java
+- UserApplicationConfiguration.java
+- YomoraApiApplicationTests.java
+- YomoraApiApplication
+- DailyReadingProjection
+- ApplicationConfiguration.java
+- SocialConfiguration.java
+- ModularArchitectureTest.java
+- gradlew
+- TestYomoraApiApplication
 
 ## God Nodes (most connected - your core abstractions)
 1. `User` - 43 edges
@@ -82,265 +90,273 @@
 10. `Review` - 31 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `BookCatalogAggregator` --references--> `BookCatalogRepository`  [EXTRACTED]
-  src/main/java/com/yomora/catalog/application/BookCatalogAggregator.java → src/main/java/com/yomora/catalog/domain/BookCatalogRepository.java
 - `BookCatalogController` --references--> `BookCatalogAggregator`  [EXTRACTED]
   src/main/java/com/yomora/catalog/web/BookCatalogController.java → src/main/java/com/yomora/catalog/application/BookCatalogAggregator.java
+- `InMemoryCatalogRepository` --references--> `BookCandidate`  [EXTRACTED]
+  src/test/java/com/yomora/catalog/application/BookCatalogAggregatorTest.java → src/main/java/com/yomora/catalog/domain/BookCandidate.java
 - `JpaBookCatalogRepository` --implements--> `BookCatalogRepository`  [EXTRACTED]
   src/main/java/com/yomora/catalog/infrastructure/persistence/JpaBookCatalogRepository.java → src/main/java/com/yomora/catalog/domain/BookCatalogRepository.java
 - `BookCatalogController` --references--> `BookCatalogRepository`  [EXTRACTED]
   src/main/java/com/yomora/catalog/web/BookCatalogController.java → src/main/java/com/yomora/catalog/domain/BookCatalogRepository.java
-- `ReadingSessionService` --references--> `BookCatalogRepository`  [EXTRACTED]
-  src/main/java/com/yomora/reading/application/ReadingSessionService.java → src/main/java/com/yomora/catalog/domain/BookCatalogRepository.java
+- `LibraryService` --references--> `BookCatalogRepository`  [EXTRACTED]
+  src/main/java/com/yomora/library/application/LibraryService.java → src/main/java/com/yomora/catalog/domain/BookCatalogRepository.java
 
 ## Import Cycles
 - None detected.
 
-## Communities (62 total, 3 thin omitted)
+## Communities (65 total, 4 thin omitted)
 
-### Community 0 - "Shelves and Collections"
+### Community 0 - "Shelf"
 Cohesion: 0.07
-Nodes (26): Transactional, ShelfService, Shelf, ShelfRepository, Override, Repository, JpaShelfRepository, Entity (+18 more)
+Nodes (29): Transactional, ShelfService, Shelf, ShelfRepository, Bean, Configuration, LibraryConfiguration, Override (+21 more)
 
-### Community 1 - "User Moderation"
-Cohesion: 0.07
-Nodes (29): Transactional, ModerationService, BlockedUser, ModerationRepository, Report, Bean, Configuration, ModerationConfiguration (+21 more)
-
-### Community 2 - "Moderation Persistence"
+### Community 1 - "BlockedUser"
 Cohesion: 0.06
-Nodes (23): JpaRepository, SpringDataBlockedUserRepository, SpringDataReportRepository, CommentEntity, Entity, Table, FollowEntity, Entity (+15 more)
+Nodes (30): Transactional, ModerationService, BlockedUser, ModerationRepository, Report, Bean, Configuration, ModerationConfiguration (+22 more)
 
-### Community 3 - "Token Issuance"
+### Community 2 - "AuthenticationService"
 Cohesion: 0.07
 Nodes (26): AccessTokenIssuer, AuthenticationService, PasswordEncoder, SecureRandom, Service, Transactional, TokenPair, RefreshToken (+18 more)
 
-### Community 4 - "API Error Handling"
+### Community 3 - "GlobalExceptionHandler.java"
 Cohesion: 0.06
 Nodes (20): ExceptionHandler, HttpStatus, MethodArgumentNotValidException, ProblemDetail, RestControllerAdvice, IdentityConflictException, InvalidCredentialsException, InvalidPasswordResetTokenException (+12 more)
 
-### Community 5 - "Review Persistence"
+### Community 4 - "PasswordResetToken"
+Cohesion: 0.07
+Nodes (24): PasswordResetNotifier, PasswordEncoder, SecureRandom, Service, Transactional, PasswordResetService, PasswordResetToken, PasswordResetTokenRepository (+16 more)
+
+### Community 5 - "JpaRepository"
+Cohesion: 0.08
+Nodes (16): JpaRepository, PostEntity, SpringDataReportRepository, FollowEntity, Entity, Table, Override, JpaSocialRepository (+8 more)
+
+### Community 6 - "Review"
 Cohesion: 0.14
 Nodes (10): Review, Override, Repository, JpaReviewRepository, Entity, Table, ReviewEntity, SpringDataReviewRepository (+2 more)
 
-### Community 6 - "Security Configuration"
+### Community 7 - "SocialService"
+Cohesion: 0.16
+Nodes (3): Transactional, SocialService, SocialRepository
+
+### Community 8 - "SecurityProperties"
 Cohesion: 0.13
 Nodes (17): ConfigurationProperties, CorsConfigurationSource, HttpSecurity, JwtDecoder, SecretKey, SecurityFilterChain, Component, JwtEncoder (+9 more)
 
-### Community 7 - "Reading Status"
+### Community 9 - "ReadingStatus"
 Cohesion: 0.12
 Nodes (13): ReadingStatus, ABANDONED, FINISHED, PAUSED, READING, WANT_TO_READ, Override, Repository (+5 more)
 
-### Community 8 - "Reading Goals"
-Cohesion: 0.13
-Nodes (11): Transactional, ReadingGoalService, ReadingGoal, ReadingGoalRepository, Override, Repository, JpaReadingGoalRepository, Entity (+3 more)
+### Community 10 - "UserController.java"
+Cohesion: 0.14
+Nodes (15): ProfileMetrics, Service, Transactional, ProfileMetricsService, Authentication, DeleteMapping, GetMapping, PatchMapping (+7 more)
 
-### Community 9 - "Note Persistence"
+### Community 11 - "PostType"
+Cohesion: 0.11
+Nodes (16): Component, Override, SocialPublisherAdapter, PostType, NOTE, PROGRESS, QUOTE, RECOMMENDATION (+8 more)
+
+### Community 12 - "Note"
 Cohesion: 0.14
 Nodes (9): Note, Override, Repository, JpaNoteRepository, Entity, Table, NoteEntity, SpringDataNoteRepository (+1 more)
 
-### Community 10 - "Password Reset Ports"
-Cohesion: 0.12
-Nodes (10): PasswordResetNotifier, PasswordEncoder, SecureRandom, Service, Transactional, PasswordResetService, DiscardingPasswordResetNotifier, Component (+2 more)
-
-### Community 11 - "Profile Metrics"
-Cohesion: 0.16
-Nodes (10): Service, Transactional, ProfileMetricsService, ConsistencySummary, ReadingConsistencyCalculator, StatisticsService, ReadingSessionRepository, Bean (+2 more)
-
-### Community 12 - "Profile Updates"
-Cohesion: 0.16
-Nodes (8): UpdateProfileCommand, Service, Transactional, UserProfileService, UserRepository, UserNotFoundException, Test, UserProfileServiceTest
-
-### Community 13 - "Reset Token Domain"
+### Community 13 - "Post"
 Cohesion: 0.14
-Nodes (10): PasswordResetToken, PasswordResetTokenRepository, Override, Repository, JpaPasswordResetTokenRepositoryAdapter, Entity, Table, PasswordResetTokenEntity (+2 more)
+Nodes (5): Post, InMemorySocialRepository, Override, Test, SocialServiceTest
 
-### Community 14 - "User Persistence"
+### Community 14 - "ReadingGoal"
+Cohesion: 0.15
+Nodes (13): PutMapping, Transactional, ReadingGoalService, ReadingGoal, Entity, Table, ReadingGoalEntity, GoalRequest (+5 more)
+
+### Community 15 - ".finish"
+Cohesion: 0.14
+Nodes (13): Transactional, ReadingSessionService, ReadingSessionSummary, FinishRequest, Authentication, GetMapping, PatchMapping, PostMapping (+5 more)
+
+### Community 16 - "UserBook"
+Cohesion: 0.17
+Nodes (7): UserBook, FixedCatalogRepository, InMemoryUserBookRepository, Override, Test, MutableClock, ReadingSessionServiceTest
+
+### Community 17 - "CurrentUser"
 Cohesion: 0.16
-Nodes (8): User, Entity, Table, UserEntity, InMemoryUserRepository, Override, InMemoryUserRepository, Override
+Nodes (14): AddBookRequest, Authentication, DeleteMapping, GetMapping, PatchMapping, PostMapping, RequestMapping, ResponseEntity (+6 more)
 
-### Community 15 - "Library Service"
-Cohesion: 0.17
-Nodes (6): Transactional, UserBook, InMemoryUserBookRepository, Override, Test, LibraryServiceTest
-
-### Community 16 - "Feed Queries"
-Cohesion: 0.17
-Nodes (3): Post, InMemorySocialRepository, Override
-
-### Community 17 - "Catalog Orchestration"
-Cohesion: 0.17
-Nodes (9): Cacheable, EnableCaching, FunctionalInterface, BookCatalogAggregator, BookProvider, BookProviderQuery, CatalogConfiguration, Bean (+1 more)
-
-### Community 18 - "Catalog Domain"
-Cohesion: 0.16
-Nodes (9): BookSearchResult, BookCatalogController, GetMapping, PostMapping, RequestMapping, ResponseEntity, RestController, ManualBookRequest (+1 more)
-
-### Community 20 - "Post HTTP API"
-Cohesion: 0.21
+### Community 18 - "PostController.java"
+Cohesion: 0.19
 Nodes (12): CommentRequest, CreatePostRequest, EditPostRequest, Authentication, DeleteMapping, GetMapping, PatchMapping, PostMapping (+4 more)
 
-### Community 21 - "Session Service Tests"
-Cohesion: 0.16
-Nodes (6): FixedCatalogRepository, InMemoryUserBookRepository, Override, Test, MutableClock, ReadingSessionServiceTest
+### Community 19 - "BookCatalogRepository"
+Cohesion: 0.17
+Nodes (9): Cacheable, EnableCaching, FunctionalInterface, BookCatalogAggregator, BookCatalogRepository, BookProvider, CatalogConfiguration, Bean (+1 more)
 
-### Community 22 - "Reading Sessions"
-Cohesion: 0.15
-Nodes (6): Transactional, ReadingSession, Entity, Table, ReadingSessionEntity, InMemoryReadingSessionRepository
+### Community 20 - ".update"
+Cohesion: 0.17
+Nodes (7): UpdateProfileCommand, Service, Transactional, UserProfileService, UserNotFoundException, Test, UserProfileServiceTest
 
-### Community 23 - "Session Summaries"
+### Community 21 - "BookCandidate"
 Cohesion: 0.18
-Nodes (12): ReadingSessionService, ReadingSessionSummary, FinishRequest, Authentication, GetMapping, PatchMapping, PostMapping, RequestMapping (+4 more)
+Nodes (10): BookCandidate, BookProviderQuery, Override, Builder, Component, Override, RestClient, OpenLibraryDocument (+2 more)
 
-### Community 24 - "Social Publishing"
-Cohesion: 0.13
-Nodes (13): Component, Override, SocialPublisherAdapter, PostType, NOTE, PROGRESS, QUOTE, RECOMMENDATION (+5 more)
+### Community 22 - "ReadingSession"
+Cohesion: 0.17
+Nodes (6): ReadingSession, Override, Entity, Table, ReadingSessionEntity, InMemoryReadingSessionRepository
 
-### Community 25 - "User Profile API"
+### Community 23 - "ReviewRepository"
+Cohesion: 0.19
+Nodes (3): Transactional, ReviewService, ReviewRepository
+
+### Community 24 - "JpaBookCatalogRepository"
 Cohesion: 0.20
-Nodes (12): ProfileMetrics, Authentication, DeleteMapping, GetMapping, PatchMapping, RequestMapping, ResponseEntity, RestController (+4 more)
+Nodes (9): BookEditionEntity, Pageable, Override, Repository, Transactional, JpaBookCatalogRepository, Query, SpringDataBookEditionRepository (+1 more)
 
-### Community 26 - "Notes Service"
+### Community 25 - "UserRepository"
+Cohesion: 0.20
+Nodes (7): RegisterCommand, PasswordEncoder, UserRegistrationService, UserRepository, BCryptPasswordEncoder, Test, UserRegistrationServiceTest
+
+### Community 26 - "NoteRepository"
 Cohesion: 0.20
 Nodes (7): Transactional, NoteService, SocialPublisher, NoteRepository, Bean, Configuration, ReviewConfiguration
 
-### Community 27 - "Comments Domain"
-Cohesion: 0.14
-Nodes (4): Comment, SocialRepository, Test, SocialServiceTest
-
-### Community 28 - "Library Catalog Bridge"
-Cohesion: 0.19
-Nodes (6): BookCatalogRepository, LibraryService, UserBookRepository, Bean, Configuration, LibraryConfiguration
-
-### Community 29 - "Reading Projections"
-Cohesion: 0.15
-Nodes (6): DailyReadingProjection, Override, Repository, JpaReadingSessionRepository, Query, SpringDataReadingSessionRepository
-
-### Community 30 - "Catalog Persistence"
-Cohesion: 0.20
-Nodes (8): Pageable, Override, Repository, Transactional, JpaBookCatalogRepository, Query, SpringDataBookEditionRepository, SpringDataBookWorkRepository
-
-### Community 31 - "Goal HTTP API"
+### Community 27 - "GoogleBooksProvider.java"
 Cohesion: 0.18
-Nodes (10): PutMapping, GoalRequest, Authentication, GetMapping, RequestMapping, RestController, ReadingGoalController, CurrentUser (+2 more)
+Nodes (10): BookProviderUnavailableException, GoogleBooksProvider, GoogleBooksResponse, GoogleImageLinks, GoogleIndustryIdentifier, GoogleVolume, GoogleVolumeInfo, Builder (+2 more)
 
-### Community 32 - "Google Books Provider"
+### Community 28 - "UserBookRepository"
 Cohesion: 0.20
-Nodes (10): GoogleBooksProvider, GoogleBooksResponse, GoogleImageLinks, GoogleIndustryIdentifier, GoogleVolume, GoogleVolumeInfo, Builder, Component (+2 more)
+Nodes (3): Transactional, LibraryService, UserBookRepository
 
-### Community 33 - "Reading Statistics"
-Cohesion: 0.17
-Nodes (10): DailyReading, Transactional, StatisticsSummary, Authentication, GetMapping, RequestMapping, RestController, StatisticsController (+2 more)
+### Community 29 - "ReadingGoalRepository"
+Cohesion: 0.20
+Nodes (6): ConsistencySummary, ReadingConsistencyCalculator, ReadingGoalRepository, Bean, Configuration, ReadingConfiguration
 
-### Community 34 - "Review Service"
-Cohesion: 0.22
-Nodes (3): Transactional, ReviewService, ReviewRepository
+### Community 30 - "User"
+Cohesion: 0.23
+Nodes (6): User, Entity, Table, UserEntity, InMemoryUserRepository, Override
 
-### Community 35 - "Library HTTP API"
-Cohesion: 0.22
-Nodes (11): AddBookRequest, Authentication, DeleteMapping, GetMapping, PatchMapping, PostMapping, RequestMapping, ResponseEntity (+3 more)
+### Community 31 - "ReadingSessionRepository"
+Cohesion: 0.18
+Nodes (6): DailyReading, ReadingSessionRepository, Repository, JpaReadingSessionRepository, Query, SpringDataReadingSessionRepository
 
-### Community 36 - "Review HTTP API"
+### Community 32 - "StatisticsService"
+Cohesion: 0.19
+Nodes (9): StatisticsService, StatisticsSummary, Authentication, GetMapping, RequestMapping, RestController, StatisticsController, Test (+1 more)
+
+### Community 33 - "ReviewController.java"
 Cohesion: 0.21
 Nodes (11): Authentication, DeleteMapping, GetMapping, PatchMapping, PostMapping, RequestMapping, ResponseEntity, RestController (+3 more)
 
-### Community 37 - "Provider Failover"
-Cohesion: 0.19
-Nodes (8): BookProviderUnavailableException, Builder, Component, Override, RestClient, OpenLibraryDocument, OpenLibraryProvider, OpenLibraryResponse
+### Community 34 - "PersistenceQueryIntegrationTest"
+Cohesion: 0.25
+Nodes (9): BookCatalogRepository, Import, JdbcTemplate, Post, SocialRepository, SpringBootTest, PersistenceQueryIntegrationTest, Test (+1 more)
 
-### Community 38 - "User Registration"
-Cohesion: 0.21
-Nodes (6): RegisterCommand, PasswordEncoder, UserRegistrationService, BCryptPasswordEncoder, Test, UserRegistrationServiceTest
-
-### Community 39 - "Local Reset Mailbox"
+### Community 35 - "LocalPasswordResetMailbox"
 Cohesion: 0.21
 Nodes (10): Component, Override, Profile, LocalPasswordResetMailbox, GetMapping, Profile, RequestMapping, RestController (+2 more)
 
-### Community 40 - "User Repository Adapter"
-Cohesion: 0.21
+### Community 36 - "JpaUserRepositoryAdapter"
+Cohesion: 0.22
 Nodes (4): Override, Repository, JpaUserRepositoryAdapter, SpringDataUserRepository
 
-### Community 41 - "Password Reset Tests"
-Cohesion: 0.23
-Nodes (6): CapturingNotifier, InMemoryUserRepository, BCryptPasswordEncoder, Override, Test, PasswordResetServiceTest
-
-### Community 42 - "Search Query Mapping"
-Cohesion: 0.27
-Nodes (6): SearchBooksQuery, BookCandidate, BookCatalogAggregatorTest, InMemoryCatalogRepository, Override, Test
-
-### Community 43 - "Note HTTP API"
+### Community 37 - "NoteController.java"
 Cohesion: 0.26
 Nodes (9): Authentication, DeleteMapping, GetMapping, PostMapping, RequestMapping, ResponseEntity, RestController, NoteController (+1 more)
 
-### Community 44 - "Follow HTTP API"
+### Community 38 - "FollowController.java"
 Cohesion: 0.25
 Nodes (8): FollowController, Authentication, DeleteMapping, GetMapping, PostMapping, RequestMapping, ResponseEntity, RestController
 
-### Community 45 - "Edition Persistence"
+### Community 39 - "Comment"
+Cohesion: 0.24
+Nodes (5): Comment, CommentEntity, Entity, Table, Repository
+
+### Community 40 - "LibraryServiceTest.java"
+Cohesion: 0.24
+Nodes (4): InMemoryUserBookRepository, Override, Test, LibraryServiceTest
+
+### Community 41 - "BookCatalogController.java"
+Cohesion: 0.26
+Nodes (7): BookCatalogController, GetMapping, PostMapping, RequestMapping, ResponseEntity, RestController, ManualBookRequest
+
+### Community 42 - "BookSearchResult"
+Cohesion: 0.27
+Nodes (3): BookSearchResult, Override, FixedCatalogRepository
+
+### Community 43 - "BookWorkEntity"
 Cohesion: 0.27
 Nodes (6): BookEditionEntity, Entity, Table, BookWorkEntity, Entity, Table
 
-### Community 46 - "Runtime Configuration"
+### Community 44 - "ReadingSessionService.java"
+Cohesion: 0.24
+Nodes (3): Transactional, Test, ReadingConsistencyCalculatorTest
+
+### Community 45 - "Yomora API Application Configuration"
 Cohesion: 0.24
 Nodes (10): Caffeine Cache, CORS Allowed Origins Policy, Flyway Migrations, JPA Schema Validation, JWT Security Configuration, Health and Info Management Endpoints, PostgreSQL Datasource, Sanitized Server Error Responses (+2 more)
 
-### Community 47 - "Authentication Integration Tests"
+### Community 46 - "BookCatalogAggregatorTest.java"
+Cohesion: 0.42
+Nodes (4): SearchBooksQuery, BookCatalogAggregatorTest, InMemoryCatalogRepository, Test
+
+### Community 47 - "JpaReadingGoalRepository"
+Cohesion: 0.31
+Nodes (4): Override, Repository, JpaReadingGoalRepository, SpringDataReadingGoalRepository
+
+### Community 48 - "AuthApiIntegrationTest.java"
 Cohesion: 0.43
 Nodes (6): AutoConfigureMockMvc, MockMvc, AuthApiIntegrationTest, Import, SpringBootTest, Test
 
-### Community 48 - "Review Note Tests"
+### Community 51 - "ReviewAndNoteServiceTest.java"
 Cohesion: 0.46
 Nodes (3): CapturingPublisher, Test, ReviewAndNoteServiceTest
 
-### Community 49 - "Testcontainers Setup"
+### Community 52 - "TestcontainersConfiguration.java"
 Cohesion: 0.48
 Nodes (5): PostgreSQLContainer, ServiceConnection, Bean, TestcontainersConfiguration, TestConfiguration
 
-### Community 50 - "Identity Configuration"
+### Community 53 - "UserApplicationConfiguration.java"
 Cohesion: 0.53
 Nodes (4): Bean, Configuration, PasswordEncoder, UserApplicationConfiguration
 
-### Community 51 - "Application Context Tests"
+### Community 54 - "YomoraApiApplicationTests.java"
 Cohesion: 0.53
 Nodes (4): Import, SpringBootTest, Test, YomoraApiApplicationTests
 
-### Community 52 - "Spring Boot Entry"
+### Community 55 - "YomoraApiApplication"
 Cohesion: 0.60
 Nodes (3): ConfigurationPropertiesScan, SpringBootApplication, YomoraApiApplication
 
-### Community 54 - "Shared Clock Configuration"
+### Community 57 - "ApplicationConfiguration.java"
 Cohesion: 0.60
 Nodes (3): ApplicationConfiguration, Bean, Configuration
 
-### Community 55 - "Social Configuration"
+### Community 58 - "SocialConfiguration.java"
 Cohesion: 0.60
 Nodes (3): Bean, Configuration, SocialConfiguration
 
-### Community 56 - "Architecture Rules"
+### Community 59 - "ModularArchitectureTest.java"
 Cohesion: 0.83
 Nodes (3): AnalyzeClasses, ArchRule, ModularArchitectureTest
 
-### Community 57 - "Gradle Wrapper"
+### Community 60 - "gradlew"
 Cohesion: 0.83
 Nodes (3): gradlew script, die(), warn()
 
 ## Knowledge Gaps
 - **18 isolated node(s):** `WANT_TO_READ`, `READING`, `PAUSED`, `FINISHED`, `ABANDONED` (+13 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `CurrentUser` connect `Goal HTTP API` to `Shelves and Collections`, `User Moderation`, `Reading Statistics`, `Library HTTP API`, `Review HTTP API`, `Note HTTP API`, `Profile Updates`, `Follow HTTP API`, `Post HTTP API`, `Session Summaries`, `User Profile API`?**
+- **Why does `CurrentUser` connect `CurrentUser` to `Shelf`, `BlockedUser`, `StatisticsService`, `ReviewController.java`, `NoteController.java`, `FollowController.java`, `UserController.java`, `ReadingGoal`, `.finish`, `PostController.java`, `UserBookRepository`?**
   _High betweenness centrality (0.243) - this node is a cross-community bridge._
-- **Why does `UserRepository` connect `Profile Updates` to `Token Issuance`, `User Registration`, `User Repository Adapter`, `Password Reset Tests`, `Password Reset Ports`, `User Persistence`, `Identity Configuration`, `User Profile API`?**
-  _High betweenness centrality (0.088) - this node is a cross-community bridge._
-- **Why does `User` connect `User Persistence` to `Token Issuance`, `User Registration`, `Security Configuration`, `User Repository Adapter`, `Password Reset Tests`, `Password Reset Ports`, `Profile Updates`, `User Profile API`?**
+- **Why does `User` connect `User` to `AuthenticationService`, `PasswordResetToken`, `JpaUserRepositoryAdapter`, `SecurityProperties`, `UserController.java`, `InMemoryUserRepository`, `InMemoryUserRepository`, `.update`, `UserRepository`?**
+  _High betweenness centrality (0.086) - this node is a cross-community bridge._
+- **Why does `UserRepository` connect `UserRepository` to `AuthenticationService`, `PasswordResetToken`, `JpaUserRepositoryAdapter`, `UserController.java`, `InMemoryUserRepository`, `InMemoryUserRepository`, `.update`, `UserApplicationConfiguration.java`, `User`?**
   _High betweenness centrality (0.083) - this node is a cross-community bridge._
 - **What connects `WANT_TO_READ`, `READING`, `PAUSED` to the rest of the system?**
   _18 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Shelves and Collections` be split into smaller, more focused modules?**
-  _Cohesion score 0.07204968944099378 - nodes in this community are weakly interconnected._
-- **Should `User Moderation` be split into smaller, more focused modules?**
-  _Cohesion score 0.06540825285338016 - nodes in this community are weakly interconnected._
-- **Should `Moderation Persistence` be split into smaller, more focused modules?**
-  _Cohesion score 0.05920745920745921 - nodes in this community are weakly interconnected._
+- **Should `Shelf` be split into smaller, more focused modules?**
+  _Cohesion score 0.06630630630630631 - nodes in this community are weakly interconnected._
+- **Should `BlockedUser` be split into smaller, more focused modules?**
+  _Cohesion score 0.06237424547283702 - nodes in this community are weakly interconnected._
+- **Should `AuthenticationService` be split into smaller, more focused modules?**
+  _Cohesion score 0.06912442396313365 - nodes in this community are weakly interconnected._

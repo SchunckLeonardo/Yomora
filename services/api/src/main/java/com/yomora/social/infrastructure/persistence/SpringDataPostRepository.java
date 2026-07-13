@@ -15,7 +15,7 @@ interface SpringDataPostRepository extends JpaRepository<PostEntity, UUID> {
             WHERE f.follower_id = :userId
               AND f.status = 'ACCEPTED'
               AND p.visibility IN ('PUBLIC', 'FOLLOWERS')
-              AND (:cursor IS NULL OR p.created_at < :cursor)
+              AND (CAST(:cursor AS TIMESTAMPTZ) IS NULL OR p.created_at < CAST(:cursor AS TIMESTAMPTZ))
             ORDER BY p.created_at DESC
             LIMIT :limit
             """, nativeQuery = true)
@@ -30,7 +30,7 @@ interface SpringDataPostRepository extends JpaRepository<PostEntity, UUID> {
             LEFT JOIN post_likes likes ON likes.post_id = p.id
             LEFT JOIN comments comments ON comments.post_id = p.id
             WHERE p.visibility = 'PUBLIC'
-              AND (:cursor IS NULL OR p.created_at < :cursor)
+              AND (CAST(:cursor AS TIMESTAMPTZ) IS NULL OR p.created_at < CAST(:cursor AS TIMESTAMPTZ))
             GROUP BY p.id
             ORDER BY (COUNT(DISTINCT likes.id) * 3 + COUNT(DISTINCT comments.id) * 2) DESC,
                      p.created_at DESC
