@@ -74,7 +74,7 @@ class JpaBookCatalogRepository implements BookCatalogRepository {
                 candidate.publisher(),
                 candidate.publicationDate(),
                 candidate.language(),
-                candidate.pageCount(),
+                normalizePageCount(candidate.pageCount()),
                 candidate.coverUrl(),
                 candidate.externalProvider(),
                 candidate.externalId(),
@@ -101,6 +101,10 @@ class JpaBookCatalogRepository implements BookCatalogRepository {
             return value;
         }
         return value.substring(0, value.offsetByCodePoints(0, maxLength));
+    }
+
+    private Integer normalizePageCount(Integer pageCount) {
+        return pageCount == null || pageCount <= 0 ? null : pageCount;
     }
 
     @Override

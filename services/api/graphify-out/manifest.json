@@ -75,9 +75,9 @@
     "semantic_hash": "18ca75bad756fd7886a6ea144c25b9c8"
   },
   "src/main/java/com/yomora/catalog/infrastructure/persistence/JpaBookCatalogRepository.java": {
-    "mtime": 1783967579.2167377,
-    "ast_hash": "61851f4ee8297a36556b6273365dd3f0",
-    "semantic_hash": "61851f4ee8297a36556b6273365dd3f0"
+    "mtime": 1783970146.9099166,
+    "ast_hash": "e0c7b464cd7f2e746356c4a23f6a2277",
+    "semantic_hash": "e0c7b464cd7f2e746356c4a23f6a2277"
   },
   "src/main/java/com/yomora/catalog/infrastructure/persistence/SpringDataBookEditionRepository.java": {
     "mtime": 1783966224.3899841,
@@ -915,8 +915,8 @@
     "semantic_hash": "e4f8364b3290f460ea8498f22ed47730"
   },
   "src/test/java/com/yomora/PersistenceQueryIntegrationTest.java": {
-    "mtime": 1783967537.8499115,
-    "ast_hash": "cd8c0030c789bf95dec6c8d636353b65",
-    "semantic_hash": "cd8c0030c789bf95dec6c8d636353b65"
+    "mtime": 1783970119.288939,
+    "ast_hash": "3ec0ebd3eb612a01bea7836abdea84a8",
+    "semantic_hash": "3ec0ebd3eb612a01bea7836abdea84a8"
   }
 }

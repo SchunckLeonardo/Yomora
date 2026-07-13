@@ -78,6 +78,32 @@ class PersistenceQueryIntegrationTest {
     }
 
     @Test
+    void normalizesNonPositiveExternalPageCountsBeforePersistence() {
+        for (int pageCount : List.of(0, -25)) {
+            BookCandidate candidate = new BookCandidate(
+                    "Livro com contagem inválida " + pageCount,
+                    "Descrição",
+                    List.of("Autora Yomora"),
+                    List.of("Ficção"),
+                    null,
+                    null,
+                    "Editora Yomora",
+                    LocalDate.of(2026, 1, 1),
+                    "pt",
+                    pageCount,
+                    null,
+                    "integration-test",
+                    "invalid-page-count-" + pageCount
+            );
+
+            var saved = bookCatalogRepository.save(candidate);
+            entityManager.flush();
+
+            assertThat(saved.pageCount()).isNull();
+        }
+    }
+
+    @Test
     void loadsFirstFollowingFeedPageWithoutCursor() {
         UUID followerId = UUID.randomUUID();
         UUID authorId = UUID.randomUUID();
