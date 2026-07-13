@@ -6,6 +6,7 @@ import com.yomora.social.domain.Post;
 import com.yomora.social.domain.PostType;
 import com.yomora.social.domain.SocialRepository;
 import com.yomora.social.domain.Visibility;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,6 +37,9 @@ class PersistenceQueryIntegrationTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    EntityManager entityManager;
+
     @Test
     void searchesLocalBooksWithoutDuplicatesAndOrdersThemByTitle() {
         saveBook("Biblioteca de Babel", List.of("Jorge Luis Borges", "Colaborador"), "catalog-2");
@@ -46,6 +50,31 @@ class PersistenceQueryIntegrationTest {
         assertThat(results)
                 .extracting(result -> result.title())
                 .containsExactly("A Biblioteca da Meia-Noite", "Biblioteca de Babel");
+    }
+
+    @Test
+    void truncatesAndDeduplicatesExternalCategoriesBeforePersistence() {
+        String categoryPrefix = "c".repeat(120);
+        BookCandidate candidate = new BookCandidate(
+                "Livro com categoria externa longa",
+                "Descrição",
+                List.of("Autora Yomora"),
+                List.of(categoryPrefix + " primeira", categoryPrefix + " segunda"),
+                null,
+                null,
+                "Editora Yomora",
+                LocalDate.of(2026, 1, 1),
+                "pt",
+                200,
+                null,
+                "integration-test",
+                "long-category"
+        );
+
+        var saved = bookCatalogRepository.save(candidate);
+        entityManager.flush();
+
+        assertThat(saved.categories()).containsExactly(categoryPrefix);
     }
 
     @Test

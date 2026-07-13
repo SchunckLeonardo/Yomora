@@ -46,7 +46,7 @@ make docker-down
 
 ## Configuração
 
-Copie `.env.example` para `.env`. Todas as credenciais incluídas são locais e descartáveis. Defina uma chave aleatória de pelo menos 32 bytes em `JWT_SECRET` fora do ambiente local. `GOOGLE_BOOKS_API_KEY` é opcional durante o desenvolvimento; quando preenchida, eleva a cota do provedor. O fallback Open Library não requer chave.
+Copie `.env.example` para `.env`. Todas as credenciais incluídas são locais e descartáveis. Defina uma chave aleatória de pelo menos 32 bytes em `JWT_SECRET` fora do ambiente local. `GOOGLE_BOOKS_API_KEY` é opcional durante o desenvolvimento; quando preenchida, eleva a cota do provedor. O fallback Open Library não requer chave. O comando `make backend` carrega automaticamente as variáveis desse arquivo; reinicie a API depois de preencher ou alterar a chave.
 
 ## Dados de demonstração
 
@@ -66,4 +66,3 @@ O backend possui testes unitários de regras, controller/segurança, arquitetura
 As cinco decisões estruturais estão em `docs/decisions`. Sign in with Apple e Live Activities possuem fronteiras prontas, mas a ativação exige entitlements e credenciais do time Apple. Recuperação de senha usa uma caixa local em memória no profile `local`; produção deve fornecer o adapter de e-mail. Aprovação de seguidores de contas privadas, notificações push e links web universais ficam para a próxima versão.
 
 Próximos passos naturais: adapter de e-mail, APNs, Universal Links, moderação administrativa e telemetria de produto com consentimento.
-

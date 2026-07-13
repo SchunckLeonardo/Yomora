@@ -5,7 +5,7 @@ setup:
 	cd services/api && ./gradlew classes
 
 backend:
-	cd services/api && ./gradlew bootRun
+	set -a; [ ! -f .env ] || . ./.env; set +a; cd services/api && ./gradlew bootRun
 
 test:
 	cd services/api && ./gradlew clean test
@@ -26,4 +26,3 @@ openapi:
 ios-test:
 	cd apps/ios && xcodebuild test -project Yomora.xcodeproj -scheme Yomora \
 		-destination 'platform=iOS Simulator,name=iPhone 17 Pro'
-

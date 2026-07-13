@@ -28,7 +28,7 @@ class BookWorkEntity {
     List<String> authors = new ArrayList<>();
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "book_categories", joinColumns = @JoinColumn(name = "work_id"))
-    @Column(name = "category")
+    @Column(name = "category", length = 120)
     List<String> categories = new ArrayList<>();
     @Column(name = "created_at")
     Instant createdAt;

@@ -10,11 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 class JpaBookCatalogRepository implements BookCatalogRepository {
+    private static final int CATEGORY_MAX_LENGTH = 120;
+
     private final SpringDataBookWorkRepository workRepository;
     private final SpringDataBookEditionRepository editionRepository;
     private final Clock clock;
@@ -60,7 +63,7 @@ class JpaBookCatalogRepository implements BookCatalogRepository {
                 candidate.title(),
                 candidate.description(),
                 candidate.authors(),
-                candidate.categories(),
+                normalizeCategories(candidate.categories()),
                 now
         ));
         return editionRepository.save(new BookEditionEntity(
@@ -77,6 +80,27 @@ class JpaBookCatalogRepository implements BookCatalogRepository {
                 candidate.externalId(),
                 now
         )).toResult();
+    }
+
+    private List<String> normalizeCategories(List<String> categories) {
+        if (categories == null) {
+            return List.of();
+        }
+        return categories.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(category -> !category.isBlank())
+                .map(category -> truncate(category, CATEGORY_MAX_LENGTH))
+                .distinct()
+                .toList();
+    }
+
+    private String truncate(String value, int maxLength) {
+        int codePointCount = value.codePointCount(0, value.length());
+        if (codePointCount <= maxLength) {
+            return value;
+        }
+        return value.substring(0, value.offsetByCodePoints(0, maxLength));
     }
 
     @Override
