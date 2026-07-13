@@ -1,0 +1,856 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03CEAD208071F8ECF4C8B6F1 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAD737DCE75E85D1A3E39E6 /* SearchViewModel.swift */; };
+		06CFDC050516D1D75C7A9A68 /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BED404A4492B76725BB3EA /* TodayViewModel.swift */; };
+		0CA6A82A9245EF631306AF1D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BC5FCDEC2FC888F064653E /* SettingsView.swift */; };
+		0E771DD0B943BC3D80A7E21F /* ReadingSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D62EAC9C1119F57DB91FE9F /* ReadingSessionView.swift */; };
+		123D65E000752AA453446A01 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5051443F697DF9FCE6217 /* APIClient.swift */; };
+		126F84232BBD4CA634F55E7A /* PostComposerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418A4905FA475C2FCE53FA21 /* PostComposerView.swift */; };
+		1AA011E4919584FEB8238FEB /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF9D7C8E9C360F2DA34A552 /* OnboardingView.swift */; };
+		1FC0057FE1942551E417C430 /* ButtonsAndFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA672BD6C98BF08335F00BC /* ButtonsAndFields.swift */; };
+		20902D197FA5605246F7600B /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DAD82C8B77BDFC9E32A5BD /* SessionStore.swift */; };
+		326AB9ED07E0DB48D2EEFA60 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C777EA9DB2E2D16D006021 /* MainTabView.swift */; };
+		47BA9202F2E94D695AB492E4 /* BookComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E4440C3831BC070E6437F0 /* BookComponents.swift */; };
+		53356A07886DAA565EF150F1 /* YomoraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE3ECA37F7443A5E97CEC59 /* YomoraApp.swift */; };
+		537330E9C27D7DCD1A6EBC8B /* YomoraDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C8134F230B3D994F573229 /* YomoraDesign.swift */; };
+		5431555562383888F216EEEE /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E34B60E72F14B959DB6767F /* TodayView.swift */; };
+		56032DB1CF5C82A62E9356C4 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B97DE26C516A27D73325DA1 /* FeedViewModel.swift */; };
+		56B0EC731AEF70D7E8507DEF /* BookCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C249F1AA5D7B7F14FC31B2E5 /* BookCache.swift */; };
+		58182E804A8D6FD482E94D56 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA224813C98DC6C8F6A4B1B /* TokenStore.swift */; };
+		591B8CE70DF054F4F5886DB5 /* BookDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B4AF61B271E64A2F631383 /* BookDetailsView.swift */; };
+		5A7E3EE1DA2F6F0D4259B002 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCD72889A1E2B1B45D487E3 /* StatisticsView.swift */; };
+		602465AFDF1D380F8FF8C2EF /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919477F31676550DE2D6D19F /* SearchView.swift */; };
+		679EEE80D27C62343AE5A0A8 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435DF9DCC3E6D855B8297B02 /* LibraryViewModel.swift */; };
+		67E1C9C0B837E855D06C956D /* APIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F012DB798F4CEEFE0E9D8C /* APIModels.swift */; };
+		6BD13AAE784262881F9645F8 /* SessionStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BA6CF04F97E8F18E5C7288 /* SessionStoreTests.swift */; };
+		719421243EB6D0F41B9D6965 /* ReadingSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D4213BB11A57B3EDE26A45 /* ReadingSessionViewModel.swift */; };
+		720F3A9C48CEFC2A4A7A7E61 /* YomoraFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469CA01C69C3A81A7B3328E5 /* YomoraFlowUITests.swift */; };
+		73FBC362B0D880727F8B908F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B969BADD5DA40622D81D7C3C /* ProfileView.swift */; };
+		7A808752AD6487BF689AE02C /* ReadingActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641DDE9B2C93EB3C8169B481 /* ReadingActivityManager.swift */; };
+		7E52599BB0C078A1E5F11600 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40353EFB142ADDCCDAD496B3 /* AppRouter.swift */; };
+		87DE58F5FFB8EEC8D725DDFC /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964F5D5A2DF476BBD4A2B5CE /* AppContainer.swift */; };
+		89D3D59F1D0E3A05213D994E /* UITestAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5E350A12848A6208A1FB1B /* UITestAPIClient.swift */; };
+		8F04DD8AD9CFA8E5C80EC5A4 /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E946F409746E49E9AE6ED0A2 /* APIClientTests.swift */; };
+		912391D43609BB3990F9AECC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FADE4E85DC24816DDAB5381 /* RootView.swift */; };
+		9FBA4438F3665BECD5D56BCF /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712488C29CC9427C04389DBE /* Endpoint.swift */; };
+		AF4BA8D0B53ED268198B9D79 /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CAE7B23F05692ED28274DB /* TestSupport.swift */; };
+		C91D594A4ED033213EA4C10A /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4356C26FF119225726CC95 /* LibraryView.swift */; };
+		CA64EE5AAD24908A5BD7339C /* ReadingTimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F235E2F0B4067A3D3CF3ABBC /* ReadingTimerTests.swift */; };
+		CC65F2EAD280143910287278 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C2C3336A394FE47A454AD6E /* Assets.xcassets */; };
+		D53C7A2A7B63DDA2E6943B1F /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2215BE91C77ADBBEB079C8E7 /* AuthenticationView.swift */; };
+		E32E3B9CEE4876D6EBA3D63D /* SearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FF4C5AAF1437695E6AB765 /* SearchViewModelTests.swift */; };
+		E6CB702BEACB78DC5D113D5A /* ReadingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E138AC3452DFF89F5F6D39 /* ReadingTimer.swift */; };
+		EC0CD53BEF98CA097AF495D7 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441653B834F985A0E8CAB165 /* FeedView.swift */; };
+		FB278CD3D4BAB38143EF71C2 /* TokenAndNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2794A19DDD6A2B4EA4C77937 /* TokenAndNavigationTests.swift */; };
+		FC390E313EB070AB8334E32C /* StateAndSocialComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987EC6B41BAB9BCD4D4F1599 /* StateAndSocialComponents.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E696EA0A15F9AFE2CD0B3FD7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BD9F6563D76CEC4ECE1B5F51 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 41A354578C2884E4C4F8739A;
+			remoteInfo = Yomora;
+		};
+		F87D2C2B5AD5777AEE4BE15B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BD9F6563D76CEC4ECE1B5F51 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 41A354578C2884E4C4F8739A;
+			remoteInfo = Yomora;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		15E4440C3831BC070E6437F0 /* BookComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookComponents.swift; sourceTree = "<group>"; };
+		2215BE91C77ADBBEB079C8E7 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		2794A19DDD6A2B4EA4C77937 /* TokenAndNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenAndNavigationTests.swift; sourceTree = "<group>"; };
+		2E5E350A12848A6208A1FB1B /* UITestAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestAPIClient.swift; sourceTree = "<group>"; };
+		3CAD737DCE75E85D1A3E39E6 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		40353EFB142ADDCCDAD496B3 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		418A4905FA475C2FCE53FA21 /* PostComposerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostComposerView.swift; sourceTree = "<group>"; };
+		435DF9DCC3E6D855B8297B02 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		43F012DB798F4CEEFE0E9D8C /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
+		441653B834F985A0E8CAB165 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		469CA01C69C3A81A7B3328E5 /* YomoraFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomoraFlowUITests.swift; sourceTree = "<group>"; };
+		4A4356C26FF119225726CC95 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		4AA224813C98DC6C8F6A4B1B /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
+		4D62EAC9C1119F57DB91FE9F /* ReadingSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSessionView.swift; sourceTree = "<group>"; };
+		58BA6CF04F97E8F18E5C7288 /* SessionStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStoreTests.swift; sourceTree = "<group>"; };
+		5AF9D7C8E9C360F2DA34A552 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		5D221F30ED68C38B71E9C9C6 /* YomoraTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = YomoraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FADE4E85DC24816DDAB5381 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		641DDE9B2C93EB3C8169B481 /* ReadingActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingActivityManager.swift; sourceTree = "<group>"; };
+		64C777EA9DB2E2D16D006021 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		64D4213BB11A57B3EDE26A45 /* ReadingSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSessionViewModel.swift; sourceTree = "<group>"; };
+		66E138AC3452DFF89F5F6D39 /* ReadingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingTimer.swift; sourceTree = "<group>"; };
+		712488C29CC9427C04389DBE /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		72B4AF61B271E64A2F631383 /* BookDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailsView.swift; sourceTree = "<group>"; };
+		77C8134F230B3D994F573229 /* YomoraDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomoraDesign.swift; sourceTree = "<group>"; };
+		787B2B7C4AF58535F17CAEC4 /* YomoraUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = YomoraUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B97DE26C516A27D73325DA1 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		7DCD72889A1E2B1B45D487E3 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		8C2C3336A394FE47A454AD6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		919477F31676550DE2D6D19F /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		92BC5FCDEC2FC888F064653E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		964F5D5A2DF476BBD4A2B5CE /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
+		987EC6B41BAB9BCD4D4F1599 /* StateAndSocialComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateAndSocialComponents.swift; sourceTree = "<group>"; };
+		9BA5051443F697DF9FCE6217 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		9E34B60E72F14B959DB6767F /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		B0C79FCFCCC1707951241002 /* Yomora.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Yomora.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B969BADD5DA40622D81D7C3C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		C1FF4C5AAF1437695E6AB765 /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
+		C249F1AA5D7B7F14FC31B2E5 /* BookCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCache.swift; sourceTree = "<group>"; };
+		C3CAE7B23F05692ED28274DB /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
+		E6DAD82C8B77BDFC9E32A5BD /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		E946F409746E49E9AE6ED0A2 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
+		E9BED404A4492B76725BB3EA /* TodayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewModel.swift; sourceTree = "<group>"; };
+		F235E2F0B4067A3D3CF3ABBC /* ReadingTimerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingTimerTests.swift; sourceTree = "<group>"; };
+		FDE3ECA37F7443A5E97CEC59 /* YomoraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomoraApp.swift; sourceTree = "<group>"; };
+		FEA672BD6C98BF08335F00BC /* ButtonsAndFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsAndFields.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		13526996ADC5788E1F2D51D9 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				641DDE9B2C93EB3C8169B481 /* ReadingActivityManager.swift */,
+				66E138AC3452DFF89F5F6D39 /* ReadingTimer.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		1BAA25BAFB40AE58D831C433 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B0C79FCFCCC1707951241002 /* Yomora.app */,
+				5D221F30ED68C38B71E9C9C6 /* YomoraTests.xctest */,
+				787B2B7C4AF58535F17CAEC4 /* YomoraUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		24AEDD1F1597292F80005E04 /* YomoraUITests */ = {
+			isa = PBXGroup;
+			children = (
+				469CA01C69C3A81A7B3328E5 /* YomoraFlowUITests.swift */,
+			);
+			path = YomoraUITests;
+			sourceTree = "<group>";
+		};
+		25E068BDFE09B9DD7D326D97 = {
+			isa = PBXGroup;
+			children = (
+				78A011A63AEFD298BA668803 /* Yomora */,
+				B2EF389E6BAB8A6F1CC30DB8 /* YomoraTests */,
+				24AEDD1F1597292F80005E04 /* YomoraUITests */,
+				1BAA25BAFB40AE58D831C433 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2F23D7E7B36B33B835DD72E7 /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				7DCD72889A1E2B1B45D487E3 /* StatisticsView.swift */,
+			);
+			path = Statistics;
+			sourceTree = "<group>";
+		};
+		364BD69401946B6F9BF5F888 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				9BA5051443F697DF9FCE6217 /* APIClient.swift */,
+				43F012DB798F4CEEFE0E9D8C /* APIModels.swift */,
+				712488C29CC9427C04389DBE /* Endpoint.swift */,
+				2E5E350A12848A6208A1FB1B /* UITestAPIClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		58E7820DC7A3286C6D1AEEDE /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				441653B834F985A0E8CAB165 /* FeedView.swift */,
+				7B97DE26C516A27D73325DA1 /* FeedViewModel.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		5A905DFF487D0DF5525053B2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8C2C3336A394FE47A454AD6E /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5B1A0FE514F0291D5AD86E9F /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				92BC5FCDEC2FC888F064653E /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		626D3DE4EEF691FF8650A33B /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B969BADD5DA40622D81D7C3C /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		64B5B4D05DF01E8C9DFD677F /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				D359EE316569EA1D4888E150 /* Authentication */,
+				9A70F1A8FBC982AD11D438D1 /* Components */,
+				F83425BEF6D12525AF600CFF /* DesignSystem */,
+				364BD69401946B6F9BF5F888 /* Networking */,
+				C8B20D67E110ABB763D9125A /* Persistence */,
+				13526996ADC5788E1F2D51D9 /* Utilities */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		6607D3145C984461D23DA0F7 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				964F5D5A2DF476BBD4A2B5CE /* AppContainer.swift */,
+				40353EFB142ADDCCDAD496B3 /* AppRouter.swift */,
+				64C777EA9DB2E2D16D006021 /* MainTabView.swift */,
+				5FADE4E85DC24816DDAB5381 /* RootView.swift */,
+				E6DAD82C8B77BDFC9E32A5BD /* SessionStore.swift */,
+				FDE3ECA37F7443A5E97CEC59 /* YomoraApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		78A011A63AEFD298BA668803 /* Yomora */ = {
+			isa = PBXGroup;
+			children = (
+				6607D3145C984461D23DA0F7 /* App */,
+				64B5B4D05DF01E8C9DFD677F /* Core */,
+				8909DF386125E78CE7A7796F /* Features */,
+				5A905DFF487D0DF5525053B2 /* Resources */,
+			);
+			path = Yomora;
+			sourceTree = "<group>";
+		};
+		7CC1234AA8522AA000227FDA /* Today */ = {
+			isa = PBXGroup;
+			children = (
+				9E34B60E72F14B959DB6767F /* TodayView.swift */,
+				E9BED404A4492B76725BB3EA /* TodayViewModel.swift */,
+			);
+			path = Today;
+			sourceTree = "<group>";
+		};
+		8909DF386125E78CE7A7796F /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				90DFA48985419FF0A57DD2A3 /* Authentication */,
+				9D0C795709DCE11A80CD1817 /* BookDetails */,
+				58E7820DC7A3286C6D1AEEDE /* Feed */,
+				AC0958EEFDD3F2CFC2CCF505 /* Library */,
+				96A84D0DF50EF7F2FBB0C498 /* Onboarding */,
+				FD54BBCBBB0827942EE2FF3A /* PostComposer */,
+				626D3DE4EEF691FF8650A33B /* Profile */,
+				E35C731821B84CA0D8C6577D /* ReadingSession */,
+				C1218B2FCA5A89E4DCF7880B /* Search */,
+				5B1A0FE514F0291D5AD86E9F /* Settings */,
+				2F23D7E7B36B33B835DD72E7 /* Statistics */,
+				7CC1234AA8522AA000227FDA /* Today */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		90DFA48985419FF0A57DD2A3 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				2215BE91C77ADBBEB079C8E7 /* AuthenticationView.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		96A84D0DF50EF7F2FBB0C498 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				5AF9D7C8E9C360F2DA34A552 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		9A70F1A8FBC982AD11D438D1 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				15E4440C3831BC070E6437F0 /* BookComponents.swift */,
+				FEA672BD6C98BF08335F00BC /* ButtonsAndFields.swift */,
+				987EC6B41BAB9BCD4D4F1599 /* StateAndSocialComponents.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9D0C795709DCE11A80CD1817 /* BookDetails */ = {
+			isa = PBXGroup;
+			children = (
+				72B4AF61B271E64A2F631383 /* BookDetailsView.swift */,
+			);
+			path = BookDetails;
+			sourceTree = "<group>";
+		};
+		AC0958EEFDD3F2CFC2CCF505 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				4A4356C26FF119225726CC95 /* LibraryView.swift */,
+				435DF9DCC3E6D855B8297B02 /* LibraryViewModel.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		B2EF389E6BAB8A6F1CC30DB8 /* YomoraTests */ = {
+			isa = PBXGroup;
+			children = (
+				E946F409746E49E9AE6ED0A2 /* APIClientTests.swift */,
+				F235E2F0B4067A3D3CF3ABBC /* ReadingTimerTests.swift */,
+				C1FF4C5AAF1437695E6AB765 /* SearchViewModelTests.swift */,
+				58BA6CF04F97E8F18E5C7288 /* SessionStoreTests.swift */,
+				C3CAE7B23F05692ED28274DB /* TestSupport.swift */,
+				2794A19DDD6A2B4EA4C77937 /* TokenAndNavigationTests.swift */,
+			);
+			path = YomoraTests;
+			sourceTree = "<group>";
+		};
+		C1218B2FCA5A89E4DCF7880B /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				919477F31676550DE2D6D19F /* SearchView.swift */,
+				3CAD737DCE75E85D1A3E39E6 /* SearchViewModel.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		C8B20D67E110ABB763D9125A /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				C249F1AA5D7B7F14FC31B2E5 /* BookCache.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		D359EE316569EA1D4888E150 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				4AA224813C98DC6C8F6A4B1B /* TokenStore.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		E35C731821B84CA0D8C6577D /* ReadingSession */ = {
+			isa = PBXGroup;
+			children = (
+				4D62EAC9C1119F57DB91FE9F /* ReadingSessionView.swift */,
+				64D4213BB11A57B3EDE26A45 /* ReadingSessionViewModel.swift */,
+			);
+			path = ReadingSession;
+			sourceTree = "<group>";
+		};
+		F83425BEF6D12525AF600CFF /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				77C8134F230B3D994F573229 /* YomoraDesign.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		FD54BBCBBB0827942EE2FF3A /* PostComposer */ = {
+			isa = PBXGroup;
+			children = (
+				418A4905FA475C2FCE53FA21 /* PostComposerView.swift */,
+			);
+			path = PostComposer;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1962772FF5E85234B2825103 /* YomoraUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5E8864DFD1717D301D896A1 /* Build configuration list for PBXNativeTarget "YomoraUITests" */;
+			buildPhases = (
+				F04A6886360CCB39C314213D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B15A9F84EBE1CFBF8A8A2BA7 /* PBXTargetDependency */,
+			);
+			name = YomoraUITests;
+			packageProductDependencies = (
+			);
+			productName = YomoraUITests;
+			productReference = 787B2B7C4AF58535F17CAEC4 /* YomoraUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		41A354578C2884E4C4F8739A /* Yomora */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0D8967E6189BF8529CD19468 /* Build configuration list for PBXNativeTarget "Yomora" */;
+			buildPhases = (
+				196484DA2F98C9536396E18D /* Sources */,
+				350DF0C78183D539B19AC715 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Yomora;
+			packageProductDependencies = (
+			);
+			productName = Yomora;
+			productReference = B0C79FCFCCC1707951241002 /* Yomora.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A36AA1D80C66F36122F3A20F /* YomoraTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2795ECC0CB0F458C27B61A6 /* Build configuration list for PBXNativeTarget "YomoraTests" */;
+			buildPhases = (
+				EDEFC5C3325CD6D36E755A4B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EFEC590266D9049B4452C8EE /* PBXTargetDependency */,
+			);
+			name = YomoraTests;
+			packageProductDependencies = (
+			);
+			productName = YomoraTests;
+			productReference = 5D221F30ED68C38B71E9C9C6 /* YomoraTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BD9F6563D76CEC4ECE1B5F51 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					1962772FF5E85234B2825103 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+						TestTargetID = 41A354578C2884E4C4F8739A;
+					};
+					41A354578C2884E4C4F8739A = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					A36AA1D80C66F36122F3A20F = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 8297F6B29B4FBD39C3B1CA37 /* Build configuration list for PBXProject "Yomora" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 25E068BDFE09B9DD7D326D97;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 1BAA25BAFB40AE58D831C433 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				41A354578C2884E4C4F8739A /* Yomora */,
+				A36AA1D80C66F36122F3A20F /* YomoraTests */,
+				1962772FF5E85234B2825103 /* YomoraUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		350DF0C78183D539B19AC715 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC65F2EAD280143910287278 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		196484DA2F98C9536396E18D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				123D65E000752AA453446A01 /* APIClient.swift in Sources */,
+				67E1C9C0B837E855D06C956D /* APIModels.swift in Sources */,
+				87DE58F5FFB8EEC8D725DDFC /* AppContainer.swift in Sources */,
+				7E52599BB0C078A1E5F11600 /* AppRouter.swift in Sources */,
+				D53C7A2A7B63DDA2E6943B1F /* AuthenticationView.swift in Sources */,
+				56B0EC731AEF70D7E8507DEF /* BookCache.swift in Sources */,
+				47BA9202F2E94D695AB492E4 /* BookComponents.swift in Sources */,
+				591B8CE70DF054F4F5886DB5 /* BookDetailsView.swift in Sources */,
+				1FC0057FE1942551E417C430 /* ButtonsAndFields.swift in Sources */,
+				9FBA4438F3665BECD5D56BCF /* Endpoint.swift in Sources */,
+				EC0CD53BEF98CA097AF495D7 /* FeedView.swift in Sources */,
+				56032DB1CF5C82A62E9356C4 /* FeedViewModel.swift in Sources */,
+				C91D594A4ED033213EA4C10A /* LibraryView.swift in Sources */,
+				679EEE80D27C62343AE5A0A8 /* LibraryViewModel.swift in Sources */,
+				326AB9ED07E0DB48D2EEFA60 /* MainTabView.swift in Sources */,
+				1AA011E4919584FEB8238FEB /* OnboardingView.swift in Sources */,
+				126F84232BBD4CA634F55E7A /* PostComposerView.swift in Sources */,
+				73FBC362B0D880727F8B908F /* ProfileView.swift in Sources */,
+				7A808752AD6487BF689AE02C /* ReadingActivityManager.swift in Sources */,
+				0E771DD0B943BC3D80A7E21F /* ReadingSessionView.swift in Sources */,
+				719421243EB6D0F41B9D6965 /* ReadingSessionViewModel.swift in Sources */,
+				E6CB702BEACB78DC5D113D5A /* ReadingTimer.swift in Sources */,
+				912391D43609BB3990F9AECC /* RootView.swift in Sources */,
+				602465AFDF1D380F8FF8C2EF /* SearchView.swift in Sources */,
+				03CEAD208071F8ECF4C8B6F1 /* SearchViewModel.swift in Sources */,
+				20902D197FA5605246F7600B /* SessionStore.swift in Sources */,
+				0CA6A82A9245EF631306AF1D /* SettingsView.swift in Sources */,
+				FC390E313EB070AB8334E32C /* StateAndSocialComponents.swift in Sources */,
+				5A7E3EE1DA2F6F0D4259B002 /* StatisticsView.swift in Sources */,
+				5431555562383888F216EEEE /* TodayView.swift in Sources */,
+				06CFDC050516D1D75C7A9A68 /* TodayViewModel.swift in Sources */,
+				58182E804A8D6FD482E94D56 /* TokenStore.swift in Sources */,
+				89D3D59F1D0E3A05213D994E /* UITestAPIClient.swift in Sources */,
+				53356A07886DAA565EF150F1 /* YomoraApp.swift in Sources */,
+				537330E9C27D7DCD1A6EBC8B /* YomoraDesign.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDEFC5C3325CD6D36E755A4B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F04DD8AD9CFA8E5C80EC5A4 /* APIClientTests.swift in Sources */,
+				CA64EE5AAD24908A5BD7339C /* ReadingTimerTests.swift in Sources */,
+				E32E3B9CEE4876D6EBA3D63D /* SearchViewModelTests.swift in Sources */,
+				6BD13AAE784262881F9645F8 /* SessionStoreTests.swift in Sources */,
+				AF4BA8D0B53ED268198B9D79 /* TestSupport.swift in Sources */,
+				FB278CD3D4BAB38143EF71C2 /* TokenAndNavigationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F04A6886360CCB39C314213D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				720F3A9C48CEFC2A4A7A7E61 /* YomoraFlowUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B15A9F84EBE1CFBF8A8A2BA7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 41A354578C2884E4C4F8739A /* Yomora */;
+			targetProxy = F87D2C2B5AD5777AEE4BE15B /* PBXContainerItemProxy */;
+		};
+		EFEC590266D9049B4452C8EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 41A354578C2884E4C4F8739A /* Yomora */;
+			targetProxy = E696EA0A15F9AFE2CD0B3FD7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0DECBB1048E40E7DDE5AFA43 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		16DAB707C57B5B96E2C1795A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		1F22190151AE524DFD1BF491 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.yomora.ios.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yomora.app/Yomora";
+			};
+			name = Release;
+		};
+		88312AA5A8E402FFA4C99BBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.yomora.ios.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Yomora;
+			};
+			name = Release;
+		};
+		8C6D6C898FA0867E0506F7A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_API_BASE_URL = "http://localhost:8080";
+				INFOPLIST_KEY_CFBundleDisplayName = Yomora;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.yomora.ios;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8FE665D3613843F6511AE6A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_API_BASE_URL = "http://localhost:8080";
+				INFOPLIST_KEY_CFBundleDisplayName = Yomora;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.yomora.ios;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		93098B086C58973392407092 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.yomora.ios.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yomora.app/Yomora";
+			};
+			name = Debug;
+		};
+		959B5C3EB141CFE8D564CBFC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.yomora.ios.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Yomora;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0D8967E6189BF8529CD19468 /* Build configuration list for PBXNativeTarget "Yomora" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8FE665D3613843F6511AE6A5 /* Debug */,
+				8C6D6C898FA0867E0506F7A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8297F6B29B4FBD39C3B1CA37 /* Build configuration list for PBXProject "Yomora" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0DECBB1048E40E7DDE5AFA43 /* Debug */,
+				16DAB707C57B5B96E2C1795A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A5E8864DFD1717D301D896A1 /* Build configuration list for PBXNativeTarget "YomoraUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				959B5C3EB141CFE8D564CBFC /* Debug */,
+				88312AA5A8E402FFA4C99BBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F2795ECC0CB0F458C27B61A6 /* Build configuration list for PBXNativeTarget "YomoraTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93098B086C58973392407092 /* Debug */,
+				1F22190151AE524DFD1BF491 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BD9F6563D76CEC4ECE1B5F51 /* Project object */;
+}

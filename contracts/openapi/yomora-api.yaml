@@ -1,0 +1,496 @@
+openapi: 3.1.0
+info:
+  title: Yomora API
+  version: 1.0.0
+  description: API do MVP Yomora para constância de leitura, biblioteca e comunidade.
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Ambiente local
+security:
+  - bearerAuth: []
+tags:
+  - name: Auth
+  - name: Users
+  - name: Catalog
+  - name: Library
+  - name: Reading
+  - name: Social
+  - name: Reviews
+  - name: Moderation
+paths:
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Criar conta e iniciar sessão
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/RegisterRequest'}
+      responses:
+        '201': {description: Conta criada, content: {application/json: {schema: {$ref: '#/components/schemas/TokenPair'}}}}
+        '400': {$ref: '#/components/responses/Problem'}
+        '409': {$ref: '#/components/responses/Problem'}
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Entrar com e-mail e senha
+      security: []
+      requestBody: {$ref: '#/components/requestBodies/Login'}
+      responses:
+        '200': {description: Sessão criada, content: {application/json: {schema: {$ref: '#/components/schemas/TokenPair'}}}}
+        '401': {$ref: '#/components/responses/Problem'}
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Rotacionar refresh token
+      security: []
+      requestBody: {$ref: '#/components/requestBodies/RefreshToken'}
+      responses:
+        '200': {description: Novo par, content: {application/json: {schema: {$ref: '#/components/schemas/TokenPair'}}}}
+        '401': {$ref: '#/components/responses/Problem'}
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Revogar refresh token
+      requestBody: {$ref: '#/components/requestBodies/RefreshToken'}
+      responses:
+        '204': {description: Sessão encerrada}
+  /auth/password-reset/request:
+    post:
+      tags: [Auth]
+      summary: Solicitar recuperação sem enumerar contas
+      security: []
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [email], properties: {email: {type: string, format: email}}}}}
+      responses:
+        '202': {description: Solicitação aceita}
+  /auth/password-reset/confirm:
+    post:
+      tags: [Auth]
+      summary: Definir nova senha com token de uso único
+      security: []
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [token, newPassword], properties: {token: {type: string}, newPassword: {type: string, minLength: 8, maxLength: 72}}}}}
+      responses:
+        '204': {description: Senha alterada}
+        '401': {$ref: '#/components/responses/Problem'}
+  /users/me:
+    get:
+      tags: [Users]
+      summary: Consultar perfil autenticado
+      responses:
+        '200': {description: Perfil, content: {application/json: {schema: {$ref: '#/components/schemas/UserProfile'}}}}
+    patch:
+      tags: [Users]
+      summary: Editar perfil autenticado
+      requestBody:
+        required: true
+        content: {application/json: {schema: {$ref: '#/components/schemas/UpdateProfileRequest'}}}
+      responses:
+        '200': {description: Perfil atualizado, content: {application/json: {schema: {$ref: '#/components/schemas/UserProfile'}}}}
+        '409': {$ref: '#/components/responses/Problem'}
+    delete:
+      tags: [Users]
+      summary: Excluir conta e dados relacionados
+      responses:
+        '204': {description: Conta excluída}
+  /users/{id}:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    get:
+      tags: [Users]
+      summary: Consultar outro perfil
+      responses:
+        '200': {description: Perfil público, content: {application/json: {schema: {$ref: '#/components/schemas/UserProfile'}}}}
+        '404': {$ref: '#/components/responses/Problem'}
+  /users/{id}/follow:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    post:
+      tags: [Social]
+      summary: Seguir usuário
+      responses: {'204': {description: Seguindo}}
+    delete:
+      tags: [Social]
+      summary: Deixar de seguir
+      responses: {'204': {description: Seguimento removido}}
+  /users/{id}/followers:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    get:
+      tags: [Social]
+      summary: Listar identificadores dos seguidores
+      responses: {'200': {description: Seguidores, content: {application/json: {schema: {type: array, items: {type: string, format: uuid}}}}}}
+  /users/{id}/following:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    get:
+      tags: [Social]
+      summary: Listar identificadores seguidos
+      responses: {'200': {description: Seguindo, content: {application/json: {schema: {type: array, items: {type: string, format: uuid}}}}}}
+  /books/search:
+    get:
+      tags: [Catalog]
+      summary: Buscar por título, autor ou ISBN
+      security: []
+      parameters:
+        - {name: q, in: query, required: true, schema: {type: string, minLength: 1}}
+        - {name: language, in: query, schema: {type: string, default: pt}}
+        - {name: limit, in: query, schema: {type: integer, minimum: 1, maximum: 50, default: 20}}
+      responses:
+        '200': {description: Edições normalizadas, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Book'}}}}}
+        '503': {$ref: '#/components/responses/Problem'}
+  /books/{editionId}:
+    parameters: [{$ref: '#/components/parameters/EditionId'}]
+    get:
+      tags: [Catalog]
+      summary: Consultar uma edição
+      security: []
+      responses:
+        '200': {description: Edição, content: {application/json: {schema: {$ref: '#/components/schemas/Book'}}}}
+        '404': {$ref: '#/components/responses/Problem'}
+  /books/manual:
+    post:
+      tags: [Catalog]
+      summary: Cadastrar edição manualmente
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ManualBookRequest'}}}}
+      responses: {'201': {description: Livro criado, content: {application/json: {schema: {$ref: '#/components/schemas/Book'}}}}}
+  /library:
+    get:
+      tags: [Library]
+      summary: Listar biblioteca pessoal
+      parameters:
+        - {name: status, in: query, schema: {$ref: '#/components/schemas/ReadingStatus'}}
+        - {name: sort, in: query, schema: {type: string, enum: [addedAt, status, progress], default: addedAt}}
+      responses: {'200': {description: Biblioteca, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/LibraryBook'}}}}}}
+  /library/books:
+    post:
+      tags: [Library]
+      summary: Adicionar edição à biblioteca
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/AddLibraryBookRequest'}}}}
+      responses:
+        '201': {description: Adicionado, content: {application/json: {schema: {$ref: '#/components/schemas/LibraryBook'}}}}
+        '409': {$ref: '#/components/responses/Problem'}
+  /library/books/{id}:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    patch:
+      tags: [Library]
+      summary: Atualizar status, página, avaliação e meta
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/UpdateLibraryBookRequest'}}}}
+      responses: {'200': {description: Atualizado, content: {application/json: {schema: {$ref: '#/components/schemas/LibraryBook'}}}}}
+    delete:
+      tags: [Library]
+      summary: Remover da biblioteca
+      responses: {'204': {description: Removido}}
+  /shelves:
+    get:
+      tags: [Library]
+      summary: Listar estantes
+      responses: {'200': {description: Estantes, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Shelf'}}}}}}
+    post:
+      tags: [Library]
+      summary: Criar estante
+      requestBody: {$ref: '#/components/requestBodies/Shelf'}
+      responses: {'201': {description: Criada, content: {application/json: {schema: {$ref: '#/components/schemas/Shelf'}}}}}
+  /shelves/{id}:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    patch:
+      tags: [Library]
+      summary: Renomear ou alterar visibilidade da estante
+      requestBody: {$ref: '#/components/requestBodies/Shelf'}
+      responses: {'200': {description: Atualizada, content: {application/json: {schema: {$ref: '#/components/schemas/Shelf'}}}}}
+    delete:
+      tags: [Library]
+      summary: Excluir estante
+      responses: {'204': {description: Excluída}}
+  /shelves/{id}/books:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    post:
+      tags: [Library]
+      summary: Adicionar livro à estante
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [userBookId], properties: {userBookId: {type: string, format: uuid}}}}}}
+      responses: {'204': {description: Adicionado}}
+  /shelves/{id}/books/{userBookId}:
+    parameters:
+      - {$ref: '#/components/parameters/Id'}
+      - {name: userBookId, in: path, required: true, schema: {type: string, format: uuid}}
+    delete:
+      tags: [Library]
+      summary: Remover livro da estante
+      responses: {'204': {description: Removido}}
+  /reading-goals:
+    get:
+      tags: [Reading]
+      summary: Consultar metas
+      responses: {'200': {description: Metas, content: {application/json: {schema: {$ref: '#/components/schemas/ReadingGoal'}}}}}
+    put:
+      tags: [Reading]
+      summary: Criar ou substituir metas
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ReadingGoal'}}}}
+      responses: {'200': {description: Metas atualizadas, content: {application/json: {schema: {$ref: '#/components/schemas/ReadingGoal'}}}}}
+  /reading-sessions:
+    get:
+      tags: [Reading]
+      summary: Listar sessões
+      responses: {'200': {description: Sessões, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/ReadingSession'}}}}}}
+    post:
+      tags: [Reading]
+      summary: Iniciar sessão
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/StartSessionRequest'}}}}
+      responses: {'201': {description: Sessão iniciada, content: {application/json: {schema: {$ref: '#/components/schemas/ReadingSession'}}}}}
+  /reading-sessions/{id}/finish:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    patch:
+      tags: [Reading]
+      summary: Finalizar sessão e atualizar progresso
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [endPage], properties: {endPage: {type: integer, minimum: 0}, note: {type: [string, 'null'], maxLength: 2000}}}}}}
+      responses: {'200': {description: Resumo calculado, content: {application/json: {schema: {$ref: '#/components/schemas/SessionSummary'}}}}}
+  /statistics/summary:
+    get:
+      tags: [Reading]
+      summary: Consultar estatísticas e constância
+      responses: {'200': {description: Estatísticas, content: {application/json: {schema: {$ref: '#/components/schemas/Statistics'}}}}}
+  /notes:
+    get:
+      tags: [Reviews]
+      summary: Listar notas próprias de uma edição
+      parameters: [{$ref: '#/components/parameters/EditionIdQuery'}]
+      responses: {'200': {description: Notas, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Note'}}}}}}
+    post:
+      tags: [Reviews]
+      summary: Criar nota privada ou pública
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/NoteRequest'}}}}
+      responses: {'201': {description: Nota criada, content: {application/json: {schema: {$ref: '#/components/schemas/Note'}}}}}
+  /notes/{id}:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    delete:
+      tags: [Reviews]
+      summary: Excluir nota própria
+      responses: {'204': {description: Excluída}}
+  /reviews:
+    get:
+      tags: [Reviews]
+      summary: Listar reviews de uma obra
+      security: []
+      parameters: [{name: workId, in: query, required: true, schema: {type: string, format: uuid}}]
+      responses: {'200': {description: Reviews, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Review'}}}}}}
+    post:
+      tags: [Reviews]
+      summary: Criar ou substituir review principal
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ReviewRequest'}}}}
+      responses: {'201': {description: Review salva, content: {application/json: {schema: {$ref: '#/components/schemas/Review'}}}}}
+  /reviews/{id}:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    patch:
+      tags: [Reviews]
+      summary: Editar review própria
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/ReviewRequest'}}}}
+      responses: {'200': {description: Atualizada, content: {application/json: {schema: {$ref: '#/components/schemas/Review'}}}}}
+    delete:
+      tags: [Reviews]
+      summary: Excluir review própria
+      responses: {'204': {description: Excluída}}
+  /posts/feed:
+    get:
+      tags: [Social]
+      summary: Feed cronológico de pessoas seguidas
+      parameters: [{$ref: '#/components/parameters/Cursor'}, {$ref: '#/components/parameters/Limit'}]
+      responses: {'200': {description: Publicações, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Post'}}}}}}
+  /posts/discover:
+    get:
+      tags: [Social]
+      summary: Feed de descoberta por engajamento e data
+      parameters: [{$ref: '#/components/parameters/Cursor'}, {$ref: '#/components/parameters/Limit'}]
+      responses: {'200': {description: Publicações, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Post'}}}}}}
+  /posts:
+    post:
+      tags: [Social]
+      summary: Criar publicação
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/PostRequest'}}}}
+      responses: {'201': {description: Criada, content: {application/json: {schema: {$ref: '#/components/schemas/Post'}}}}}
+  /posts/{id}:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    get:
+      tags: [Social]
+      summary: Consultar publicação autorizada
+      responses: {'200': {description: Publicação, content: {application/json: {schema: {$ref: '#/components/schemas/Post'}}}}}
+    patch:
+      tags: [Social]
+      summary: Editar publicação própria
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/PostRequest'}}}}
+      responses: {'200': {description: Atualizada, content: {application/json: {schema: {$ref: '#/components/schemas/Post'}}}}}
+    delete:
+      tags: [Social]
+      summary: Excluir publicação própria
+      responses: {'204': {description: Excluída}}
+  /posts/{id}/likes:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    post:
+      tags: [Social]
+      summary: Curtir idempotentemente
+      responses: {'200': {description: Publicação atualizada, content: {application/json: {schema: {$ref: '#/components/schemas/Post'}}}}}
+    delete:
+      tags: [Social]
+      summary: Remover curtida
+      responses: {'200': {description: Publicação atualizada, content: {application/json: {schema: {$ref: '#/components/schemas/Post'}}}}}
+  /posts/{id}/comments:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    get:
+      tags: [Social]
+      summary: Listar comentários
+      security: []
+      responses: {'200': {description: Comentários, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Comment'}}}}}}
+    post:
+      tags: [Social]
+      summary: Comentar
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [text], properties: {text: {type: string, maxLength: 2000}}}}}}
+      responses: {'201': {description: Comentário, content: {application/json: {schema: {$ref: '#/components/schemas/Comment'}}}}}
+  /posts/{postId}/comments/{commentId}:
+    parameters:
+      - {name: postId, in: path, required: true, schema: {type: string, format: uuid}}
+      - {name: commentId, in: path, required: true, schema: {type: string, format: uuid}}
+    delete:
+      tags: [Social]
+      summary: Excluir comentário próprio
+      responses: {'204': {description: Excluído}}
+  /moderation/blocks/{userId}:
+    parameters: [{name: userId, in: path, required: true, schema: {type: string, format: uuid}}]
+    post:
+      tags: [Moderation]
+      summary: Bloquear usuário
+      responses: {'204': {description: Bloqueado}}
+    delete:
+      tags: [Moderation]
+      summary: Desbloquear usuário
+      responses: {'204': {description: Desbloqueado}}
+  /moderation/reports:
+    post:
+      tags: [Moderation]
+      summary: Denunciar usuário ou publicação
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [reason], properties: {reportedUserId: {type: [string, 'null'], format: uuid}, postId: {type: [string, 'null'], format: uuid}, reason: {type: string, maxLength: 100}, details: {type: [string, 'null'], maxLength: 2000}}}}}
+      responses: {'201': {description: Denúncia criada}}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
+  parameters:
+    Id: {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+    EditionId: {name: editionId, in: path, required: true, schema: {type: string, format: uuid}}
+    EditionIdQuery: {name: editionId, in: query, required: true, schema: {type: string, format: uuid}}
+    Cursor: {name: cursor, in: query, schema: {type: string, format: date-time}}
+    Limit: {name: limit, in: query, schema: {type: integer, minimum: 1, maximum: 50, default: 20}}
+  responses:
+    Problem:
+      description: Erro padronizado
+      content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}
+  requestBodies:
+    Login:
+      required: true
+      content: {application/json: {schema: {type: object, required: [email, password], properties: {email: {type: string, format: email}, password: {type: string}}}}}
+    RefreshToken:
+      required: true
+      content: {application/json: {schema: {type: object, required: [refreshToken], properties: {refreshToken: {type: string}}}}}
+    Shelf:
+      required: true
+      content: {application/json: {schema: {type: object, required: [name, publicShelf], properties: {name: {type: string, maxLength: 80}, publicShelf: {type: boolean}}}}}
+  schemas:
+    Problem:
+      type: object
+      properties: {type: {type: string, format: uri}, title: {type: string}, status: {type: integer}, detail: {type: string}, timestamp: {type: string, format: date-time}, errors: {type: object, additionalProperties: {type: string}}}
+    RegisterRequest:
+      type: object
+      required: [name, username, email, password]
+      properties: {name: {type: string, maxLength: 120}, username: {type: string, minLength: 3, maxLength: 40}, email: {type: string, format: email}, password: {type: string, minLength: 8, maxLength: 72}}
+    TokenPair:
+      type: object
+      required: [accessToken, refreshToken, tokenType, expiresIn]
+      properties: {accessToken: {type: string}, refreshToken: {type: string}, tokenType: {type: string, const: Bearer}, expiresIn: {type: integer}}
+    UpdateProfileRequest:
+      type: object
+      required: [name, username, bio, publicProfile]
+      properties: {name: {type: string}, username: {type: string}, bio: {type: string, maxLength: 500}, avatarUrl: {type: [string, 'null'], format: uri}, publicProfile: {type: boolean}}
+    UserProfile:
+      type: object
+      required: [id, name, username, bio, publicProfile, followers, following, finishedBooks, totalReadingMinutes, currentStreak, createdAt]
+      properties: {id: {type: string, format: uuid}, name: {type: string}, username: {type: string}, email: {type: [string, 'null'], format: email}, bio: {type: string}, avatarUrl: {type: [string, 'null']}, publicProfile: {type: boolean}, followers: {type: integer}, following: {type: integer}, finishedBooks: {type: integer}, totalReadingMinutes: {type: integer}, currentStreak: {type: integer}, createdAt: {type: string, format: date-time}}
+    Book:
+      type: object
+      required: [workId, editionId, title, description, authors, categories, language]
+      properties: {workId: {type: string, format: uuid}, editionId: {type: string, format: uuid}, title: {type: string}, description: {type: string}, authors: {type: array, items: {type: string}}, categories: {type: array, items: {type: string}}, isbn10: {type: [string, 'null']}, isbn13: {type: [string, 'null']}, publisher: {type: [string, 'null']}, publicationDate: {type: [string, 'null'], format: date}, language: {type: string}, pageCount: {type: [integer, 'null']}, coverUrl: {type: [string, 'null']}, externalProvider: {type: [string, 'null']}, externalId: {type: [string, 'null']}}
+    ManualBookRequest:
+      type: object
+      required: [title, authors, language]
+      properties:
+        title: {type: string, maxLength: 500}
+        description: {type: [string, 'null'], maxLength: 10000}
+        authors: {type: array, minItems: 1, items: {type: string}}
+        categories: {type: array, items: {type: string}}
+        isbn10: {type: [string, 'null']}
+        isbn13: {type: [string, 'null']}
+        publisher: {type: [string, 'null'], maxLength: 200}
+        publicationDate: {type: [string, 'null'], format: date}
+        language: {type: string, maxLength: 10}
+        pageCount: {type: [integer, 'null'], minimum: 1}
+        coverUrl: {type: [string, 'null'], maxLength: 1000}
+    ReadingStatus: {type: string, enum: [WANT_TO_READ, READING, PAUSED, FINISHED, ABANDONED]}
+    AddLibraryBookRequest:
+      type: object
+      required: [editionId]
+      properties: {editionId: {type: string, format: uuid}, status: {$ref: '#/components/schemas/ReadingStatus'}, targetFinishDate: {type: [string, 'null'], format: date}}
+    UpdateLibraryBookRequest:
+      type: object
+      properties: {status: {$ref: '#/components/schemas/ReadingStatus'}, currentPage: {type: integer, minimum: 0}, rating: {type: [integer, 'null'], minimum: 1, maximum: 5}, targetFinishDate: {type: [string, 'null'], format: date}}
+    LibraryBook:
+      type: object
+      required: [id, userId, editionId, status, currentPage, createdAt, updatedAt]
+      properties: {id: {type: string, format: uuid}, userId: {type: string, format: uuid}, editionId: {type: string, format: uuid}, status: {$ref: '#/components/schemas/ReadingStatus'}, currentPage: {type: integer}, startedAt: {type: [string, 'null'], format: date-time}, finishedAt: {type: [string, 'null'], format: date-time}, rating: {type: [integer, 'null']}, targetFinishDate: {type: [string, 'null'], format: date}, createdAt: {type: string, format: date-time}, updatedAt: {type: string, format: date-time}}
+    Shelf:
+      type: object
+      required: [id, userId, name, publicShelf, createdAt, updatedAt]
+      properties: {id: {type: string, format: uuid}, userId: {type: string, format: uuid}, name: {type: string}, publicShelf: {type: boolean}, createdAt: {type: string, format: date-time}, updatedAt: {type: string, format: date-time}}
+    ReadingGoal:
+      type: object
+      required: [dailyMinutes, weeklyDays]
+      properties: {dailyMinutes: {type: integer, minimum: 1, maximum: 1440}, weeklyDays: {type: integer, minimum: 1, maximum: 7}, dailyPages: {type: [integer, 'null'], minimum: 1}}
+    StartSessionRequest:
+      type: object
+      required: [userBookId, startPage]
+      properties: {userBookId: {type: string, format: uuid}, startPage: {type: integer, minimum: 0}, goalPages: {type: [integer, 'null'], minimum: 1}}
+    ReadingSession:
+      type: object
+      required: [id, userId, userBookId, startPage, startedAt]
+      properties: {id: {type: string, format: uuid}, userId: {type: string, format: uuid}, userBookId: {type: string, format: uuid}, startPage: {type: integer}, endPage: {type: [integer, 'null']}, goalPages: {type: [integer, 'null']}, startedAt: {type: string, format: date-time}, finishedAt: {type: [string, 'null'], format: date-time}, durationSeconds: {type: [integer, 'null']}, pagesRead: {type: [integer, 'null']}, note: {type: [string, 'null']}}
+    SessionSummary:
+      type: object
+      properties: {sessionId: {type: string, format: uuid}, durationMinutes: {type: integer}, pagesRead: {type: integer}, progressPercent: {type: number}, averagePagesPerHour: {type: number}, estimatedSessionsRemaining: {type: integer}, estimatedFinishDate: {type: [string, 'null'], format: date}, currentStreak: {type: integer}}
+    Statistics:
+      type: object
+      properties: {minutesToday: {type: integer}, minutesThisWeek: {type: integer}, pagesThisWeek: {type: integer}, daysReadLast30: {type: integer}, currentStreak: {type: integer}, bestStreak: {type: integer}, finishedBooksThisYear: {type: integer}, topGenres: {type: object, additionalProperties: {type: integer}}, totalSessions: {type: integer}, pacePercent: {type: number}}
+    NoteRequest:
+      type: object
+      required: [editionId, content, privateNote, spoiler]
+      properties: {editionId: {type: string, format: uuid}, content: {type: string, maxLength: 5000}, page: {type: [integer, 'null'], minimum: 0}, chapter: {type: [string, 'null']}, privateNote: {type: boolean}, spoiler: {type: boolean}}
+    Note:
+      allOf:
+        - {$ref: '#/components/schemas/NoteRequest'}
+        - {type: object, properties: {id: {type: string, format: uuid}, userId: {type: string, format: uuid}, postId: {type: [string, 'null'], format: uuid}, createdAt: {type: string, format: date-time}, updatedAt: {type: string, format: date-time}}}
+    ReviewRequest:
+      type: object
+      required: [workId, rating, text, spoiler]
+      properties: {workId: {type: string, format: uuid}, editionId: {type: [string, 'null'], format: uuid}, rating: {type: integer, minimum: 1, maximum: 5}, title: {type: [string, 'null'], maxLength: 200}, text: {type: string, maxLength: 5000}, spoiler: {type: boolean}}
+    Review:
+      allOf:
+        - {$ref: '#/components/schemas/ReviewRequest'}
+        - {type: object, properties: {id: {type: string, format: uuid}, userId: {type: string, format: uuid}, postId: {type: [string, 'null'], format: uuid}, createdAt: {type: string, format: date-time}, updatedAt: {type: string, format: date-time}}}
+    PostRequest:
+      type: object
+      required: [text, type, spoiler, visibility]
+      properties: {text: {type: string, maxLength: 5000}, editionId: {type: [string, 'null'], format: uuid}, type: {type: string, enum: [NOTE, REVIEW, RECOMMENDATION, PROGRESS, QUOTE]}, spoiler: {type: boolean}, spoilerPage: {type: [integer, 'null'], minimum: 0}, visibility: {type: string, enum: [PUBLIC, FOLLOWERS, PRIVATE]}}
+    Post:
+      allOf:
+        - {$ref: '#/components/schemas/PostRequest'}
+        - {type: object, properties: {id: {type: string, format: uuid}, authorId: {type: string, format: uuid}, createdAt: {type: string, format: date-time}, updatedAt: {type: string, format: date-time}, likeCount: {type: integer}, commentCount: {type: integer}}}
+    Comment:
+      type: object
+      properties: {id: {type: string, format: uuid}, postId: {type: string, format: uuid}, authorId: {type: string, format: uuid}, text: {type: string}, createdAt: {type: string, format: date-time}}
