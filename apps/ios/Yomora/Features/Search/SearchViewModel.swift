@@ -6,7 +6,7 @@ import Observation
 final class SearchViewModel {
     enum State: Equatable { case idle, loading, loaded, error(String) }
     var query = ""
-    var language = "pt"
+    var language = "por"
     private(set) var state: State = .idle
     private(set) var books: [Book] = []
     private let api: any APIClientProtocol

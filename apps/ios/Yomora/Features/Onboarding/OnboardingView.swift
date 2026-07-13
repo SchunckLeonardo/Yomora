@@ -12,7 +12,11 @@ struct OnboardingView: View {
             VStack {
                 HStack {
                     Spacer()
-                    if page < 2 { Button("Pular", action: onFinish).padding() }
+                    if page < 2 {
+                        Button("Pular", action: onFinish)
+                            .foregroundStyle(YomoraColor.primary)
+                            .padding()
+                    }
                 }
                 TabView(selection: $page) {
                     OnboardingPage(image: "book.pages", eyebrow: "CONSTÂNCIA",
@@ -23,7 +27,8 @@ struct OnboardingView: View {
                                    text: "Organize edições, estantes, notas e o próximo capítulo.").tag(1)
                     goalPage.tag(2)
                 }
-                .tabViewStyle(.page(indexDisplayMode: .always))
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                pageIndicator
                 PrimaryButton(title: page == 2 ? "Começar minha jornada" : "Continuar", systemImage: "arrow.right") {
                     if page < 2 { withAnimation { page += 1 } } else { onFinish() }
                 }
@@ -32,16 +37,42 @@ struct OnboardingView: View {
         }
     }
 
+    private var pageIndicator: some View {
+        HStack(spacing: YomoraSpacing.sm) {
+            ForEach(0..<3, id: \.self) { index in
+                Capsule()
+                    .fill(index == page ? YomoraColor.primary : YomoraColor.sereneTeal.opacity(0.25))
+                    .frame(width: index == page ? 24 : 8, height: 8)
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: page)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Página \(page + 1) de 3")
+    }
+
     private var goalPage: some View {
         VStack(spacing: 28) {
             Image(systemName: "target").font(.system(size: 68)).foregroundStyle(YomoraColor.progressGold)
-            Text("Uma meta que cabe\nno seu dia").font(.yomoraTitle).multilineTextAlignment(.center)
+            Text("Uma meta que cabe\nno seu dia")
+                .font(.yomoraTitle)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(YomoraColor.primary)
             VStack(spacing: 18) {
                 Stepper("\(dailyMinutes) minutos por dia", value: $dailyMinutes, in: 5...120, step: 5)
                 Stepper("\(weeklyDays) dias por semana", value: $weeklyDays, in: 1...7)
             }
-            .padding().background(.white.opacity(0.75), in: RoundedRectangle(cornerRadius: YomoraRadius.card))
-            Text("Você pode ajustar a qualquer momento. Sem culpa, só ritmo.").font(.subheadline).foregroundStyle(.secondary)
+            .foregroundStyle(YomoraColor.sepiaInk)
+            .tint(YomoraColor.sereneTeal)
+            .padding()
+            .background(Color.white.opacity(0.92), in: RoundedRectangle(cornerRadius: YomoraRadius.card))
+            .overlay {
+                RoundedRectangle(cornerRadius: YomoraRadius.card)
+                    .stroke(YomoraColor.sereneTeal.opacity(0.12))
+            }
+            .environment(\.colorScheme, .light)
+            Text("Você pode ajustar a qualquer momento. Sem culpa, só ritmo.")
+                .font(.subheadline)
+                .foregroundStyle(YomoraColor.muted)
         }
         .padding(28)
         .accessibilityElement(children: .contain)
