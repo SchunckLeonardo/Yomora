@@ -1,6 +1,7 @@
 import XCTest
 
 final class YomoraFlowUITests: XCTestCase {
+    @MainActor
     func testLoginSearchAddAndFinishReadingSession() {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--skip-onboarding"]
@@ -16,6 +17,7 @@ final class YomoraFlowUITests: XCTestCase {
         XCTAssertTrue(app.tabBars.buttons["Descobrir"].waitForExistence(timeout: 3))
         app.tabBars.buttons["Descobrir"].tap()
         let search = app.textFields["bookSearchField"]
+        XCTAssertTrue(search.waitForExistence(timeout: 3))
         search.tap(); search.typeText("biblioteca"); search.typeKey("\n", modifierFlags: [])
         XCTAssertTrue(app.staticTexts["A Biblioteca da Meia-Noite"].waitForExistence(timeout: 3))
         app.staticTexts["A Biblioteca da Meia-Noite"].tap()
@@ -32,4 +34,3 @@ final class YomoraFlowUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Sessão concluída"].waitForExistence(timeout: 3))
     }
 }
-

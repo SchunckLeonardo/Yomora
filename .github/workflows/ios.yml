@@ -14,10 +14,19 @@ jobs:
       - name: Generate project
         working-directory: apps/ios
         run: xcodegen generate
+      - name: Prepare Simulator
+        id: simulator
+        run: |
+          xcrun simctl list > /dev/null
+          simulator_id="$(xcrun simctl create 'Yomora CI' \
+            'com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro' \
+            'com.apple.CoreSimulator.SimRuntime.iOS-18-5')"
+          xcrun simctl boot "$simulator_id"
+          xcrun simctl bootstatus "$simulator_id" -b
+          echo "id=$simulator_id" >> "$GITHUB_OUTPUT"
       - name: Build and test
         working-directory: apps/ios
         run: >-
           xcodebuild test -project Yomora.xcodeproj -scheme Yomora
-          -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
+          -destination 'platform=iOS Simulator,id=${{ steps.simulator.outputs.id }}'
           CODE_SIGNING_ALLOWED=NO
-
