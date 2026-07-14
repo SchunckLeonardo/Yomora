@@ -15,6 +15,10 @@ final class TodayViewModel {
 
     init(api: any APIClientProtocol) { self.api = api }
 
+    func applyPersistedGoal(_ goal: ReadingGoal) {
+        self.goal = goal
+    }
+
     func load(defaultMinutes: Int, weeklyDays: Int) async {
         loadGeneration += 1
         let generation = loadGeneration

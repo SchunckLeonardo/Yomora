@@ -54,6 +54,10 @@ struct TodayView: View {
             }
         }
         .refreshable { await reload() }
+        .onReceive(NotificationCenter.default.publisher(for: .readingGoalDidChange)) { notification in
+            guard let goal = notification.object as? ReadingGoal else { return }
+            viewModel.applyPersistedGoal(goal)
+        }
         .task { if viewModel.state == .idle { await reload() } }
     }
 
@@ -77,4 +81,3 @@ struct TodayView: View {
 
     private func reload() async { await viewModel.load(defaultMinutes: dailyMinutes, weeklyDays: weeklyDays) }
 }
-

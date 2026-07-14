@@ -1,5 +1,9 @@
 import SwiftUI
 
+extension Notification.Name {
+    static let readingGoalDidChange = Notification.Name("app.yomora.readingGoalDidChange")
+}
+
 struct SettingsView: View {
     let container: AppContainer
     let session: SessionStore
@@ -34,7 +38,11 @@ struct SettingsView: View {
         struct Body: Encodable { let dailyMinutes: Int; let weeklyDays: Int; let dailyPages: Int? }
         var endpoint = Endpoint(path: "/api/v1/reading-goals", method: .put)
         endpoint.body = try? Endpoint.json(Body(dailyMinutes: dailyMinutes, weeklyDays: weeklyDays, dailyPages: nil))
-        _ = try? await container.api.send(endpoint, as: ReadingGoal.self)
+        if let savedGoal = try? await container.api.send(endpoint, as: ReadingGoal.self) {
+            dailyMinutes = savedGoal.dailyMinutes
+            weeklyDays = savedGoal.weeklyDays
+            NotificationCenter.default.post(name: .readingGoalDidChange, object: savedGoal)
+        }
     }
 }
 
@@ -49,4 +57,3 @@ private struct ThemeSelectionView: View {
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Concluir") { dismiss() } } }
     }
 }
-

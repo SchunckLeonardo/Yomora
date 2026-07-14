@@ -3,6 +3,17 @@ import XCTest
 
 @MainActor
 final class TodayViewModelTests: XCTestCase {
+    func testApplyingPersistedGoalUpdatesTheVisibleGoal() {
+        let viewModel = TodayViewModel(api: TodayAPIClient())
+
+        viewModel.applyPersistedGoal(
+            ReadingGoal(dailyMinutes: 25, weeklyDays: 5, dailyPages: nil)
+        )
+
+        XCTAssertEqual(viewModel.goal.dailyMinutes, 25)
+        XCTAssertEqual(viewModel.goal.weeklyDays, 5)
+    }
+
     func testCancelledRefreshKeepsLoadedContentVisible() async {
         let api = TodayAPIClient()
         let viewModel = TodayViewModel(api: api)
