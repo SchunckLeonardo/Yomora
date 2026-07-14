@@ -36,12 +36,12 @@ struct RootView: View {
 private struct SplashView: View {
     var body: some View {
         ZStack {
-            YomoraColor.warmPaper.ignoresSafeArea()
+            YomoraColor.canvas.ignoresSafeArea()
             VStack(spacing: 18) {
                 Image("Logo").resizable().scaledToFit().frame(width: 190, height: 190)
                 Text("Yomora").font(.system(size: 44, weight: .semibold, design: .serif)).foregroundStyle(YomoraColor.primary)
                 Text("Transformar livros começados em livros terminados.")
-                    .font(.yomoraEditorial).multilineTextAlignment(.center).foregroundStyle(YomoraColor.sepiaInk)
+                    .font(.yomoraEditorial).multilineTextAlignment(.center).foregroundStyle(YomoraColor.textSecondary)
                     .padding(.horizontal, 40)
             }
         }
@@ -49,4 +49,3 @@ private struct SplashView: View {
         .accessibilityLabel("Yomora. Transformar livros começados em livros terminados.")
     }
 }
-

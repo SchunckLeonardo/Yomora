@@ -46,7 +46,7 @@ struct LibraryView: View {
         .sheet(isPresented: $showingShelves) { NavigationStack { ShelfListView(api: container.api) } }
         .task(id: viewModel.filter) { await viewModel.load() }
         .refreshable { await viewModel.load() }
-        .background(YomoraColor.warmPaper.opacity(0.45))
+        .background(YomoraColor.canvas)
     }
 }
 
@@ -74,7 +74,7 @@ struct LibraryBookDetailsView: View {
                 Picker("Status", selection: $status) { ForEach(ReadingStatus.allCases, id: \.self) { Text($0.title).tag($0) } }
                 RatingView(rating: $rating)
                 PrimaryButton(title: "Salvar progresso", isLoading: saving) { Task { await save() } }
-                if let book {
+                if book != nil {
                     HStack {
                         Button { writingMode = .note } label: { Label("Criar nota", systemImage: "note.text") }.buttonStyle(.bordered)
                         Button { writingMode = .review } label: { Label("Escrever review", systemImage: "star.bubble") }.buttonStyle(.bordered)
@@ -83,8 +83,8 @@ struct LibraryBookDetailsView: View {
                 if status == .reading {
                     NavigationLink(value: AppRoute.reading(entry, title: book?.title ?? "Sua leitura")) {
                         Label("Iniciar sessão de leitura", systemImage: "timer")
-                            .font(.headline).frame(maxWidth: .infinity, minHeight: 52).foregroundStyle(.white)
-                            .background(YomoraColor.primary, in: RoundedRectangle(cornerRadius: YomoraRadius.button))
+                            .font(.headline).frame(maxWidth: .infinity, minHeight: 52).foregroundStyle(YomoraColor.onInteractive)
+                            .background(YomoraColor.interactiveFill, in: RoundedRectangle(cornerRadius: YomoraRadius.button))
                     }.accessibilityIdentifier("startReadingSessionButton")
                 }
                 if let book {

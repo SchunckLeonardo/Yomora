@@ -134,6 +134,23 @@ struct Post: Codable, Identifiable, Sendable, Equatable, Hashable {
     let updatedAt: String
     let likeCount: Int
     let commentCount: Int
+
+    func updatingEngagement(likeCount: Int? = nil, commentCount: Int? = nil) -> Post {
+        Post(
+            id: id,
+            authorId: authorId,
+            text: text,
+            editionId: editionId,
+            type: type,
+            spoiler: spoiler,
+            spoilerPage: spoilerPage,
+            visibility: visibility,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            likeCount: likeCount ?? self.likeCount,
+            commentCount: commentCount ?? self.commentCount
+        )
+    }
 }
 
 struct Comment: Codable, Identifiable, Sendable, Equatable {

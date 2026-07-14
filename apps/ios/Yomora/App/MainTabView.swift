@@ -57,7 +57,7 @@ private struct QuickReadView: View {
                 VStack { Text("Pronto para mais um capítulo?").font(.yomoraTitle).multilineTextAlignment(.center); Text(book.title).foregroundStyle(.secondary) }
                 NavigationLink(value: AppRoute.reading(entry, title: book.title)) {
                     Label("Iniciar leitura", systemImage: "play.fill").font(.headline).frame(maxWidth: .infinity, minHeight: 54)
-                        .foregroundStyle(.white).background(YomoraColor.primary, in: RoundedRectangle(cornerRadius: 14))
+                        .foregroundStyle(YomoraColor.onInteractive).background(YomoraColor.interactiveFill, in: RoundedRectangle(cornerRadius: 14))
                 }.accessibilityIdentifier("quickReadButton")
             } else {
                 EmptyStateView(title: "Nenhum livro em andamento", message: "Mude um livro para Lendo e ele aparecerá aqui.")
@@ -71,4 +71,3 @@ private struct QuickReadView: View {
         }
     }
 }
-

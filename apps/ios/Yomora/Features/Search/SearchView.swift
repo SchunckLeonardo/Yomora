@@ -17,7 +17,7 @@ struct SearchView: View {
                     .accessibilityIdentifier("bookSearchField")
                 if !viewModel.query.isEmpty { Button { viewModel.query = "" } label: { Image(systemName: "xmark.circle.fill") } }
             }
-            .padding().background(.background, in: RoundedRectangle(cornerRadius: 14)).padding()
+            .padding().background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: 14)).padding()
 
             Group {
                 switch viewModel.state {
@@ -44,7 +44,6 @@ struct SearchView: View {
             }
         }
         .navigationTitle("Descobrir")
-        .background(YomoraColor.warmPaper.opacity(0.45))
+        .background(YomoraColor.canvas)
     }
 }
-

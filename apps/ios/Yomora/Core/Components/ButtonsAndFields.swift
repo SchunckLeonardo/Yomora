@@ -16,8 +16,8 @@ struct PrimaryButton: View {
             .frame(maxWidth: .infinity, minHeight: 52)
         }
         .buttonStyle(.plain)
-        .foregroundStyle(.white)
-        .background(YomoraColor.primary, in: RoundedRectangle(cornerRadius: YomoraRadius.button))
+        .foregroundStyle(YomoraColor.onInteractive)
+        .background(YomoraColor.interactiveFill, in: RoundedRectangle(cornerRadius: YomoraRadius.button))
         .disabled(isLoading)
         .accessibilityLabel(title)
     }
@@ -30,7 +30,7 @@ struct SecondaryButton: View {
         Button(title, action: action)
             .font(.headline)
             .frame(maxWidth: .infinity, minHeight: 50)
-            .foregroundStyle(YomoraColor.primary)
+            .foregroundStyle(YomoraColor.sereneTeal)
             .background(.clear, in: RoundedRectangle(cornerRadius: YomoraRadius.button))
             .overlay(RoundedRectangle(cornerRadius: YomoraRadius.button).stroke(YomoraColor.sereneTeal))
     }
@@ -52,9 +52,8 @@ struct YomoraTextField: View {
             }
             .padding(.horizontal, 14)
             .frame(minHeight: 50)
-            .background(.background, in: RoundedRectangle(cornerRadius: YomoraRadius.button))
-            .overlay(RoundedRectangle(cornerRadius: YomoraRadius.button).stroke(.secondary.opacity(0.25)))
+            .background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: YomoraRadius.button))
+            .overlay(RoundedRectangle(cornerRadius: YomoraRadius.button).stroke(YomoraColor.outline))
         }
     }
 }
-

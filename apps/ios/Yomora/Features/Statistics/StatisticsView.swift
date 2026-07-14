@@ -26,11 +26,10 @@ struct StatisticsView: View {
         }
         .navigationTitle("Estatísticas")
         .task { statistics = try? await api.send(Endpoint(path: "/api/v1/statistics/summary"), as: StatisticsSummary.self) }
-        .background(YomoraColor.warmPaper.opacity(0.45))
+        .background(YomoraColor.canvas)
     }
     private func tile(_ title: String, _ value: String, _ icon: String) -> some View {
         VStack(alignment: .leading, spacing: 9) { Image(systemName: icon).foregroundStyle(YomoraColor.progressGold); Text(value).font(.title2.bold()); Text(title).font(.caption).foregroundStyle(.secondary) }
-            .frame(maxWidth: .infinity, minHeight: 110, alignment: .leading).padding().background(.background, in: RoundedRectangle(cornerRadius: 16))
+            .frame(maxWidth: .infinity, minHeight: 110, alignment: .leading).padding().background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: 16))
     }
 }
-

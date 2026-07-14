@@ -43,7 +43,7 @@ struct AuthenticationView: View {
                 }
                 .padding(24)
             }
-            .background(YomoraColor.warmPaper)
+            .background(YomoraColor.canvas)
             .sheet(isPresented: $showingReset) { PasswordResetView(session: session) }
         }
     }

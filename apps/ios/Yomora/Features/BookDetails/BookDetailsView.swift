@@ -42,7 +42,7 @@ struct BookDetailsView: View {
         }
         .navigationTitle("Detalhes")
         .navigationBarTitleDisplayMode(.inline)
-        .background(YomoraColor.warmPaper.opacity(0.45))
+        .background(YomoraColor.canvas)
     }
 
     @MainActor
@@ -58,4 +58,3 @@ struct BookDetailsView: View {
         adding = false
     }
 }
-

@@ -46,7 +46,7 @@ struct TodayView: View {
             }
             .padding()
         }
-        .background(YomoraColor.warmPaper.opacity(0.55))
+        .background(YomoraColor.canvas)
         .navigationTitle("Yomora")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -71,7 +71,7 @@ struct TodayView: View {
             Spacer()
             Text("\(Int(viewModel.statistics?.pacePercent ?? 0))%").font(.title2.bold()).foregroundStyle(YomoraColor.progressGold)
         }
-        .padding().background(.background, in: RoundedRectangle(cornerRadius: YomoraRadius.card))
+        .padding().background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: YomoraRadius.card))
     }
 
     private func progress(entry: LibraryBook, book: Book) -> Double {

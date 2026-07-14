@@ -42,7 +42,8 @@ struct BookCard: View {
             Spacer(minLength: 0)
         }
         .padding(YomoraSpacing.md)
-        .background(.background, in: RoundedRectangle(cornerRadius: YomoraRadius.card))
+        .background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: YomoraRadius.card))
+        .overlay(RoundedRectangle(cornerRadius: YomoraRadius.card).stroke(YomoraColor.outline.opacity(0.5)))
         .shadow(color: .black.opacity(0.06), radius: 10, y: 4)
         .accessibilityElement(children: .combine)
     }
@@ -84,4 +85,3 @@ struct RatingView: View {
         }
     }
 }
-

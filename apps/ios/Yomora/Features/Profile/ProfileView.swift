@@ -62,7 +62,7 @@ struct ProfileView: View {
     }
     private func stat(_ value: String, _ label: String, _ icon: String) -> some View {
         VStack { Image(systemName: icon).foregroundStyle(YomoraColor.progressGold); Text(value).font(.title2.bold()); Text(label).font(.caption) }
-            .frame(maxWidth: .infinity, minHeight: 110).background(.background, in: RoundedRectangle(cornerRadius: 16))
+            .frame(maxWidth: .infinity, minHeight: 110).background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: 16))
     }
 }
 
@@ -112,4 +112,3 @@ struct FollowersView: View {
             .task { users = (try? await api.send(Endpoint(path: "/api/v1/users/\(userId)/followers"), as: [UUID].self)) ?? [] }
     }
 }
-

@@ -10,14 +10,14 @@
     "semantic_hash": "2fe1929d1cd31e8a14645e452b2d32ce"
   },
   "Yomora/App/MainTabView.swift": {
-    "mtime": 1783961477.0,
-    "ast_hash": "1858eda268d16ac8b0f9e5560a43c65f",
-    "semantic_hash": "1858eda268d16ac8b0f9e5560a43c65f"
+    "mtime": 1784045880.792057,
+    "ast_hash": "6031d2c3de36a64c2d87d01e435266e2",
+    "semantic_hash": ""
   },
   "Yomora/App/RootView.swift": {
-    "mtime": 1783961085.0,
-    "ast_hash": "d50c6caf0bc50ad1e5ead7d893af923e",
-    "semantic_hash": "d50c6caf0bc50ad1e5ead7d893af923e"
+    "mtime": 1784045880.666517,
+    "ast_hash": "f817c21872e3045f56f72c69dae76100",
+    "semantic_hash": ""
   },
   "Yomora/App/SessionStore.swift": {
     "mtime": 1783961488.0,
@@ -35,24 +35,24 @@
     "semantic_hash": "087f6816a8cb5772579caf053fbb7c73"
   },
   "Yomora/Core/Components/BookComponents.swift": {
-    "mtime": 1783961038.0,
-    "ast_hash": "d9d8a44d5444734c96e4f1639ea03c9b",
-    "semantic_hash": "d9d8a44d5444734c96e4f1639ea03c9b"
+    "mtime": 1784045879.6498702,
+    "ast_hash": "492de691ab5ad37d09898f661b333c9e",
+    "semantic_hash": ""
   },
   "Yomora/Core/Components/ButtonsAndFields.swift": {
-    "mtime": 1783961038.0,
-    "ast_hash": "7715d7df81c42d37ef6148cff0b70d30",
-    "semantic_hash": "7715d7df81c42d37ef6148cff0b70d30"
+    "mtime": 1784045879.52445,
+    "ast_hash": "4fb1d32271c5e69ceac1f3f10d34bca0",
+    "semantic_hash": ""
   },
   "Yomora/Core/Components/StateAndSocialComponents.swift": {
-    "mtime": 1783961038.0,
-    "ast_hash": "9dd2c0a1c2d7f24951c6e922910c3992",
-    "semantic_hash": "9dd2c0a1c2d7f24951c6e922910c3992"
+    "mtime": 1784045783.1609337,
+    "ast_hash": "f29fc660d8aca283aca2507fc2f10a4e",
+    "semantic_hash": ""
   },
   "Yomora/Core/DesignSystem/YomoraDesign.swift": {
-    "mtime": 1783961037.0,
-    "ast_hash": "b64225c810691f2b7947a4159d983aeb",
-    "semantic_hash": "b64225c810691f2b7947a4159d983aeb"
+    "mtime": 1784045917.348258,
+    "ast_hash": "17a804943c3f37f18a2f4b99448c344f",
+    "semantic_hash": ""
   },
   "Yomora/Core/Networking/APIClient.swift": {
     "mtime": 1783960963.0,
@@ -60,9 +60,9 @@
     "semantic_hash": "df9034682ab7ae1484e7d6f696d52bde"
   },
   "Yomora/Core/Networking/APIModels.swift": {
-    "mtime": 1783962233.0,
-    "ast_hash": "e114fe5f53107ae8d7c34f61257c1d78",
-    "semantic_hash": "e114fe5f53107ae8d7c34f61257c1d78"
+    "mtime": 1784045724.2188623,
+    "ast_hash": "74a62c56cf6a74bf275d73f35071cf8f",
+    "semantic_hash": ""
   },
   "Yomora/Core/Networking/Endpoint.swift": {
     "mtime": 1783960963.0,
@@ -90,29 +90,29 @@
     "semantic_hash": "9999220984dc8df7adb2161d0d5af042"
   },
   "Yomora/Features/Authentication/AuthenticationView.swift": {
-    "mtime": 1783961488.0,
-    "ast_hash": "481b303faa101a3afe59ce156fc1ae61",
-    "semantic_hash": "481b303faa101a3afe59ce156fc1ae61"
+    "mtime": 1784045880.541829,
+    "ast_hash": "61527c001f2c9df927a312e13c39a454",
+    "semantic_hash": ""
   },
   "Yomora/Features/BookDetails/BookDetailsView.swift": {
-    "mtime": 1783961203.0,
-    "ast_hash": "74d437c117993616e17934d62fca30b9",
-    "semantic_hash": "74d437c117993616e17934d62fca30b9"
+    "mtime": 1784045880.1668115,
+    "ast_hash": "7cca486b48358cae4e278dbdca6d76bc",
+    "semantic_hash": ""
   },
   "Yomora/Features/Feed/FeedView.swift": {
-    "mtime": 1783961347.0,
-    "ast_hash": "f899f9315fab39c671197f7da6509b07",
-    "semantic_hash": "f899f9315fab39c671197f7da6509b07"
+    "mtime": 1784046598.2555296,
+    "ast_hash": "267d76bd860a55abeac999a97e292e12",
+    "semantic_hash": ""
   },
   "Yomora/Features/Feed/FeedViewModel.swift": {
-    "mtime": 1783961347.0,
-    "ast_hash": "ab1ecfdb4db3f96c8ce226cf76c92a8c",
-    "semantic_hash": "ab1ecfdb4db3f96c8ce226cf76c92a8c"
+    "mtime": 1784046610.6232114,
+    "ast_hash": "4e16abda886ad2a84077f4e1c67224d3",
+    "semantic_hash": ""
   },
   "Yomora/Features/Library/LibraryView.swift": {
-    "mtime": 1783961445.0,
-    "ast_hash": "85f2f919d907ccd4f007c2387a9edc6d",
-    "semantic_hash": "85f2f919d907ccd4f007c2387a9edc6d"
+    "mtime": 1784046428.1475549,
+    "ast_hash": "4644e820a9470479390543197d87ddd4",
+    "semantic_hash": ""
   },
   "Yomora/Features/Library/LibraryViewModel.swift": {
     "mtime": 1783961252.0,
@@ -130,14 +130,14 @@
     "semantic_hash": "c171c55dc2490c85e9173fba8226769d"
   },
   "Yomora/Features/Profile/ProfileView.swift": {
-    "mtime": 1783961407.0,
-    "ast_hash": "c724ea401c1230d65c96f31ac46c8234",
-    "semantic_hash": "c724ea401c1230d65c96f31ac46c8234"
+    "mtime": 1784045880.4193308,
+    "ast_hash": "2c8c27d4f420c51324026252da059874",
+    "semantic_hash": ""
   },
   "Yomora/Features/ReadingSession/ReadingSessionView.swift": {
-    "mtime": 1783961304.0,
-    "ast_hash": "dc7a5e5eb2e2a8a85744bc5bddf2d9f9",
-    "semantic_hash": "dc7a5e5eb2e2a8a85744bc5bddf2d9f9"
+    "mtime": 1784045917.5657609,
+    "ast_hash": "3b490df4913c865d24d2bff536ea0688",
+    "semantic_hash": ""
   },
   "Yomora/Features/ReadingSession/ReadingSessionViewModel.swift": {
     "mtime": 1783961304.0,
@@ -145,9 +145,9 @@
     "semantic_hash": "ccd25ce68bf58b679d66110979e5adbe"
   },
   "Yomora/Features/Search/SearchView.swift": {
-    "mtime": 1783961203.0,
-    "ast_hash": "ca35d948509a33ca6e11bdb77e8f99b2",
-    "semantic_hash": "ca35d948509a33ca6e11bdb77e8f99b2"
+    "mtime": 1784045879.9032528,
+    "ast_hash": "3d85b91d30c339794c52e02f827c3232",
+    "semantic_hash": ""
   },
   "Yomora/Features/Search/SearchViewModel.swift": {
     "mtime": 1783971539.0600677,
@@ -160,13 +160,13 @@
     "semantic_hash": ""
   },
   "Yomora/Features/Statistics/StatisticsView.swift": {
-    "mtime": 1783961407.0,
-    "ast_hash": "3c934b974984933af5bc801506ad51d5",
-    "semantic_hash": "3c934b974984933af5bc801506ad51d5"
+    "mtime": 1784045880.290114,
+    "ast_hash": "6e557b3bee1e944293fc821cf61489dd",
+    "semantic_hash": ""
   },
   "Yomora/Features/Today/TodayView.swift": {
-    "mtime": 1784042651.5565023,
-    "ast_hash": "939322192917e13be42aa1fc98539f22",
+    "mtime": 1784045879.777076,
+    "ast_hash": "fcc1f66b82cf146210f7cfa1ecc95272",
     "semantic_hash": ""
   },
   "Yomora/Features/Today/TodayViewModel.swift": {
@@ -220,9 +220,9 @@
     "semantic_hash": "548e9fea83f1ddc4ba1eddd9cd7c231b"
   },
   "YomoraTests/TokenAndNavigationTests.swift": {
-    "mtime": 1783962233.0,
-    "ast_hash": "e1b1c635138b09dba2be37feeeadab47",
-    "semantic_hash": "e1b1c635138b09dba2be37feeeadab47"
+    "mtime": 1784045602.9768844,
+    "ast_hash": "0437e645924122c861f6781ca2f3c0f4",
+    "semantic_hash": ""
   },
   "YomoraUITests/YomoraFlowUITests.swift": {
     "mtime": 1783992474.8178072,

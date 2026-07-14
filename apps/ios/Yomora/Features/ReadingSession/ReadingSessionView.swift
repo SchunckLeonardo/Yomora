@@ -12,7 +12,7 @@ struct ReadingSessionView: View {
 
     var body: some View {
         ZStack {
-            YomoraColor.primary.ignoresSafeArea()
+            YomoraColor.focusBackground.ignoresSafeArea()
             VStack(spacing: 28) {
                 Text("MODO FOCO").font(.caption.weight(.bold)).tracking(3).foregroundStyle(YomoraColor.progressGold)
                 Text(title).font(.yomoraHeading).multilineTextAlignment(.center).foregroundStyle(.white)
@@ -96,7 +96,6 @@ struct SessionSummaryView: View {
 
     private func metric(_ label: String, _ value: String, _ icon: String) -> some View {
         VStack(spacing: 8) { Image(systemName: icon).foregroundStyle(YomoraColor.progressGold); Text(value).font(.title3.bold()); Text(label).font(.caption).foregroundStyle(.secondary) }
-            .frame(maxWidth: .infinity, minHeight: 110).background(.background, in: RoundedRectangle(cornerRadius: 16))
+            .frame(maxWidth: .infinity, minHeight: 110).background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: 16))
     }
 }
-
