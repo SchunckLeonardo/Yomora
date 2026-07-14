@@ -220,8 +220,8 @@
     "semantic_hash": "548e9fea83f1ddc4ba1eddd9cd7c231b"
   },
   "YomoraTests/TokenAndNavigationTests.swift": {
-    "mtime": 1784047332.1091566,
-    "ast_hash": "b858e6e3e09653a334720424f1612624",
+    "mtime": 1784051119.4431553,
+    "ast_hash": "0016bbefde5e186d513e98e788c862a0",
     "semantic_hash": ""
   },
   "YomoraUITests/YomoraFlowUITests.swift": {
@@ -230,9 +230,9 @@
     "semantic_hash": ""
   },
   "project.yml": {
-    "mtime": 1783961820.0,
-    "ast_hash": "ab99751949205ca829153f2d6a2c96ac",
-    "semantic_hash": "ab99751949205ca829153f2d6a2c96ac"
+    "mtime": 1784051571.789798,
+    "ast_hash": "aee3329e4e10fd5c516a75cedf6c1c2d",
+    "semantic_hash": ""
   },
   "Yomora/Resources/Assets.xcassets/AppIcon.appiconset/app-icon.png": {
     "mtime": 1783961537.0,
@@ -247,6 +247,11 @@
   "YomoraTests/TodayViewModelTests.swift": {
     "mtime": 1784042601.4464622,
     "ast_hash": "c7aeff25ea438a0c16197c94c222fec8",
+    "semantic_hash": ""
+  },
+  "Config/README.md": {
+    "mtime": 1784051234.9226694,
+    "ast_hash": "b5e8cad68c7de400d2371fdb8fbe7001",
     "semantic_hash": ""
   }
 }

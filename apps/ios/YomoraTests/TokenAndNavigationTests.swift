@@ -86,6 +86,16 @@ final class KeyboardLayoutTests: XCTestCase {
     }
 }
 
+final class AppConfigurationTests: XCTestCase {
+    func testApplicationBundleContainsAValidAPIBaseURL() throws {
+        let configured = try XCTUnwrap(Bundle.main.object(forInfoDictionaryKey: "API_BASE_URL") as? String)
+        let url = try XCTUnwrap(URL(string: configured))
+
+        XCTAssertNotNil(url.scheme)
+        XCTAssertNotNil(url.host)
+    }
+}
+
 @MainActor
 final class FeedViewModelTests: XCTestCase {
     func testLikeActionTogglesVisualStateAndUsesMatchingEndpointMethods() async {
