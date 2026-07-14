@@ -83,6 +83,7 @@
 		43F012DB798F4CEEFE0E9D8C /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
 		441653B834F985A0E8CAB165 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		469CA01C69C3A81A7B3328E5 /* YomoraFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomoraFlowUITests.swift; sourceTree = "<group>"; };
+		4856F971E7EA4C2108C665E5 /* Info.plist.example */ = {isa = PBXFileReference; path = Info.plist.example; sourceTree = "<group>"; };
 		4A4356C26FF119225726CC95 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		4AA224813C98DC6C8F6A4B1B /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
 		4D62EAC9C1119F57DB91FE9F /* ReadingSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSessionView.swift; sourceTree = "<group>"; };
@@ -90,10 +91,12 @@
 		5AF9D7C8E9C360F2DA34A552 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		5D221F30ED68C38B71E9C9C6 /* YomoraTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = YomoraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FADE4E85DC24816DDAB5381 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		62E1B486AAF2CC417CF58CCF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		641DDE9B2C93EB3C8169B481 /* ReadingActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingActivityManager.swift; sourceTree = "<group>"; };
 		64C777EA9DB2E2D16D006021 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		64D4213BB11A57B3EDE26A45 /* ReadingSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSessionViewModel.swift; sourceTree = "<group>"; };
 		66E138AC3452DFF89F5F6D39 /* ReadingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingTimer.swift; sourceTree = "<group>"; };
+		6FF7AE1FEFAD5B187E9E8C53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		712488C29CC9427C04389DBE /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		72B4AF61B271E64A2F631383 /* BookDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailsView.swift; sourceTree = "<group>"; };
 		77C8134F230B3D994F573229 /* YomoraDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomoraDesign.swift; sourceTree = "<group>"; };
@@ -140,6 +143,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		20FD2DDB800E105065AE1A6F /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				6FF7AE1FEFAD5B187E9E8C53 /* Info.plist */,
+				4856F971E7EA4C2108C665E5 /* Info.plist.example */,
+				62E1B486AAF2CC417CF58CCF /* README.md */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		24AEDD1F1597292F80005E04 /* YomoraUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +164,7 @@
 		25E068BDFE09B9DD7D326D97 = {
 			isa = PBXGroup;
 			children = (
+				20FD2DDB800E105065AE1A6F /* Config */,
 				78A011A63AEFD298BA668803 /* Yomora */,
 				B2EF389E6BAB8A6F1CC30DB8 /* YomoraTests */,
 				24AEDD1F1597292F80005E04 /* YomoraUITests */,

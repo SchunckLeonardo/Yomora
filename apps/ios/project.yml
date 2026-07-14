@@ -4,6 +4,8 @@ options:
   deploymentTarget:
     iOS: "17.0"
   xcodeVersion: "16.0"
+fileGroups:
+  - Config
 settings:
   base:
     SWIFT_VERSION: "6.0"
