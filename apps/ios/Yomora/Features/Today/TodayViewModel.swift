@@ -11,22 +11,40 @@ final class TodayViewModel {
     private(set) var featuredBook: Book?
     private(set) var goal = ReadingGoal(dailyMinutes: 20, weeklyDays: 5, dailyPages: nil)
     private let api: any APIClientProtocol
+    private var loadGeneration = 0
 
     init(api: any APIClientProtocol) { self.api = api }
 
     func load(defaultMinutes: Int, weeklyDays: Int) async {
-        state = .loading
+        loadGeneration += 1
+        let generation = loadGeneration
+        let previousState = state
+        if previousState != .loaded { state = .loading }
         do {
             async let stats = api.send(Endpoint(path: "/api/v1/statistics/summary"), as: StatisticsSummary.self)
             async let books = api.send(Endpoint(path: "/api/v1/library"), as: [LibraryBook].self)
-            statistics = try await stats
-            library = try await books
-            goal = await loadGoal(defaultMinutes: defaultMinutes, weeklyDays: weeklyDays)
-            if let editionId = library.first(where: { $0.status == .reading })?.editionId {
-                featuredBook = try? await api.send(Endpoint(path: "/api/v1/books/\(editionId)"), as: Book.self)
+            let newStatistics = try await stats
+            let newLibrary = try await books
+            let newGoal = await loadGoal(defaultMinutes: defaultMinutes, weeklyDays: weeklyDays)
+            var newFeaturedBook: Book?
+            if let editionId = newLibrary.first(where: { $0.status == .reading })?.editionId {
+                newFeaturedBook = try? await api.send(Endpoint(path: "/api/v1/books/\(editionId)"), as: Book.self)
             }
+            try Task.checkCancellation()
+            guard generation == loadGeneration else { return }
+            statistics = newStatistics
+            library = newLibrary
+            goal = newGoal
+            featuredBook = newFeaturedBook
             state = .loaded
-        } catch { state = .error(error.localizedDescription) }
+        } catch {
+            guard generation == loadGeneration else { return }
+            state = Self.isCancellation(error) ? previousState : .error(error.localizedDescription)
+        }
+    }
+
+    private static func isCancellation(_ error: Error) -> Bool {
+        error is CancellationError || (error as? URLError)?.code == .cancelled
     }
 
     private func loadGoal(defaultMinutes: Int, weeklyDays: Int) async -> ReadingGoal {
@@ -39,4 +57,3 @@ final class TodayViewModel {
         return (try? await api.send(endpoint, as: ReadingGoal.self)) ?? goal
     }
 }
-

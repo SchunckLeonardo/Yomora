@@ -122,7 +122,7 @@
   "Yomora/Features/Onboarding/OnboardingView.swift": {
     "mtime": 1783971505.6460621,
     "ast_hash": "ccc48241a67165f2082a0cdf83a97367",
-    "semantic_hash": "ccc48241a67165f2082a0cdf83a97367"
+    "semantic_hash": ""
   },
   "Yomora/Features/PostComposer/PostComposerView.swift": {
     "mtime": 1783961347.0,
@@ -152,7 +152,7 @@
   "Yomora/Features/Search/SearchViewModel.swift": {
     "mtime": 1783971539.0600677,
     "ast_hash": "d446ac0c823bf08f158b1b5301d1858e",
-    "semantic_hash": "d446ac0c823bf08f158b1b5301d1858e"
+    "semantic_hash": ""
   },
   "Yomora/Features/Settings/SettingsView.swift": {
     "mtime": 1783961407.0,
@@ -170,9 +170,9 @@
     "semantic_hash": "fb3ece774c09c9a4bc210fbb10a62a1b"
   },
   "Yomora/Features/Today/TodayViewModel.swift": {
-    "mtime": 1783961167.0,
-    "ast_hash": "2f07374dd4d09cbf9eda4e6ebb8a5197",
-    "semantic_hash": "2f07374dd4d09cbf9eda4e6ebb8a5197"
+    "mtime": 1783994648.3881276,
+    "ast_hash": "568eaf37d4938dbed13741cf0e92faca",
+    "semantic_hash": ""
   },
   "Yomora/Resources/Assets.xcassets/AccentColor.colorset/Contents.json": {
     "mtime": 1783960881.0,
@@ -227,21 +227,26 @@
   "YomoraUITests/YomoraFlowUITests.swift": {
     "mtime": 1783992474.8178072,
     "ast_hash": "e5dedba4230d6a3664da977d6d8f684f",
-    "semantic_hash": "e5dedba4230d6a3664da977d6d8f684f"
+    "semantic_hash": ""
   },
   "project.yml": {
-    "mtime": 1783961820.3447082,
+    "mtime": 1783961820.0,
     "ast_hash": "ab99751949205ca829153f2d6a2c96ac",
     "semantic_hash": "ab99751949205ca829153f2d6a2c96ac"
   },
   "Yomora/Resources/Assets.xcassets/AppIcon.appiconset/app-icon.png": {
-    "mtime": 1783961537.2100341,
+    "mtime": 1783961537.0,
     "ast_hash": "aeff12bbfeca4bad1c6d48d544a5eaa0",
     "semantic_hash": "aeff12bbfeca4bad1c6d48d544a5eaa0"
   },
   "Yomora/Resources/Assets.xcassets/Logo.imageset/logo.png": {
-    "mtime": 1783960860.4787707,
+    "mtime": 1783960860.0,
     "ast_hash": "aeff12bbfeca4bad1c6d48d544a5eaa0",
     "semantic_hash": "aeff12bbfeca4bad1c6d48d544a5eaa0"
+  },
+  "YomoraTests/TodayViewModelTests.swift": {
+    "mtime": 1783994569.3397903,
+    "ast_hash": "63487446f71b9395bec95599d5017d9a",
+    "semantic_hash": ""
   }
 }
