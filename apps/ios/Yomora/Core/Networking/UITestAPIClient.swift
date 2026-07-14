@@ -7,6 +7,8 @@ actor UITestAPIClient: APIClientProtocol {
     private let editionId = UUID(uuidString: "30000000-0000-0000-0000-000000000001")!
     private let libraryId = UUID(uuidString: "40000000-0000-0000-0000-000000000001")!
     private let sessionId = UUID(uuidString: "60000000-0000-0000-0000-000000000001")!
+    private let postId = UUID(uuidString: "70000000-0000-0000-0000-000000000001")!
+    private let commentId = UUID(uuidString: "80000000-0000-0000-0000-000000000001")!
     private var libraryAdded = false
 
     func send<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T {
@@ -42,7 +44,9 @@ actor UITestAPIClient: APIClientProtocol {
                                    progressPercent: 35, averagePagesPerHour: 30, estimatedSessionsRemaining: 17,
                                    estimatedFinishDate: "2026-08-02", currentStreak: 8)
         case (.get, "/api/v1/posts/feed"), (.get, "/api/v1/posts/discover"):
-            value = [Post]()
+            value = [post]
+        case (.get, "/api/v1/posts/\(postId)/comments"):
+            value = [comment]
         case (.get, "/api/v1/shelves"):
             value = [Shelf]()
         default:
@@ -65,6 +69,18 @@ actor UITestAPIClient: APIClientProtocol {
         LibraryBook(id: libraryId, userId: userId, editionId: editionId, status: .reading, currentPage: 96,
                     startedAt: "2026-07-01T12:00:00Z", finishedAt: nil, rating: nil, targetFinishDate: nil,
                     createdAt: "2026-07-01T12:00:00Z", updatedAt: "2026-07-13T12:00:00Z")
+    }
+
+    private var post: Post {
+        Post(id: postId, authorId: userId, text: "Uma leitura acolhedora sobre recomeços. Recomendo!",
+             editionId: editionId, type: .recommendation, spoiler: false, spoilerPage: nil,
+             visibility: .publicPost, createdAt: "2026-07-14T12:00:00Z", updatedAt: "2026-07-14T12:00:00Z",
+             likeCount: 1, commentCount: 1)
+    }
+
+    private var comment: Comment {
+        Comment(id: commentId, postId: postId, authorId: userId, text: "Concordo!",
+                createdAt: "2026-07-14T12:05:00Z")
     }
 }
 

@@ -1,4 +1,11 @@
 import SwiftUI
+import UIKit
+
+enum KeyboardLayout {
+    static func bottomInset(screenHeight: CGFloat, keyboardMinY: CGFloat, bottomSafeArea: CGFloat) -> CGFloat {
+        max(0, screenHeight - keyboardMinY - bottomSafeArea)
+    }
+}
 
 struct FeedView: View {
     let container: AppContainer
@@ -76,6 +83,7 @@ struct PostDetailsView: View {
     @State private var isSending = false
     @State private var interactionError: String?
     @State private var highlightedCommentID: UUID?
+    @State private var keyboardBottomInset: CGFloat = 0
     @FocusState private var isComposerFocused: Bool
 
     init(
@@ -92,71 +100,84 @@ struct PostDetailsView: View {
     }
 
     var body: some View {
-        ScrollViewReader { proxy in
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: YomoraSpacing.md) {
-                    PostCard(
-                        post: currentPost,
-                        isLiked: isLiked,
-                        onLike: { Task { await toggleLike() } },
-                        onComment: { isComposerFocused = true }
-                    )
+        GeometryReader { geometry in
+            ScrollViewReader { proxy in
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: YomoraSpacing.md) {
+                        PostCard(
+                            post: currentPost,
+                            isLiked: isLiked,
+                            onLike: { Task { await toggleLike() } },
+                            onComment: { isComposerFocused = true }
+                        )
 
-                    HStack(alignment: .firstTextBaseline) {
-                        Text("Conversa").font(.yomoraHeading)
-                        Text("\(comments.count)")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(YomoraColor.textSecondary)
-                        Spacer()
-                    }
-                    .padding(.top, 4)
-
-                    if isLoadingComments {
-                        HStack(spacing: 10) {
-                            ProgressView()
-                            Text("Carregando a conversa…").foregroundStyle(YomoraColor.textSecondary)
-                        }
-                        .frame(maxWidth: .infinity, minHeight: 90)
-                    } else if comments.isEmpty {
-                        VStack(spacing: 8) {
-                            Image(systemName: "bubble.left.and.bubble.right")
-                                .font(.title2)
-                                .foregroundStyle(YomoraColor.sereneTeal)
-                            Text("Comece uma conversa tranquila").font(.headline)
-                            Text("Seu comentário pode abrir uma nova leitura.")
-                                .font(.subheadline)
+                        HStack(alignment: .firstTextBaseline) {
+                            Text("Conversa").font(.yomoraHeading)
+                            Text("\(comments.count)")
+                                .font(.subheadline.weight(.semibold))
                                 .foregroundStyle(YomoraColor.textSecondary)
-                                .multilineTextAlignment(.center)
+                            Spacer()
                         }
-                        .frame(maxWidth: .infinity, minHeight: 150)
-                        .padding()
-                        .background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: YomoraRadius.card))
-                    } else {
-                        ForEach(comments) { comment in
-                            CommentCard(comment: comment, highlighted: highlightedCommentID == comment.id)
-                                .id(comment.id)
-                        }
-                    }
+                        .padding(.top, 4)
 
-                    if let interactionError {
-                        Label(interactionError, systemImage: "exclamationmark.circle")
-                            .font(.footnote)
-                            .foregroundStyle(YomoraColor.danger)
-                            .padding(12)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(YomoraColor.danger.opacity(0.10), in: RoundedRectangle(cornerRadius: 12))
+                        if isLoadingComments {
+                            HStack(spacing: 10) {
+                                ProgressView()
+                                Text("Carregando a conversa…").foregroundStyle(YomoraColor.textSecondary)
+                            }
+                            .frame(maxWidth: .infinity, minHeight: 90)
+                        } else if comments.isEmpty {
+                            VStack(spacing: 8) {
+                                Image(systemName: "bubble.left.and.bubble.right")
+                                    .font(.title2)
+                                    .foregroundStyle(YomoraColor.sereneTeal)
+                                Text("Comece uma conversa tranquila").font(.headline)
+                                Text("Seu comentário pode abrir uma nova leitura.")
+                                    .font(.subheadline)
+                                    .foregroundStyle(YomoraColor.textSecondary)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .frame(maxWidth: .infinity, minHeight: 150)
+                            .padding()
+                            .background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: YomoraRadius.card))
+                        } else {
+                            ForEach(comments) { comment in
+                                CommentCard(comment: comment, highlighted: highlightedCommentID == comment.id)
+                                    .id(comment.id)
+                            }
+                        }
+
+                        if let interactionError {
+                            Label(interactionError, systemImage: "exclamationmark.circle")
+                                .font(.footnote)
+                                .foregroundStyle(YomoraColor.danger)
+                                .padding(12)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(YomoraColor.danger.opacity(0.10), in: RoundedRectangle(cornerRadius: 12))
+                        }
                     }
+                    .padding(YomoraSpacing.md)
+                    .padding(.bottom, 8)
                 }
-                .padding(YomoraSpacing.md)
-                .padding(.bottom, 8)
+                .scrollDismissesKeyboard(.interactively)
+                .onChange(of: highlightedCommentID) { _, id in
+                    guard let id else { return }
+                    withAnimation(.easeOut(duration: 0.3)) { proxy.scrollTo(id, anchor: .bottom) }
+                }
             }
-            .onChange(of: highlightedCommentID) { _, id in
-                guard let id else { return }
-                withAnimation(.easeOut(duration: 0.3)) { proxy.scrollTo(id, anchor: .bottom) }
+            .background(YomoraColor.canvas)
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                composer.padding(.bottom, keyboardBottomInset)
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification)) { notification in
+                updateKeyboard(notification, geometry: geometry)
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { notification in
+                animateKeyboard(notification) { keyboardBottomInset = 0 }
             }
         }
-        .background(YomoraColor.canvas)
-        .safeAreaInset(edge: .bottom) { composer }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
+        .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Publicação")
         .navigationBarTitleDisplayMode(.inline)
         .task { await loadComments() }
@@ -197,6 +218,22 @@ struct PostDetailsView: View {
 
     private var trimmedComment: String {
         text.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func updateKeyboard(_ notification: Notification, geometry: GeometryProxy) {
+        guard let frame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        let screenHeight = geometry.frame(in: .global).maxY + geometry.safeAreaInsets.bottom
+        let inset = KeyboardLayout.bottomInset(
+            screenHeight: screenHeight,
+            keyboardMinY: frame.minY,
+            bottomSafeArea: geometry.safeAreaInsets.bottom
+        )
+        animateKeyboard(notification) { keyboardBottomInset = inset }
+    }
+
+    private func animateKeyboard(_ notification: Notification, changes: @escaping () -> Void) {
+        let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0.25
+        withAnimation(.easeOut(duration: duration), changes)
     }
 
     private func loadComments() async {

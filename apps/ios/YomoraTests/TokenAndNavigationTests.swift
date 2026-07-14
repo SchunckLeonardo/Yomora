@@ -70,6 +70,22 @@ final class YomoraDesignTests: XCTestCase {
     }
 }
 
+final class KeyboardLayoutTests: XCTestCase {
+    func testBottomInsetReservesOnlyKeyboardAreaAboveTheHomeIndicator() {
+        XCTAssertEqual(
+            KeyboardLayout.bottomInset(screenHeight: 852, keyboardMinY: 518, bottomSafeArea: 34),
+            300
+        )
+    }
+
+    func testBottomInsetIsZeroWhenKeyboardIsHidden() {
+        XCTAssertEqual(
+            KeyboardLayout.bottomInset(screenHeight: 852, keyboardMinY: 852, bottomSafeArea: 34),
+            0
+        )
+    }
+}
+
 @MainActor
 final class FeedViewModelTests: XCTestCase {
     func testLikeActionTogglesVisualStateAndUsesMatchingEndpointMethods() async {

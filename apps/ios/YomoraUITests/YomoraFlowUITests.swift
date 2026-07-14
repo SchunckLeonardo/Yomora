@@ -33,4 +33,34 @@ final class YomoraFlowUITests: XCTestCase {
         app.buttons["timerFinishButton"].tap()
         XCTAssertTrue(app.staticTexts["Sessão concluída"].waitForExistence(timeout: 3))
     }
+
+    @MainActor
+    func testCommentComposerStaysAboveSoftwareKeyboard() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--skip-onboarding"]
+        app.launch()
+
+        let email = app.textFields["emailField"]
+        XCTAssertTrue(email.waitForExistence(timeout: 3))
+        email.tap(); email.typeText("keyboard@yomora.local")
+        let password = app.secureTextFields["passwordField"]
+        password.tap(); password.typeText("Yomora123!")
+        app.buttons["authenticationButton"].tap()
+
+        let community = app.tabBars.buttons["Comunidade"]
+        XCTAssertTrue(community.waitForExistence(timeout: 3)); community.tap()
+        let comments = app.buttons["Abrir comentários"]
+        XCTAssertTrue(comments.waitForExistence(timeout: 3)); comments.tap()
+
+        let field = app.textFields["commentField"]
+        XCTAssertTrue(field.waitForExistence(timeout: 3)); field.tap()
+        field.typeText("O campo continua visível.")
+
+        let keyboard = app.keyboards.firstMatch
+        guard keyboard.waitForExistence(timeout: 2) else {
+            throw XCTSkip("O runner está usando teclado físico")
+        }
+        XCTAssertLessThanOrEqual(field.frame.maxY, keyboard.frame.minY + 1)
+        XCTAssertTrue(app.buttons["sendCommentButton"].isHittable)
+    }
 }
