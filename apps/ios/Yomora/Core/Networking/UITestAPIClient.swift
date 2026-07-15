@@ -10,6 +10,9 @@ actor UITestAPIClient: APIClientProtocol {
     private let postId = UUID(uuidString: "70000000-0000-0000-0000-000000000001")!
     private let commentId = UUID(uuidString: "80000000-0000-0000-0000-000000000001")!
     private var libraryAdded = false
+    private var libraryStatus = ReadingStatus.reading
+    private var currentPage = 96
+    private var sessionNote: String?
 
     func send<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T {
         let value: any Encodable
@@ -26,8 +29,19 @@ actor UITestAPIClient: APIClientProtocol {
         case (.post, "/api/v1/library/books"):
             libraryAdded = true; value = libraryBook
         case (.get, "/api/v1/library"):
-            value = libraryAdded ? [libraryBook] : [LibraryBook]()
+            let requestedStatus = endpoint.query
+                .first(where: { $0.name == "status" })?
+                .value
+                .flatMap(ReadingStatus.init(rawValue:))
+            value = libraryAdded && (requestedStatus == nil || requestedStatus == libraryStatus)
+                ? [libraryBook]
+                : [LibraryBook]()
         case (.patch, "/api/v1/library/books/\(libraryId)"):
+            if let data = endpoint.body,
+               let update = try? JSONDecoder().decode(LibraryUpdate.self, from: data) {
+                libraryStatus = update.status
+                currentPage = update.currentPage
+            }
             value = libraryBook
         case (.get, "/api/v1/reading-goals"), (.put, "/api/v1/reading-goals"):
             value = ReadingGoal(dailyMinutes: 20, weeklyDays: 5, dailyPages: nil)
@@ -40,9 +54,16 @@ actor UITestAPIClient: APIClientProtocol {
                                    endPage: nil, goalPages: nil, startedAt: "2026-07-13T12:00:00Z",
                                    finishedAt: nil, durationSeconds: nil, pagesRead: nil, note: nil)
         case (.patch, "/api/v1/reading-sessions/\(sessionId)/finish"):
+            if let data = endpoint.body,
+               let finish = try? JSONDecoder().decode(SessionFinish.self, from: data) {
+                currentPage = finish.endPage
+                sessionNote = finish.note
+            }
             value = SessionSummary(sessionId: sessionId, durationMinutes: 24, pagesRead: 12,
                                    progressPercent: 35, averagePagesPerHour: 30, estimatedSessionsRemaining: 17,
                                    estimatedFinishDate: "2026-08-02", currentStreak: 8)
+        case (.get, "/api/v1/reading-sessions"):
+            value = sessionNote == nil ? [ReadingSession]() : [finishedSession]
         case (.get, "/api/v1/posts/feed"), (.get, "/api/v1/posts/discover"):
             value = [post]
         case (.get, "/api/v1/posts/\(postId)/comments"):
@@ -66,9 +87,16 @@ actor UITestAPIClient: APIClientProtocol {
     }
 
     private var libraryBook: LibraryBook {
-        LibraryBook(id: libraryId, userId: userId, editionId: editionId, status: .reading, currentPage: 96,
+        LibraryBook(id: libraryId, userId: userId, editionId: editionId, status: libraryStatus, currentPage: currentPage,
                     startedAt: "2026-07-01T12:00:00Z", finishedAt: nil, rating: nil, targetFinishDate: nil,
                     createdAt: "2026-07-01T12:00:00Z", updatedAt: "2026-07-13T12:00:00Z")
+    }
+
+    private var finishedSession: ReadingSession {
+        ReadingSession(id: sessionId, userId: userId, userBookId: libraryId, startPage: 96,
+                       endPage: currentPage, goalPages: nil, startedAt: "2026-07-13T12:00:00Z",
+                       finishedAt: "2026-07-13T12:24:00Z", durationSeconds: 1_440,
+                       pagesRead: max(0, currentPage - 96), note: sessionNote)
     }
 
     private var post: Post {
@@ -82,6 +110,16 @@ actor UITestAPIClient: APIClientProtocol {
         Comment(id: commentId, postId: postId, authorId: userId, text: "Concordo!",
                 createdAt: "2026-07-14T12:05:00Z")
     }
+}
+
+private struct LibraryUpdate: Decodable {
+    let status: ReadingStatus
+    let currentPage: Int
+}
+
+private struct SessionFinish: Decodable {
+    let endPage: Int
+    let note: String?
 }
 
 private struct AnyEncodable: Encodable {

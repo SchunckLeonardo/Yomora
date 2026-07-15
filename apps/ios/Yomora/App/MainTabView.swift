@@ -1,4 +1,10 @@
+import Foundation
+import Observation
 import SwiftUI
+
+extension Notification.Name {
+    static let libraryDidChange = Notification.Name("YomoraLibraryDidChange")
+}
 
 private enum MainTab: Hashable {
     case today, discover, read, community, library
@@ -87,28 +93,154 @@ private struct FeatureNavigation<Content: View>: View {
     }
 }
 
+@MainActor
+@Observable
+final class QuickReadViewModel {
+    enum State: Equatable { case idle, loading, loaded, error(String) }
+
+    private(set) var state: State = .idle
+    private(set) var items: [LibraryItem] = []
+    private(set) var selectedEntryID: UUID?
+    private let api: any APIClientProtocol
+
+    var selectedItem: LibraryItem? {
+        guard let selectedEntryID else { return items.first }
+        return items.first(where: { $0.entry.id == selectedEntryID })
+    }
+
+    init(api: any APIClientProtocol) {
+        self.api = api
+    }
+
+    func load() async {
+        let previousState = state
+        if previousState != .loaded { state = .loading }
+        do {
+            let endpoint = Endpoint(
+                path: "/api/v1/library",
+                query: [URLQueryItem(name: "status", value: ReadingStatus.reading.rawValue)]
+            )
+            let entries = try await api.send(endpoint, as: [LibraryBook].self)
+                .filter { $0.status == .reading }
+            var loaded: [LibraryItem] = []
+            for entry in entries {
+                if let book = try? await api.send(
+                    Endpoint(path: "/api/v1/books/\(entry.editionId)", authenticated: false),
+                    as: Book.self
+                ) {
+                    loaded.append(LibraryItem(entry: entry, book: book))
+                }
+            }
+            items = loaded
+            if !loaded.contains(where: { $0.entry.id == selectedEntryID }) {
+                selectedEntryID = loaded.first?.entry.id
+            }
+            state = .loaded
+        } catch {
+            state = .error(error.localizedDescription)
+        }
+    }
+
+    func select(_ entryID: UUID) {
+        guard items.contains(where: { $0.entry.id == entryID }) else { return }
+        selectedEntryID = entryID
+    }
+}
+
 private struct QuickReadView: View {
     let container: AppContainer
-    @State private var entry: LibraryBook?
-    @State private var book: Book?
+    @State private var viewModel: QuickReadViewModel
+
+    init(container: AppContainer) {
+        self.container = container
+        _viewModel = State(initialValue: QuickReadViewModel(api: container.api))
+    }
+
     var body: some View {
-        VStack(spacing: 24) {
-            if let entry, let book {
-                BookCover(url: book.coverUrl, width: 150, height: 220)
-                VStack { Text("Pronto para mais um capítulo?").font(.yomoraTitle).multilineTextAlignment(.center); Text(book.title).foregroundStyle(.secondary) }
-                NavigationLink(value: AppRoute.reading(entry, title: book.title)) {
-                    Label("Iniciar leitura", systemImage: "play.fill").font(.headline).frame(maxWidth: .infinity, minHeight: 54)
-                        .foregroundStyle(YomoraColor.onInteractive).background(YomoraColor.interactiveFill, in: RoundedRectangle(cornerRadius: 14))
-                }.accessibilityIdentifier("quickReadButton")
-            } else {
-                EmptyStateView(title: "Nenhum livro em andamento", message: "Mude um livro para Lendo e ele aparecerá aqui.")
+        Group {
+            switch viewModel.state {
+            case .idle, .loading:
+                VStack(spacing: YomoraSpacing.md) {
+                    LoadingSkeleton()
+                    LoadingSkeleton()
+                }
+                .padding()
+            case let .error(message):
+                ErrorStateView(message: message) { Task { await viewModel.load() } }
+            case .loaded:
+                content
             }
         }
-        .padding().navigationTitle("Ler")
-        .task {
-            let library = (try? await container.api.send(Endpoint(path: "/api/v1/library", query: [URLQueryItem(name: "status", value: ReadingStatus.reading.rawValue)]), as: [LibraryBook].self)) ?? []
-            entry = library.first
-            if let id = entry?.editionId { book = try? await container.api.send(Endpoint(path: "/api/v1/books/\(id)", authenticated: false), as: Book.self) }
+        .navigationTitle("Ler")
+        .task { if viewModel.state == .idle { await viewModel.load() } }
+        .refreshable { await viewModel.load() }
+        .onReceive(NotificationCenter.default.publisher(for: .libraryDidChange)) { _ in
+            Task { await viewModel.load() }
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        if let selected = viewModel.selectedItem {
+            ScrollView {
+                VStack(spacing: 24) {
+                    if viewModel.items.count > 1 {
+                        VStack(alignment: .leading, spacing: YomoraSpacing.sm) {
+                            Text("Escolha sua leitura").font(.headline)
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: YomoraSpacing.md) {
+                                    ForEach(viewModel.items) { item in
+                                        Button { viewModel.select(item.entry.id) } label: {
+                                            VStack(alignment: .leading, spacing: 6) {
+                                                BookCover(url: item.book.coverUrl, width: 70, height: 102)
+                                                Text(item.book.title)
+                                                    .font(.caption.weight(.semibold))
+                                                    .lineLimit(2)
+                                                    .frame(width: 92, alignment: .leading)
+                                            }
+                                            .padding(8)
+                                            .background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: YomoraRadius.card))
+                                            .overlay {
+                                                RoundedRectangle(cornerRadius: YomoraRadius.card)
+                                                    .stroke(
+                                                        item.entry.id == selected.entry.id ? YomoraColor.sereneTeal : YomoraColor.outline.opacity(0.5),
+                                                        lineWidth: item.entry.id == selected.entry.id ? 2 : 1
+                                                    )
+                                            }
+                                        }
+                                        .buttonStyle(.plain)
+                                        .accessibilityLabel("Selecionar \(item.book.title)")
+                                        .accessibilityIdentifier("quickReadBook-\(item.entry.id)")
+                                    }
+                                }
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+
+                    BookCover(url: selected.book.coverUrl, width: 150, height: 220)
+                    VStack {
+                        Text("Pronto para mais um capítulo?")
+                            .font(.yomoraTitle)
+                            .multilineTextAlignment(.center)
+                        Text(selected.book.title).foregroundStyle(.secondary)
+                    }
+                    NavigationLink(value: AppRoute.reading(selected.entry, title: selected.book.title)) {
+                        Label("Iniciar leitura", systemImage: "play.fill")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity, minHeight: 54)
+                            .foregroundStyle(YomoraColor.onInteractive)
+                            .background(YomoraColor.interactiveFill, in: RoundedRectangle(cornerRadius: 14))
+                    }
+                    .accessibilityIdentifier("quickReadButton")
+                }
+                .padding()
+            }
+        } else {
+            EmptyStateView(
+                title: "Nenhum livro em andamento",
+                message: "Mude um livro para Lendo e ele aparecerá aqui."
+            )
         }
     }
 }

@@ -182,3 +182,292 @@ private actor FeedEngagementAPI: APIClientProtocol {
 
     func methods() -> [Endpoint.Method] { endpoints.map(\.method) }
 }
+
+final class BookCoverImageCacheTests: XCTestCase {
+    func testCoverDataPersistsAcrossCacheInstances() async throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("yomora-cover-cache-\(UUID().uuidString)", isDirectory: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let source = CoverDataSource()
+        let url = try XCTUnwrap(URL(string: "https://example.test/covers/book.jpg"))
+
+        let firstCache = BookCoverImageCache(directory: directory) { url in
+            try await source.load(url)
+        }
+        let firstData = try await firstCache.data(for: url)
+        let secondCache = BookCoverImageCache(directory: directory) { url in
+            try await source.load(url)
+        }
+        let secondData = try await secondCache.data(for: url)
+
+        XCTAssertEqual(firstData, secondData)
+        let requestCount = await source.requestCount
+        XCTAssertEqual(requestCount, 1)
+    }
+}
+
+@MainActor
+final class QuickReadViewModelTests: XCTestCase {
+    func testLoadsEveryReadingBookAndAllowsSelectingOne() async {
+        let firstEntry = makeLibraryBook(status: .reading)
+        let secondEntry = makeLibraryBook(status: .reading)
+        let firstBook = makeBook(editionId: firstEntry.editionId, title: "Primeiro livro")
+        let secondBook = makeBook(editionId: secondEntry.editionId, title: "Segundo livro")
+        let api = ReadingListAPI(entries: [firstEntry, secondEntry], books: [firstBook, secondBook])
+        let viewModel = QuickReadViewModel(api: api)
+
+        await viewModel.load()
+
+        XCTAssertEqual(viewModel.items.map(\.book.title), ["Primeiro livro", "Segundo livro"])
+        XCTAssertEqual(viewModel.selectedItem?.entry.id, firstEntry.id)
+
+        viewModel.select(secondEntry.id)
+
+        XCTAssertEqual(viewModel.selectedItem?.entry.id, secondEntry.id)
+    }
+
+    func testReloadRemovesBooksThatAreNoLongerReading() async {
+        let pausedEntry = makeLibraryBook(status: .reading)
+        let activeEntry = makeLibraryBook(status: .reading)
+        let pausedBook = makeBook(editionId: pausedEntry.editionId, title: "Leitura pausada")
+        let activeBook = makeBook(editionId: activeEntry.editionId, title: "Leitura ativa")
+        let api = ReadingListAPI(entries: [pausedEntry, activeEntry], books: [pausedBook, activeBook])
+        let viewModel = QuickReadViewModel(api: api)
+        await viewModel.load()
+        viewModel.select(pausedEntry.id)
+
+        await api.replaceEntries([pausedEntry.updatingStatus(.paused), activeEntry])
+        await viewModel.load()
+
+        XCTAssertEqual(viewModel.items.map(\.entry.id), [activeEntry.id])
+        XCTAssertEqual(viewModel.selectedItem?.entry.id, activeEntry.id)
+    }
+}
+
+@MainActor
+final class TodayViewModelReadingStatusTests: XCTestCase {
+    func testPausedAndAbandonedBooksAreNotFeaturedToday() async {
+        let paused = makeLibraryBook(status: .paused)
+        let abandoned = makeLibraryBook(status: .abandoned)
+        let api = TodayLibraryAPI(entries: [paused, abandoned])
+        let viewModel = TodayViewModel(api: api)
+
+        await viewModel.load(defaultMinutes: 20, weeklyDays: 5)
+
+        XCTAssertEqual(viewModel.state, .loaded)
+        XCTAssertNil(viewModel.featuredBook)
+        XCTAssertFalse(viewModel.library.contains(where: { $0.status == .reading }))
+    }
+}
+
+@MainActor
+final class ReadingSessionNoteTests: XCTestCase {
+    func testFinishSendsTrimmedNoteAndNotifiesLibraryRefresh() async throws {
+        let entry = makeLibraryBook(status: .reading)
+        let api = ReadingSessionAPI(entry: entry)
+        let viewModel = ReadingSessionViewModel(
+            entry: entry,
+            title: "Livro em foco",
+            api: api,
+            activity: NoopReadingActivityManager()
+        )
+        await viewModel.start(at: Date(timeIntervalSince1970: 1_000))
+        viewModel.endPage = entry.currentPage + 5
+        viewModel.note = "  Uma ideia importante.  "
+        let notification = expectation(forNotification: .libraryDidChange, object: nil)
+
+        await viewModel.finish()
+
+        await fulfillment(of: [notification], timeout: 1)
+        XCTAssertEqual(viewModel.state, .finished)
+        let capturedBody = await api.capturedFinishBody()
+        let bodyData = try XCTUnwrap(capturedBody)
+        let body = try JSONDecoder().decode(FinishReadingBody.self, from: bodyData)
+        XCTAssertEqual(body.note, "Uma ideia importante.")
+        XCTAssertEqual(body.endPage, entry.currentPage + 5)
+    }
+}
+
+private struct FinishReadingBody: Decodable {
+    let endPage: Int
+    let note: String?
+}
+
+private actor CoverDataSource {
+    private(set) var requestCount = 0
+
+    func load(_ url: URL) throws -> Data {
+        requestCount += 1
+        return Data("cover:\(url.absoluteString)".utf8)
+    }
+}
+
+private actor ReadingListAPI: APIClientProtocol {
+    private var entries: [LibraryBook]
+    private let books: [UUID: Book]
+
+    init(entries: [LibraryBook], books: [Book]) {
+        self.entries = entries
+        self.books = Dictionary(uniqueKeysWithValues: books.map { ($0.editionId, $0) })
+    }
+
+    func replaceEntries(_ entries: [LibraryBook]) {
+        self.entries = entries
+    }
+
+    func send<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T {
+        let data: Data
+        if endpoint.path == "/api/v1/library" {
+            data = entries.encoded
+        } else if let id = UUID(uuidString: endpoint.path.replacingOccurrences(of: "/api/v1/books/", with: "")),
+                  let book = books[id] {
+            data = book.encoded
+        } else {
+            throw APIError.server(status: 404, message: endpoint.path)
+        }
+        return try JSONDecoder().decode(T.self, from: data)
+    }
+
+    func sendVoid(_ endpoint: Endpoint) async throws { }
+}
+
+private actor ReadingSessionAPI: APIClientProtocol {
+    private let entry: LibraryBook
+    private let sessionId = UUID()
+    private(set) var finishBody: Data?
+
+    init(entry: LibraryBook) {
+        self.entry = entry
+    }
+
+    func capturedFinishBody() -> Data? {
+        finishBody
+    }
+
+    func send<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T {
+        let data: Data
+        switch (endpoint.method, endpoint.path) {
+        case (.post, "/api/v1/reading-sessions"):
+            data = ReadingSession(
+                id: sessionId,
+                userId: entry.userId,
+                userBookId: entry.id,
+                startPage: entry.currentPage,
+                endPage: nil,
+                goalPages: nil,
+                startedAt: "2026-07-15T12:00:00Z",
+                finishedAt: nil,
+                durationSeconds: nil,
+                pagesRead: nil,
+                note: nil
+            ).encoded
+        case (.patch, "/api/v1/reading-sessions/\(sessionId)/finish"):
+            finishBody = endpoint.body
+            data = SessionSummary(
+                sessionId: sessionId,
+                durationMinutes: 10,
+                pagesRead: 5,
+                progressPercent: 20,
+                averagePagesPerHour: 30,
+                estimatedSessionsRemaining: 10,
+                estimatedFinishDate: nil,
+                currentStreak: 2
+            ).encoded
+        default:
+            throw APIError.server(status: 404, message: endpoint.path)
+        }
+        return try JSONDecoder().decode(T.self, from: data)
+    }
+
+    func sendVoid(_ endpoint: Endpoint) async throws { }
+}
+
+private actor TodayLibraryAPI: APIClientProtocol {
+    private let entries: [LibraryBook]
+
+    init(entries: [LibraryBook]) {
+        self.entries = entries
+    }
+
+    func send<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T {
+        let data: Data
+        switch endpoint.path {
+        case "/api/v1/statistics/summary":
+            data = StatisticsSummary(
+                minutesToday: 0,
+                minutesThisWeek: 0,
+                pagesThisWeek: 0,
+                daysReadLast30: 0,
+                currentStreak: 0,
+                bestStreak: 0,
+                finishedBooksThisYear: 0,
+                topGenres: [:],
+                totalSessions: 0,
+                pacePercent: 0
+            ).encoded
+        case "/api/v1/library":
+            data = entries.encoded
+        case "/api/v1/reading-goals":
+            data = ReadingGoal(dailyMinutes: 20, weeklyDays: 5, dailyPages: nil).encoded
+        default:
+            throw APIError.server(status: 404, message: endpoint.path)
+        }
+        return try JSONDecoder().decode(T.self, from: data)
+    }
+
+    func sendVoid(_ endpoint: Endpoint) async throws { }
+}
+
+private func makeLibraryBook(status: ReadingStatus) -> LibraryBook {
+    LibraryBook(
+        id: UUID(),
+        userId: UUID(),
+        editionId: UUID(),
+        status: status,
+        currentPage: 12,
+        startedAt: "2026-07-15T12:00:00Z",
+        finishedAt: nil,
+        rating: nil,
+        targetFinishDate: nil,
+        createdAt: "2026-07-15T12:00:00Z",
+        updatedAt: "2026-07-15T12:00:00Z"
+    )
+}
+
+private func makeBook(editionId: UUID, title: String) -> Book {
+    Book(
+        workId: UUID(),
+        editionId: editionId,
+        title: title,
+        description: "",
+        authors: ["Autora"],
+        categories: [],
+        isbn10: nil,
+        isbn13: nil,
+        publisher: nil,
+        publicationDate: nil,
+        language: "por",
+        pageCount: 200,
+        coverUrl: nil,
+        externalProvider: "test",
+        externalId: editionId.uuidString
+    )
+}
+
+private extension LibraryBook {
+    func updatingStatus(_ status: ReadingStatus) -> LibraryBook {
+        LibraryBook(
+            id: id,
+            userId: userId,
+            editionId: editionId,
+            status: status,
+            currentPage: currentPage,
+            startedAt: startedAt,
+            finishedAt: finishedAt,
+            rating: rating,
+            targetFinishDate: targetFinishDate,
+            createdAt: createdAt,
+            updatedAt: updatedAt
+        )
+    }
+}

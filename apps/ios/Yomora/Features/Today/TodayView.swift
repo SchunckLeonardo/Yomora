@@ -58,6 +58,9 @@ struct TodayView: View {
             guard let goal = notification.object as? ReadingGoal else { return }
             viewModel.applyPersistedGoal(goal)
         }
+        .onReceive(NotificationCenter.default.publisher(for: .libraryDidChange)) { _ in
+            Task { await reload() }
+        }
         .task { if viewModel.state == .idle { await reload() } }
     }
 

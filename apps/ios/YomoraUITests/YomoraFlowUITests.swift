@@ -21,17 +21,31 @@ final class YomoraFlowUITests: XCTestCase {
         app.buttons["startReadingSessionButton"].tap()
         app.buttons["timerStartButton"].tap()
         XCTAssertTrue(app.buttons["timerFinishButton"].waitForExistence(timeout: 2))
-        let note = app.textFields["readingSessionNoteField"]
+        let note = app.textViews["readingSessionNoteField"]
         XCTAssertTrue(note.waitForExistence(timeout: 2))
         note.tap(); note.typeText("Sessão tranquila.")
         XCTAssertEqual(note.value as? String, "Sessão tranquila.")
+        let keyboard = app.keyboards.firstMatch
+        if keyboard.waitForExistence(timeout: 2) {
+            XCTAssertLessThanOrEqual(note.frame.maxY, keyboard.frame.minY + 1)
+            let dismissKeyboard = app.buttons["dismissReadingNoteKeyboardButton"]
+            XCTAssertTrue(dismissKeyboard.waitForExistence(timeout: 2))
+            dismissKeyboard.tap()
+        }
         app.buttons["timerFinishButton"].tap()
         XCTAssertTrue(app.staticTexts["Sessão concluída"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.staticTexts["Sessão tranquila."].waitForExistence(timeout: 2))
         let exitSummary = app.buttons["Voltar para Hoje"]
         XCTAssertTrue(exitSummary.waitForExistence(timeout: 2))
         exitSummary.tap()
         XCTAssertTrue(app.tabBars.buttons["Hoje"].isSelected)
         XCTAssertTrue(app.navigationBars["Yomora"].waitForExistence(timeout: 3))
+
+        app.tabBars.buttons["Biblioteca"].tap()
+        XCTAssertTrue(app.staticTexts["A Biblioteca da Meia-Noite"].waitForExistence(timeout: 3))
+        app.staticTexts["A Biblioteca da Meia-Noite"].tap()
+        XCTAssertTrue(app.staticTexts["Notas das sessões"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.staticTexts["Sessão tranquila."].waitForExistence(timeout: 2))
     }
 
     @MainActor

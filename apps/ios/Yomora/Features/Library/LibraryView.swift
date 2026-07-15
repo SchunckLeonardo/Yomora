@@ -46,6 +46,9 @@ struct LibraryView: View {
         .sheet(isPresented: $showingShelves) { NavigationStack { ShelfListView(api: container.api) } }
         .task(id: viewModel.filter) { await viewModel.load() }
         .refreshable { await viewModel.load() }
+        .onReceive(NotificationCenter.default.publisher(for: .libraryDidChange)) { _ in
+            Task { await viewModel.load() }
+        }
         .background(YomoraColor.canvas)
     }
 }
@@ -58,6 +61,8 @@ struct LibraryBookDetailsView: View {
     @State private var status: ReadingStatus
     @State private var rating = 0
     @State private var saving = false
+    @State private var saveError: String?
+    @State private var sessionNotes: [ReadingSession] = []
     @State private var writingMode: BookWritingView.Mode?
 
     init(entry: LibraryBook, container: AppContainer) {
@@ -74,6 +79,12 @@ struct LibraryBookDetailsView: View {
                 Picker("Status", selection: $status) { ForEach(ReadingStatus.allCases, id: \.self) { Text($0.title).tag($0) } }
                 RatingView(rating: $rating)
                 PrimaryButton(title: "Salvar progresso", isLoading: saving) { Task { await save() } }
+                if let saveError {
+                    Text(saveError)
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
                 if book != nil {
                     HStack {
                         Button { writingMode = .note } label: { Label("Criar nota", systemImage: "note.text") }.buttonStyle(.bordered)
@@ -90,10 +101,35 @@ struct LibraryBookDetailsView: View {
                 if let book {
                     ShareLink(item: URL(string: "https://yomora.app/books/\(book.editionId)")!) { Label("Compartilhar livro", systemImage: "square.and.arrow.up") }
                 }
+                if !sessionNotes.isEmpty {
+                    VStack(alignment: .leading, spacing: YomoraSpacing.md) {
+                        Text("Notas das sessões").font(.yomoraHeading)
+                        ForEach(sessionNotes) { session in
+                            VStack(alignment: .leading, spacing: YomoraSpacing.sm) {
+                                if let note = session.note {
+                                    Text(note)
+                                        .font(.body)
+                                        .accessibilityIdentifier("sessionNote-\(session.id)")
+                                }
+                                Text(pageDescription(for: session))
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                            .background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: YomoraRadius.card))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: YomoraRadius.card)
+                                    .stroke(YomoraColor.outline.opacity(0.5))
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
             }.padding()
         }
         .navigationTitle("Minha leitura").navigationBarTitleDisplayMode(.inline)
-        .task { book = try? await container.api.send(Endpoint(path: "/api/v1/books/\(entry.editionId)", authenticated: false), as: Book.self) }
+        .task { await loadDetails() }
         .sheet(item: $writingMode) { mode in
             if let book { NavigationStack { BookWritingView(mode: mode, book: book, page: page, api: container.api) } }
         }
@@ -102,10 +138,47 @@ struct LibraryBookDetailsView: View {
     private func save() async {
         struct Body: Encodable { let status: ReadingStatus; let currentPage: Int; let rating: Int?; let targetFinishDate: String? }
         saving = true
-        var endpoint = Endpoint(path: "/api/v1/library/books/\(entry.id)", method: .patch)
-        endpoint.body = try? Endpoint.json(Body(status: status, currentPage: page, rating: rating == 0 ? nil : rating, targetFinishDate: entry.targetFinishDate))
-        _ = try? await container.api.send(endpoint, as: LibraryBook.self)
-        saving = false
+        saveError = nil
+        defer { saving = false }
+        do {
+            var endpoint = Endpoint(path: "/api/v1/library/books/\(entry.id)", method: .patch)
+            endpoint.body = try Endpoint.json(Body(
+                status: status,
+                currentPage: page,
+                rating: rating == 0 ? nil : rating,
+                targetFinishDate: entry.targetFinishDate
+            ))
+            let saved = try await container.api.send(endpoint, as: LibraryBook.self)
+            status = saved.status
+            page = saved.currentPage
+            rating = saved.rating ?? 0
+            NotificationCenter.default.post(name: .libraryDidChange, object: nil)
+        } catch {
+            saveError = "Não foi possível salvar: \(error.localizedDescription)"
+        }
+    }
+
+    private func loadDetails() async {
+        async let loadedBook = try? container.api.send(
+            Endpoint(path: "/api/v1/books/\(entry.editionId)", authenticated: false),
+            as: Book.self
+        )
+        async let loadedSessions = try? container.api.send(
+            Endpoint(path: "/api/v1/reading-sessions"),
+            as: [ReadingSession].self
+        )
+        book = await loadedBook
+        let sessions = await loadedSessions ?? []
+        sessionNotes = sessions.filter { session in
+            session.userBookId == entry.id
+                && !(session.note?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)
+        }
+        .sorted { $0.startedAt > $1.startedAt }
+    }
+
+    private func pageDescription(for session: ReadingSession) -> String {
+        guard let endPage = session.endPage else { return "Iniciada na página \(session.startPage)" }
+        return "Páginas \(session.startPage)–\(endPage)"
     }
 }
 

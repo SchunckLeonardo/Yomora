@@ -49,11 +49,12 @@ final class ReadingSessionViewModel {
         state = .finishing
         do {
             var endpoint = Endpoint(path: "/api/v1/reading-sessions/\(session.id)/finish", method: .patch)
-            endpoint.body = try Endpoint.json(Body(endPage: endPage, note: note.isEmpty ? nil : note))
+            let trimmedNote = note.trimmingCharacters(in: .whitespacesAndNewlines)
+            endpoint.body = try Endpoint.json(Body(endPage: endPage, note: trimmedNote.isEmpty ? nil : trimmedNote))
             summary = try await api.send(endpoint, as: SessionSummary.self)
             await activity.end()
             state = .finished
+            NotificationCenter.default.post(name: .libraryDidChange, object: nil)
         } catch { state = .error(error.localizedDescription) }
     }
 }
-

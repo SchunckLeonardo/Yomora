@@ -1,24 +1,102 @@
+import CryptoKit
+import Foundation
 import SwiftUI
+import UIKit
+
+actor BookCoverImageCache {
+    typealias Loader = @Sendable (URL) async throws -> Data
+
+    static let shared = BookCoverImageCache()
+
+    private let directory: URL
+    private let loader: Loader
+    private let memory = NSCache<NSURL, NSData>()
+
+    init(directory: URL? = nil, loader: @escaping Loader = BookCoverImageCache.download) {
+        self.directory = directory ?? Self.defaultDirectory()
+        self.loader = loader
+        try? FileManager.default.createDirectory(
+            at: self.directory,
+            withIntermediateDirectories: true
+        )
+    }
+
+    func data(for url: URL) async throws -> Data {
+        if let cached = memory.object(forKey: url as NSURL) {
+            return cached as Data
+        }
+
+        let file = directory.appendingPathComponent(cacheKey(for: url), isDirectory: false)
+        if let cached = try? Data(contentsOf: file), !cached.isEmpty {
+            memory.setObject(cached as NSData, forKey: url as NSURL)
+            return cached
+        }
+
+        let downloaded = try await loader(url)
+        try? downloaded.write(to: file, options: .atomic)
+        memory.setObject(downloaded as NSData, forKey: url as NSURL)
+        return downloaded
+    }
+
+    private func cacheKey(for url: URL) -> String {
+        SHA256.hash(data: Data(url.absoluteString.utf8))
+            .map { String(format: "%02x", $0) }
+            .joined()
+    }
+
+    private static func defaultDirectory() -> URL {
+        let caches = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
+            ?? FileManager.default.temporaryDirectory
+        return caches.appendingPathComponent("YomoraBookCovers", isDirectory: true)
+    }
+
+    private static func download(_ url: URL) async throws -> Data {
+        let (data, response) = try await URLSession.shared.data(from: url)
+        guard let http = response as? HTTPURLResponse,
+              (200..<300).contains(http.statusCode),
+              !data.isEmpty else {
+            throw URLError(.badServerResponse)
+        }
+        return data
+    }
+}
 
 struct BookCover: View {
     let url: String?
     var width: CGFloat = 76
     var height: CGFloat = 112
+    @State private var imageData: Data?
 
     var body: some View {
-        AsyncImage(url: url.flatMap(URL.init(string:))) { phase in
-            if case let .success(image) = phase { image.resizable().scaledToFill() }
-            else {
-                ZStack {
-                    LinearGradient(colors: [YomoraColor.sereneTeal, YomoraColor.primary], startPoint: .top, endPoint: .bottom)
-                    Image(systemName: "book.closed.fill").foregroundStyle(.white.opacity(0.9))
-                }
+        Group {
+            if let imageData, let image = UIImage(data: imageData) {
+                Image(uiImage: image).resizable().scaledToFill()
+            } else {
+                placeholder
             }
         }
         .frame(width: width, height: height)
         .clipShape(RoundedRectangle(cornerRadius: YomoraRadius.cover))
         .shadow(color: .black.opacity(0.15), radius: 6, y: 3)
         .accessibilityLabel("Capa do livro")
+        .task(id: url) {
+            imageData = nil
+            guard let url = url.flatMap(URL.init(string:)) else {
+                return
+            }
+            imageData = try? await BookCoverImageCache.shared.data(for: url)
+        }
+    }
+
+    private var placeholder: some View {
+        ZStack {
+            LinearGradient(
+                colors: [YomoraColor.sereneTeal, YomoraColor.primary],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            Image(systemName: "book.closed.fill").foregroundStyle(.white.opacity(0.9))
+        }
     }
 }
 
