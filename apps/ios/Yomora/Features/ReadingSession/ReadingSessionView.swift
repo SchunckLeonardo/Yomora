@@ -72,9 +72,18 @@ private struct ReadingSessionNoteField: View {
     @Bindable var viewModel: ReadingSessionViewModel
 
     var body: some View {
-        TextField("Nota opcional da sessão", text: $viewModel.note, axis: .vertical)
+        TextField(
+            "Nota opcional da sessão",
+            text: $viewModel.note,
+            prompt: Text("Nota opcional da sessão")
+                .foregroundStyle(YomoraColor.focusInputPlaceholder),
+            axis: .vertical
+        )
+            .foregroundStyle(YomoraColor.focusInputText)
+            .tint(YomoraColor.focusInputText)
             .padding()
-            .background(.white, in: RoundedRectangle(cornerRadius: 14))
+            .background(YomoraColor.focusInputBackground, in: RoundedRectangle(cornerRadius: 14))
+            .accessibilityIdentifier("readingSessionNoteField")
     }
 }
 

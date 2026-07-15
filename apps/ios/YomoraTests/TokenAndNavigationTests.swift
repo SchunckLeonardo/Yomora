@@ -38,6 +38,15 @@ final class YomoraDesignTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(contrast(surface, accent), 4.5)
     }
 
+    func testFocusInputContentIsReadableOnWhiteFieldInDarkMode() {
+        let background = resolvedRGB(YomoraColor.focusInputBackground, style: .dark)
+        let placeholder = resolvedRGB(YomoraColor.focusInputPlaceholder, style: .dark)
+        let text = resolvedRGB(YomoraColor.focusInputText, style: .dark)
+
+        XCTAssertGreaterThanOrEqual(contrast(background, placeholder), 4.5)
+        XCTAssertGreaterThanOrEqual(contrast(background, text), 4.5)
+    }
+
     private func resolvedRGB(_ color: Color, style: UIUserInterfaceStyle) -> RGB {
         let trait = UITraitCollection(userInterfaceStyle: style)
         let resolved = UIColor(color).resolvedColor(with: trait)

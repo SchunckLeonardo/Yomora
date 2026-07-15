@@ -30,6 +30,10 @@ final class YomoraFlowUITests: XCTestCase {
         app.buttons["startReadingSessionButton"].tap()
         app.buttons["timerStartButton"].tap()
         XCTAssertTrue(app.buttons["timerFinishButton"].waitForExistence(timeout: 2))
+        let note = app.textFields["readingSessionNoteField"]
+        XCTAssertTrue(note.waitForExistence(timeout: 2))
+        note.tap(); note.typeText("Sessão tranquila.")
+        XCTAssertEqual(note.value as? String, "Sessão tranquila.")
         app.buttons["timerFinishButton"].tap()
         XCTAssertTrue(app.staticTexts["Sessão concluída"].waitForExistence(timeout: 3))
     }

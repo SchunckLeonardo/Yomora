@@ -14,6 +14,9 @@ enum YomoraColor {
     static let interactiveFill = adaptive(light: 0x14333B, dark: 0x79B3BB)
     static let onInteractive = adaptive(light: 0xFFFFFF, dark: 0x102326)
     static let focusBackground = Color(hex: 0x14333B)
+    static let focusInputBackground = Color(hex: 0xFFFFFF)
+    static let focusInputText = Color(hex: 0x1A2528)
+    static let focusInputPlaceholder = Color(hex: 0x65747A)
     static let progressGold = adaptive(light: 0x87660D, dark: 0xE3C86A)
     static let warmPaper = canvas
     static let sepia = Color(hex: 0xF4ECD8)
