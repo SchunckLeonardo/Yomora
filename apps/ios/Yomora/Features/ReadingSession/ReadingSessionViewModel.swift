@@ -148,6 +148,7 @@ final class ReadingSessionViewModel {
             syncError = nil
             state = .finished
             NotificationCenter.default.post(name: .libraryDidChange, object: nil)
+            NotificationCenter.default.post(name: .readingSessionDidFinish, object: nil)
         } catch { state = .error(error.localizedDescription) }
     }
 

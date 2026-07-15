@@ -10,9 +10,11 @@ final class AppContainer {
     let readingActivity: any ReadingActivityManaging
     let activeReadingSession: ActiveReadingSessionCoordinator
     let navigation: AppNavigationCoordinator
+    let readingReminders: any ReadingReminderManaging
 
     init(api: any APIClientProtocol, tokenStore: any TokenStoring, modelContainer: ModelContainer,
-         readingActivity: any ReadingActivityManaging = NoopReadingActivityManager()) {
+         readingActivity: any ReadingActivityManaging = NoopReadingActivityManager(),
+         readingReminders: any ReadingReminderManaging = NoopReadingReminderManager()) {
         self.api = api
         self.tokenStore = tokenStore
         self.modelContainer = modelContainer
@@ -20,6 +22,7 @@ final class AppContainer {
         self.readingActivity = readingActivity
         self.activeReadingSession = ActiveReadingSessionCoordinator(api: api, activity: readingActivity)
         self.navigation = AppNavigationCoordinator()
+        self.readingReminders = readingReminders
     }
 
     static func live() -> AppContainer {
@@ -39,7 +42,8 @@ final class AppContainer {
             api: APIClient(baseURL: baseURL, tokenStore: store),
             tokenStore: store,
             modelContainer: container,
-            readingActivity: ActivityKitReadingActivityManager()
+            readingActivity: ActivityKitReadingActivityManager(),
+            readingReminders: LocalReadingReminderManager()
         )
     }
 }

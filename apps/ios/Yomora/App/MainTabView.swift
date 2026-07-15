@@ -50,15 +50,37 @@ struct MainTabView: View {
                 .tabItem { Label("Biblioteca", systemImage: "books.vertical") }
                 .tag(MainTab.library)
         }
-        .task { await container.activeReadingSession.restore() }
+        .task {
+            processPendingReminderOpen()
+            await container.activeReadingSession.restore()
+            await rebuildReminders()
+        }
         .task(id: container.navigation.requestId) { await handleNavigationRequest() }
         .onChange(of: scenePhase) { _, phase in
             guard phase == .active else { return }
-            Task { await container.activeReadingSession.restore() }
+            Task {
+                await container.activeReadingSession.restore()
+                await rebuildReminders()
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .readingReminderDidChange)) { _ in
+            Task { await rebuildReminders() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .readingGoalDidChange)) { _ in
+            Task { await rebuildReminders() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .readingSessionDidFinish)) { _ in
+            Task { await rebuildReminders() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .readingReminderOpened)) { _ in
+            processPendingReminderOpen()
         }
         .onDisappear {
             container.activeReadingSession.clear()
-            Task { await container.readingActivity.end() }
+            Task {
+                await container.readingActivity.end()
+                await container.readingReminders.cancelAll()
+            }
         }
     }
 
@@ -80,6 +102,30 @@ struct MainTabView: View {
             }
         }
         container.navigation.consume(requestId)
+    }
+
+    private func rebuildReminders() async {
+        let preferences = ReadingReminderPreferences.stored()
+        guard preferences.enabled else {
+            await container.readingReminders.cancelAll()
+            return
+        }
+        let statistics = try? await container.api.send(
+            Endpoint(path: "/api/v1/statistics/summary"),
+            as: StatisticsSummary.self
+        )
+        let dailyGoal = UserDefaults.standard.object(forKey: "dailyGoalMinutes") as? Int ?? 20
+        await container.readingReminders.rebuild(
+            preferences,
+            skippingToday: (statistics?.minutesToday ?? 0) >= dailyGoal
+        )
+    }
+
+    private func processPendingReminderOpen() {
+        let defaults = UserDefaults.standard
+        guard defaults.bool(forKey: ReadingReminderStorage.pendingTodayOpenKey) else { return }
+        defaults.removeObject(forKey: ReadingReminderStorage.pendingTodayOpenKey)
+        container.navigation.open(.today)
     }
 }
 

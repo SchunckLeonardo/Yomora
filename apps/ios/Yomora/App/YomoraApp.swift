@@ -3,6 +3,7 @@ import SwiftData
 
 @main
 struct YomoraApp: App {
+    @UIApplicationDelegateAdaptor(YomoraNotificationDelegate.self) private var notificationDelegate
     @AppStorage("theme") private var themeRaw = AppTheme.system.rawValue
     @AppStorage("accent") private var accentRaw = AccentChoice.teal.rawValue
     private let container = AppContainer.live()

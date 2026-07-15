@@ -6,6 +6,7 @@ struct TodayView: View {
     @State private var viewModel: TodayViewModel
     @AppStorage("dailyGoalMinutes") private var dailyMinutes = 20
     @AppStorage("weeklyGoalDays") private var weeklyDays = 5
+    @State private var nextReminderDate: Date?
 
     init(container: AppContainer, user: UserProfile?) {
         self.container = container
@@ -32,6 +33,7 @@ struct TodayView: View {
                 case .loaded:
                     ReadingGoalCard(minutes: viewModel.goal.dailyMinutes,
                                     completed: viewModel.statistics?.minutesToday ?? 0)
+                    reminderStatus
                     if let entry = viewModel.library.first(where: { $0.status == .reading }),
                        let book = viewModel.featuredBook {
                         VStack(alignment: .leading, spacing: 12) {
@@ -60,8 +62,15 @@ struct TodayView: View {
         .onReceive(NotificationCenter.default.publisher(for: .readingGoalDidChange)) { notification in
             guard let goal = notification.object as? ReadingGoal else { return }
             viewModel.applyPersistedGoal(goal)
+            Task { await rebuildReminderStatus() }
         }
         .onReceive(NotificationCenter.default.publisher(for: .libraryDidChange)) { _ in
+            Task { await reload() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .readingReminderDidChange)) { _ in
+            Task { await rebuildReminderStatus() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .readingSessionDidFinish)) { _ in
             Task { await reload() }
         }
         .task { if viewModel.state == .idle { await reload() } }
@@ -85,5 +94,44 @@ struct TodayView: View {
         return min(1, Double(entry.currentPage) / Double(pages))
     }
 
-    private func reload() async { await viewModel.load(defaultMinutes: dailyMinutes, weeklyDays: weeklyDays) }
+    @ViewBuilder
+    private var reminderStatus: some View {
+        if goalCompletedToday {
+            Label("Meta de hoje concluída", systemImage: "checkmark.circle.fill")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(YomoraColor.sereneTeal)
+                .padding(.horizontal, 2)
+        } else if let nextReminderDate {
+            Label(nextReminderDescription(nextReminderDate), systemImage: "bell.fill")
+                .font(.subheadline)
+                .foregroundStyle(YomoraColor.textSecondary)
+                .padding(.horizontal, 2)
+        }
+    }
+
+    private var goalCompletedToday: Bool {
+        (viewModel.statistics?.minutesToday ?? 0) >= viewModel.goal.dailyMinutes
+    }
+
+    private func reload() async {
+        await viewModel.load(defaultMinutes: dailyMinutes, weeklyDays: weeklyDays)
+        await rebuildReminderStatus()
+    }
+
+    private func rebuildReminderStatus() async {
+        let preferences = ReadingReminderPreferences.stored()
+        await container.readingReminders.rebuild(preferences, skippingToday: goalCompletedToday)
+        await refreshReminderStatus()
+    }
+
+    private func refreshReminderStatus() async {
+        nextReminderDate = await container.readingReminders.nextReminderDate()
+    }
+
+    private func nextReminderDescription(_ date: Date) -> String {
+        if Calendar.current.isDateInToday(date) {
+            return "Próximo lembrete hoje às \(date.formatted(.dateTime.hour().minute()))"
+        }
+        return "Próximo lembrete: \(date.formatted(.dateTime.weekday(.wide).hour().minute()))"
+    }
 }
