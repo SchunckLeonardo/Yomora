@@ -36,6 +36,11 @@ final class YomoraFlowUITests: XCTestCase {
         XCTAssertEqual(note.value as? String, "Sessão tranquila.")
         app.buttons["timerFinishButton"].tap()
         XCTAssertTrue(app.staticTexts["Sessão concluída"].waitForExistence(timeout: 3))
+        let exitSummary = app.buttons["Voltar para Hoje"]
+        XCTAssertTrue(exitSummary.waitForExistence(timeout: 2))
+        exitSummary.tap()
+        XCTAssertTrue(app.tabBars.buttons["Hoje"].isSelected)
+        XCTAssertTrue(app.navigationBars["Yomora"].waitForExistence(timeout: 3))
     }
 
     @MainActor

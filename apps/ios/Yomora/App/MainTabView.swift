@@ -1,28 +1,53 @@
 import SwiftUI
 
+private enum MainTab: Hashable {
+    case today, discover, read, community, library
+}
+
 struct MainTabView: View {
     let container: AppContainer
     let session: SessionStore
+    @State private var selectedTab: MainTab = .today
 
     var body: some View {
-        TabView {
-            FeatureNavigation(container: container, session: session) { TodayView(container: container, user: session.user) }
+        TabView(selection: $selectedTab) {
+            FeatureNavigation(container: container, session: session, onExitToToday: selectToday) {
+                TodayView(container: container, user: session.user)
+            }
                 .tabItem { Label("Hoje", systemImage: "sun.max") }
-            FeatureNavigation(container: container, session: session) { SearchView(container: container) }
+                .tag(MainTab.today)
+            FeatureNavigation(container: container, session: session, onExitToToday: selectToday) {
+                SearchView(container: container)
+            }
                 .tabItem { Label("Descobrir", systemImage: "magnifyingglass") }
-            FeatureNavigation(container: container, session: session) { QuickReadView(container: container) }
+                .tag(MainTab.discover)
+            FeatureNavigation(container: container, session: session, onExitToToday: selectToday) {
+                QuickReadView(container: container)
+            }
                 .tabItem { Label("Ler", systemImage: "timer") }
-            FeatureNavigation(container: container, session: session) { FeedView(container: container) }
+                .tag(MainTab.read)
+            FeatureNavigation(container: container, session: session, onExitToToday: selectToday) {
+                FeedView(container: container)
+            }
                 .tabItem { Label("Comunidade", systemImage: "person.2") }
-            FeatureNavigation(container: container, session: session) { LibraryView(container: container) }
+                .tag(MainTab.community)
+            FeatureNavigation(container: container, session: session, onExitToToday: selectToday) {
+                LibraryView(container: container)
+            }
                 .tabItem { Label("Biblioteca", systemImage: "books.vertical") }
+                .tag(MainTab.library)
         }
+    }
+
+    private func selectToday() {
+        selectedTab = .today
     }
 }
 
 private struct FeatureNavigation<Content: View>: View {
     let container: AppContainer
     let session: SessionStore
+    let onExitToToday: () -> Void
     @ViewBuilder let content: () -> Content
     @State private var path: [AppRoute] = []
 
@@ -33,8 +58,19 @@ private struct FeatureNavigation<Content: View>: View {
                     switch route {
                     case let .book(book): BookDetailsView(book: book, api: container.api)
                     case let .libraryBook(entry): LibraryBookDetailsView(entry: entry, container: container)
-                    case let .reading(entry, title): ReadingSessionView(entry: entry, title: title, container: container)
-                    case let .sessionSummary(summary): SessionSummaryView(summary: summary, title: "Sua leitura")
+                    case let .reading(entry, title):
+                        ReadingSessionView(
+                            entry: entry,
+                            title: title,
+                            container: container,
+                            onExitToToday: finishReadingFlow
+                        )
+                    case let .sessionSummary(summary):
+                        SessionSummaryView(
+                            summary: summary,
+                            title: "Sua leitura",
+                            onExitToToday: finishReadingFlow
+                        )
                     case let .post(post): PostDetailsView(post: post, api: container.api)
                     case .composer: PostComposerView(api: container.api)
                     case let .profile(id): ProfileView(userId: id, container: container, session: session)
@@ -43,6 +79,11 @@ private struct FeatureNavigation<Content: View>: View {
                     }
                 }
         }
+    }
+
+    private func finishReadingFlow() {
+        path.removeAll()
+        onExitToToday()
     }
 }
 

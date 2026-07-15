@@ -2,10 +2,12 @@ import SwiftUI
 
 struct ReadingSessionView: View {
     let title: String
+    let onExitToToday: () -> Void
     @State private var viewModel: ReadingSessionViewModel
 
-    init(entry: LibraryBook, title: String, container: AppContainer) {
+    init(entry: LibraryBook, title: String, container: AppContainer, onExitToToday: @escaping () -> Void) {
         self.title = title
+        self.onExitToToday = onExitToToday
         _viewModel = State(initialValue: ReadingSessionViewModel(entry: entry, title: title,
                                                                  api: container.api, activity: container.readingActivity))
     }
@@ -36,7 +38,9 @@ struct ReadingSessionView: View {
         .navigationDestination(isPresented: Binding(
             get: { viewModel.summary != nil }, set: { if !$0 { } }
         )) {
-            if let summary = viewModel.summary { SessionSummaryView(summary: summary, title: title) }
+            if let summary = viewModel.summary {
+                SessionSummaryView(summary: summary, title: title, onExitToToday: onExitToToday)
+            }
         }
     }
 
@@ -90,6 +94,8 @@ private struct ReadingSessionNoteField: View {
 struct SessionSummaryView: View {
     let summary: SessionSummary
     let title: String
+    let onExitToToday: () -> Void
+
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -109,7 +115,16 @@ struct SessionSummaryView: View {
                 }.buttonStyle(.borderedProminent)
             }.padding()
         }
-        .navigationTitle("Resumo").navigationBarBackButtonHidden(false)
+        .navigationTitle("Resumo")
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: onExitToToday) {
+                    Image(systemName: "chevron.left")
+                }
+                .accessibilityLabel("Voltar para Hoje")
+            }
+        }
     }
 
     private func metric(_ label: String, _ value: String, _ icon: String) -> some View {

@@ -10,8 +10,8 @@
     "semantic_hash": "2fe1929d1cd31e8a14645e452b2d32ce"
   },
   "Yomora/App/MainTabView.swift": {
-    "mtime": 1784045880.792057,
-    "ast_hash": "6031d2c3de36a64c2d87d01e435266e2",
+    "mtime": 1784123232.4296124,
+    "ast_hash": "f1e86e06627ddde64e8de35ee8ed992d",
     "semantic_hash": ""
   },
   "Yomora/App/RootView.swift": {
@@ -135,8 +135,8 @@
     "semantic_hash": ""
   },
   "Yomora/Features/ReadingSession/ReadingSessionView.swift": {
-    "mtime": 1784122246.600042,
-    "ast_hash": "21f6e95f41cedb0b7f62a90cd960f107",
+    "mtime": 1784122960.9424129,
+    "ast_hash": "7bacf3d5e4051c3a328870b306bde12a",
     "semantic_hash": ""
   },
   "Yomora/Features/ReadingSession/ReadingSessionViewModel.swift": {
@@ -225,8 +225,8 @@
     "semantic_hash": ""
   },
   "YomoraUITests/YomoraFlowUITests.swift": {
-    "mtime": 1784122308.5348277,
-    "ast_hash": "951f93928b915353b2d5ed640ae56c59",
+    "mtime": 1784122837.1542125,
+    "ast_hash": "2df3b55fe23ad54e610377286a09242b",
     "semantic_hash": ""
   },
   "project.yml": {
@@ -262,6 +262,11 @@
   "graphify-out/memory/query_20260715_133509_a_parte_de_escrever_uma_nota_sobre_a_sess\u00e3o_de_lei.md": {
     "mtime": 1784122509.9290836,
     "ast_hash": "b45a181a6587012a48c90082e4579d76",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260715_134631_quando_eu_clico_para_finalizar_sess\u00e3o_e_aparece_o.md": {
+    "mtime": 1784123191.0877755,
+    "ast_hash": "de5bbbea77e49c9e8a248655965c3c5c",
     "semantic_hash": ""
   }
 }
