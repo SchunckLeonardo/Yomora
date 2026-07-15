@@ -18,12 +18,15 @@ targets:
     platform: iOS
     sources:
       - Yomora
+    configFiles:
+      Debug: Config/App.xcconfig
+      Release: Config/App.xcconfig
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: app.yomora.ios
         DEVELOPMENT_TEAM: FMWWTVS6HZ
         GENERATE_INFOPLIST_FILE: NO
-        INFOPLIST_FILE: Config/Info.plist
+        INFOPLIST_FILE: Config/AppInfo.plist
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SUPPORTS_MACCATALYST: NO
     scheme:

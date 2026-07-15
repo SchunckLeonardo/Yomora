@@ -98,7 +98,6 @@
 		64C777EA9DB2E2D16D006021 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		64D4213BB11A57B3EDE26A45 /* ReadingSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSessionViewModel.swift; sourceTree = "<group>"; };
 		66E138AC3452DFF89F5F6D39 /* ReadingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingTimer.swift; sourceTree = "<group>"; };
-		6FF7AE1FEFAD5B187E9E8C53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		712488C29CC9427C04389DBE /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		72B4AF61B271E64A2F631383 /* BookDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailsView.swift; sourceTree = "<group>"; };
 		77C8134F230B3D994F573229 /* YomoraDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomoraDesign.swift; sourceTree = "<group>"; };
@@ -114,13 +113,16 @@
 		9E34B60E72F14B959DB6767F /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		B0C79FCFCCC1707951241002 /* Yomora.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Yomora.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B969BADD5DA40622D81D7C3C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		BC2E9E7C473467ACDB0C72A8 /* AppInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = AppInfo.plist; sourceTree = "<group>"; };
 		C1FF4C5AAF1437695E6AB765 /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
 		C249F1AA5D7B7F14FC31B2E5 /* BookCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCache.swift; sourceTree = "<group>"; };
 		C3CAE7B23F05692ED28274DB /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
 		E6DAD82C8B77BDFC9E32A5BD /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		E946F409746E49E9AE6ED0A2 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
 		E9BED404A4492B76725BB3EA /* TodayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewModel.swift; sourceTree = "<group>"; };
+		EE3594A621CAF2BEC30FCB16 /* Local.xcconfig.example */ = {isa = PBXFileReference; path = Local.xcconfig.example; sourceTree = "<group>"; };
 		F235E2F0B4067A3D3CF3ABBC /* ReadingTimerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingTimerTests.swift; sourceTree = "<group>"; };
+		FA5C33BDA6EFA803626CE295 /* App.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = App.xcconfig; sourceTree = "<group>"; };
 		FDE3ECA37F7443A5E97CEC59 /* YomoraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomoraApp.swift; sourceTree = "<group>"; };
 		FEA672BD6C98BF08335F00BC /* ButtonsAndFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsAndFields.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,8 +150,10 @@
 		20FD2DDB800E105065AE1A6F /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				6FF7AE1FEFAD5B187E9E8C53 /* Info.plist */,
+				FA5C33BDA6EFA803626CE295 /* App.xcconfig */,
+				BC2E9E7C473467ACDB0C72A8 /* AppInfo.plist */,
 				4856F971E7EA4C2108C665E5 /* Info.plist.example */,
+				EE3594A621CAF2BEC30FCB16 /* Local.xcconfig.example */,
 				62E1B486AAF2CC417CF58CCF /* README.md */,
 			);
 			path = Config;
@@ -755,13 +759,14 @@
 		};
 		8C6D6C898FA0867E0506F7A3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA5C33BDA6EFA803626CE295 /* App.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = FMWWTVS6HZ;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = Config/Info.plist;
+				INFOPLIST_FILE = Config/AppInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -775,13 +780,14 @@
 		};
 		8FE665D3613843F6511AE6A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA5C33BDA6EFA803626CE295 /* App.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = FMWWTVS6HZ;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = Config/Info.plist;
+				INFOPLIST_FILE = Config/AppInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

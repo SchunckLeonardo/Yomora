@@ -1,15 +1,16 @@
 # Configuração local do iOS
 
-Crie a configuração local antes de gerar o projeto:
+O projeto usa `App.xcconfig`, com `http://localhost:8080` como padrão seguro para o simulador.
+Para testar em um iPhone físico, crie a configuração local:
 
 ```bash
-cp Config/Info.plist.example Config/Info.plist
+cp Config/Local.xcconfig.example Config/Local.xcconfig
 ```
 
-Depois, altere somente `API_BASE_URL` em `Config/Info.plist` e execute:
+Depois, altere somente `API_BASE_URL` em `Config/Local.xcconfig` e execute:
 
 ```bash
 xcodegen generate
 ```
 
-`Config/Info.plist` é local e ignorado pelo Git. O arquivo de exemplo não contém credenciais e é usado pelo CI.
+`Config/Local.xcconfig` é local e ignorado pelo Git. O plist versionado contém apenas referências a configurações de build.

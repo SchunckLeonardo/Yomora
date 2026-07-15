@@ -1,0 +1,2 @@
+// Copie para Local.xcconfig e use o IP da sua máquina ao testar em um iPhone físico.
+API_BASE_URL = http:/$()/192.168.0.10:8080
