@@ -10,7 +10,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_app_appcontainer_swift",
-      "community": 1,
+      "community": 9,
       "norm_label": "appcontainer.swift"
     },
     {
@@ -32,7 +32,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "swiftdata",
-      "community": 1,
+      "community": 9,
       "norm_label": "swiftdata"
     },
     {
@@ -82,7 +82,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_app_approuter_swift",
-      "community": 8,
+      "community": 3,
       "norm_label": "approuter.swift"
     },
     {
@@ -233,7 +233,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "swiftui",
-      "community": 1,
+      "community": 24,
       "norm_label": "swiftui"
     },
     {
@@ -393,7 +393,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomora_app_rootview",
-      "community": 1,
+      "community": 24,
       "norm_label": "rootview.swift"
     },
     {
@@ -433,7 +433,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "yomora_app_rootview_splashview",
-      "community": 1,
+      "community": 24,
       "norm_label": "splashview"
     },
     {
@@ -604,7 +604,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_app_yomoraapp_swift",
-      "community": 1,
+      "community": 9,
       "norm_label": "yomoraapp.swift"
     },
     {
@@ -835,7 +835,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomora_core_components_bookcomponents",
-      "community": 7,
+      "community": 26,
       "norm_label": "bookcomponents.swift"
     },
     {
@@ -845,7 +845,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "yomora_core_components_bookcomponents_bookcover",
-      "community": 7,
+      "community": 26,
       "norm_label": "bookcover"
     },
     {
@@ -855,7 +855,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_core_components_bookcomponents_swift_string",
-      "community": 7,
+      "community": 26,
       "norm_label": "string"
     },
     {
@@ -865,7 +865,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_core_components_bookcomponents_swift_cgfloat",
-      "community": 7,
+      "community": 26,
       "norm_label": "cgfloat"
     },
     {
@@ -875,7 +875,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "yomora_core_components_bookcomponents_bookcard",
-      "community": 7,
+      "community": 26,
       "norm_label": "bookcard"
     },
     {
@@ -885,7 +885,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_core_components_bookcomponents_swift_double",
-      "community": 7,
+      "community": 26,
       "norm_label": "double"
     },
     {
@@ -895,7 +895,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "yomora_core_components_bookcomponents_progressring",
-      "community": 7,
+      "community": 26,
       "norm_label": "progressring"
     },
     {
@@ -905,7 +905,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "yomora_core_components_bookcomponents_ratingview",
-      "community": 7,
+      "community": 26,
       "norm_label": "ratingview"
     },
     {
@@ -915,7 +915,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_core_components_bookcomponents_swift_int",
-      "community": 7,
+      "community": 26,
       "norm_label": "int"
     },
     {
@@ -925,7 +925,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields",
-      "community": 7,
+      "community": 20,
       "norm_label": "buttonsandfields.swift"
     },
     {
@@ -935,7 +935,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields_primarybutton",
-      "community": 7,
+      "community": 20,
       "norm_label": "primarybutton"
     },
     {
@@ -945,7 +945,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields_swift_string",
-      "community": 7,
+      "community": 20,
       "norm_label": "string"
     },
     {
@@ -955,7 +955,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields_swift_void",
-      "community": 7,
+      "community": 20,
       "norm_label": "void"
     },
     {
@@ -965,7 +965,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields_secondarybutton",
-      "community": 7,
+      "community": 20,
       "norm_label": "secondarybutton"
     },
     {
@@ -975,7 +975,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields_textdraft",
-      "community": 7,
+      "community": 20,
       "norm_label": "textdraft"
     },
     {
@@ -985,7 +985,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields_textdraft_init",
-      "community": 7,
+      "community": 20,
       "norm_label": ".init()"
     },
     {
@@ -995,7 +995,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields_swift_bool",
-      "community": 7,
+      "community": 20,
       "norm_label": "bool"
     },
     {
@@ -1005,7 +1005,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields_drafttextfield",
-      "community": 7,
+      "community": 20,
       "norm_label": "drafttextfield"
     },
     {
@@ -1015,7 +1015,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "axis",
-      "community": 7,
+      "community": 20,
       "norm_label": "axis"
     },
     {
@@ -1025,7 +1025,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields_draftactionbutton",
-      "community": 7,
+      "community": 20,
       "norm_label": "draftactionbutton"
     },
     {
@@ -1035,7 +1035,7 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields_yomoratextfield",
-      "community": 7,
+      "community": 20,
       "norm_label": "yomoratextfield"
     },
     {
@@ -1045,7 +1045,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "uikeyboardtype",
-      "community": 7,
+      "community": 20,
       "norm_label": "uikeyboardtype"
     },
     {
@@ -1055,7 +1055,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "uitextcontenttype",
-      "community": 7,
+      "community": 20,
       "norm_label": "uitextcontenttype"
     },
     {
@@ -1065,7 +1065,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "yomora_core_components_buttonsandfields_yomoradraftfield",
-      "community": 7,
+      "community": 20,
       "norm_label": "yomoradraftfield"
     },
     {
@@ -1175,7 +1175,7 @@
       "source_location": "L174",
       "_origin": "ast",
       "id": "yomora_core_components_stateandsocialcomponents_socialactionbuttonstyle",
-      "community": 7,
+      "community": 32,
       "norm_label": "socialactionbuttonstyle"
     },
     {
@@ -1185,7 +1185,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "buttonstyle",
-      "community": 7,
+      "community": 32,
       "norm_label": "buttonstyle"
     },
     {
@@ -1195,7 +1195,7 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "yomora_core_components_stateandsocialcomponents_socialactionbuttonstyle_makebody",
-      "community": 7,
+      "community": 32,
       "norm_label": ".makebody()"
     },
     {
@@ -1205,7 +1205,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "configuration",
-      "community": 7,
+      "community": 32,
       "norm_label": "configuration"
     },
     {
@@ -1275,7 +1275,7 @@
       "source_location": "L237",
       "_origin": "ast",
       "id": "yomora_core_components_stateandsocialcomponents_themepicker",
-      "community": 7,
+      "community": 12,
       "norm_label": "themepicker"
     },
     {
@@ -1296,7 +1296,7 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "uikit",
-      "community": 12,
+      "community": 10,
       "norm_label": "uikit"
     },
     {
@@ -1566,7 +1566,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_apiclient_swift",
-      "community": 6,
+      "community": 3,
       "norm_label": "apiclient.swift"
     },
     {
@@ -2086,7 +2086,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_swift",
-      "community": 10,
+      "community": 4,
       "norm_label": "endpoint.swift"
     },
     {
@@ -2106,7 +2106,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_method",
-      "community": 10,
+      "community": 4,
       "norm_label": "method"
     },
     {
@@ -2116,7 +2116,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_method_get",
-      "community": 10,
+      "community": 4,
       "norm_label": "get"
     },
     {
@@ -2126,7 +2126,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_method_post",
-      "community": 10,
+      "community": 4,
       "norm_label": "post"
     },
     {
@@ -2136,7 +2136,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_method_patch",
-      "community": 10,
+      "community": 4,
       "norm_label": "patch"
     },
     {
@@ -2146,7 +2146,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_method_put",
-      "community": 10,
+      "community": 4,
       "norm_label": "put"
     },
     {
@@ -2156,7 +2156,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_method_delete",
-      "community": 10,
+      "community": 4,
       "norm_label": "delete"
     },
     {
@@ -2166,7 +2166,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "urlqueryitem",
-      "community": 4,
+      "community": 9,
       "norm_label": "urlqueryitem"
     },
     {
@@ -2206,7 +2206,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_apierror",
-      "community": 10,
+      "community": 6,
       "norm_label": "apierror"
     },
     {
@@ -2216,7 +2216,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "localizederror",
-      "community": 10,
+      "community": 6,
       "norm_label": "localizederror"
     },
     {
@@ -2226,7 +2226,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_apierror_invalidurl",
-      "community": 10,
+      "community": 6,
       "norm_label": "invalidurl"
     },
     {
@@ -2236,7 +2236,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_apierror_unauthorized",
-      "community": 10,
+      "community": 6,
       "norm_label": "unauthorized"
     },
     {
@@ -2246,7 +2246,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_apierror_server",
-      "community": 10,
+      "community": 6,
       "norm_label": "server"
     },
     {
@@ -2266,7 +2266,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_apierror_invalidresponse",
-      "community": 10,
+      "community": 6,
       "norm_label": "invalidresponse"
     },
     {
@@ -2276,7 +2276,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_core_networking_endpoint_problemdetail",
-      "community": 10,
+      "community": 4,
       "norm_label": "problemdetail"
     },
     {
@@ -2286,7 +2286,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "decodable",
-      "community": 10,
+      "community": 4,
       "norm_label": "decodable"
     },
     {
@@ -2666,7 +2666,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomora_features_authentication_authenticationview",
-      "community": 12,
+      "community": 30,
       "norm_label": "authenticationview.swift"
     },
     {
@@ -2676,7 +2676,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "yomora_features_authentication_authenticationview_authenticationview",
-      "community": 12,
+      "community": 30,
       "norm_label": "authenticationview"
     },
     {
@@ -2686,7 +2686,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_authentication_authenticationview_swift_sessionstore",
-      "community": 12,
+      "community": 30,
       "norm_label": "sessionstore"
     },
     {
@@ -2696,7 +2696,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "mode",
-      "community": 12,
+      "community": 30,
       "norm_label": "mode"
     },
     {
@@ -2746,7 +2746,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "yomora_features_authentication_authenticationview_passwordresetview",
-      "community": 12,
+      "community": 30,
       "norm_label": "passwordresetview"
     },
     {
@@ -2796,7 +2796,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview",
-      "community": 4,
+      "community": 10,
       "norm_label": "feedview.swift"
     },
     {
@@ -2806,7 +2806,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_keyboardlayout",
-      "community": 5,
+      "community": 10,
       "norm_label": "keyboardlayout"
     },
     {
@@ -2816,7 +2816,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_keyboardlayout_bottominset",
-      "community": 5,
+      "community": 10,
       "norm_label": ".bottominset()"
     },
     {
@@ -2826,7 +2826,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_swift_cgfloat",
-      "community": 5,
+      "community": 10,
       "norm_label": "cgfloat"
     },
     {
@@ -2856,7 +2856,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_postdetailsview",
-      "community": 4,
+      "community": 10,
       "norm_label": "postdetailsview"
     },
     {
@@ -2866,7 +2866,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_swift_bool",
-      "community": 4,
+      "community": 10,
       "norm_label": "bool"
     },
     {
@@ -2876,7 +2876,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_swift_void",
-      "community": 4,
+      "community": 10,
       "norm_label": "void"
     },
     {
@@ -2886,7 +2886,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_swift_string",
-      "community": 4,
+      "community": 10,
       "norm_label": "string"
     },
     {
@@ -2896,7 +2896,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_swift_uuid",
-      "community": 4,
+      "community": 10,
       "norm_label": "uuid"
     },
     {
@@ -2906,7 +2906,7 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_postdetailsview_init",
-      "community": 4,
+      "community": 10,
       "norm_label": ".init()"
     },
     {
@@ -2916,7 +2916,7 @@
       "source_location": "L195",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_postdetailsview_updatekeyboard",
-      "community": 4,
+      "community": 10,
       "norm_label": ".updatekeyboard()"
     },
     {
@@ -2926,7 +2926,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "notification",
-      "community": 4,
+      "community": 10,
       "norm_label": "notification"
     },
     {
@@ -2936,7 +2936,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "geometryproxy",
-      "community": 4,
+      "community": 10,
       "norm_label": "geometryproxy"
     },
     {
@@ -2946,7 +2946,7 @@
       "source_location": "L206",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_postdetailsview_animatekeyboard",
-      "community": 4,
+      "community": 10,
       "norm_label": ".animatekeyboard()"
     },
     {
@@ -2956,7 +2956,7 @@
       "source_location": "L211",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_postdetailsview_loadcomments",
-      "community": 4,
+      "community": 10,
       "norm_label": ".loadcomments()"
     },
     {
@@ -2976,7 +2976,7 @@
       "source_location": "L243",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_postdetailsview_togglelike",
-      "community": 4,
+      "community": 10,
       "norm_label": ".togglelike()"
     },
     {
@@ -2986,7 +2986,7 @@
       "source_location": "L258",
       "_origin": "ast",
       "id": "yomora_features_feed_feedview_commentcomposer",
-      "community": 4,
+      "community": 10,
       "norm_label": "commentcomposer"
     },
     {
@@ -2996,7 +2996,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "focusstate",
-      "community": 4,
+      "community": 10,
       "norm_label": "focusstate"
     },
     {
@@ -3136,7 +3136,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "yomora_features_feed_feedviewmodel_feedviewmodel_init",
-      "community": 2,
+      "community": 4,
       "norm_label": ".init()"
     },
     {
@@ -3196,7 +3196,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomora_features_library_libraryview",
-      "community": 1,
+      "community": 27,
       "norm_label": "libraryview.swift"
     },
     {
@@ -3226,7 +3226,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "yomora_features_library_libraryview_librarybookdetailsview",
-      "community": 1,
+      "community": 27,
       "norm_label": "librarybookdetailsview"
     },
     {
@@ -3236,7 +3236,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_library_libraryview_swift_int",
-      "community": 1,
+      "community": 27,
       "norm_label": "int"
     },
     {
@@ -3266,7 +3266,7 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "yomora_features_library_libraryview_bookwritingview",
-      "community": 1,
+      "community": 27,
       "norm_label": "bookwritingview"
     },
     {
@@ -3276,7 +3276,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "yomora_features_library_libraryview_mode",
-      "community": 1,
+      "community": 27,
       "norm_label": "mode"
     },
     {
@@ -3286,7 +3286,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "yomora_features_library_libraryview_mode_note",
-      "community": 1,
+      "community": 27,
       "norm_label": "note"
     },
     {
@@ -3296,7 +3296,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "yomora_features_library_libraryview_mode_review",
-      "community": 1,
+      "community": 27,
       "norm_label": "review"
     },
     {
@@ -3316,7 +3316,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "yomora_features_library_libraryview_shelflistview",
-      "community": 4,
+      "community": 27,
       "norm_label": "shelflistview"
     },
     {
@@ -3336,7 +3336,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_features_library_libraryviewmodel_swift",
-      "community": 3,
+      "community": 1,
       "norm_label": "libraryviewmodel.swift"
     },
     {
@@ -3346,7 +3346,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_features_library_libraryviewmodel_libraryitem",
-      "community": 0,
+      "community": 1,
       "norm_label": "libraryitem"
     },
     {
@@ -3446,7 +3446,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomora_features_library_libraryviewmodel_libraryviewmodel_load",
-      "community": 4,
+      "community": 1,
       "norm_label": ".load()"
     },
     {
@@ -3456,7 +3456,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomora_features_onboarding_onboardingview",
-      "community": 7,
+      "community": 28,
       "norm_label": "onboardingview.swift"
     },
     {
@@ -3466,7 +3466,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "yomora_features_onboarding_onboardingview_onboardingview",
-      "community": 7,
+      "community": 28,
       "norm_label": "onboardingview"
     },
     {
@@ -3476,7 +3476,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_onboarding_onboardingview_swift_void",
-      "community": 7,
+      "community": 28,
       "norm_label": "void"
     },
     {
@@ -3486,7 +3486,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "yomora_features_onboarding_onboardingview_onboardingpage",
-      "community": 7,
+      "community": 28,
       "norm_label": "onboardingpage"
     },
     {
@@ -3496,7 +3496,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_onboarding_onboardingview_swift_string",
-      "community": 7,
+      "community": 28,
       "norm_label": "string"
     },
     {
@@ -3506,7 +3506,7 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "yomora_features_onboarding_onboardingview_onboardingview_previews",
-      "community": 7,
+      "community": 28,
       "norm_label": "onboardingview_previews"
     },
     {
@@ -3516,7 +3516,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "previewprovider",
-      "community": 7,
+      "community": 28,
       "norm_label": "previewprovider"
     },
     {
@@ -3526,7 +3526,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomora_features_postcomposer_postcomposerview",
-      "community": 7,
+      "community": 24,
       "norm_label": "postcomposerview.swift"
     },
     {
@@ -3536,7 +3536,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "yomora_features_postcomposer_postcomposerview_postcomposerview",
-      "community": 7,
+      "community": 24,
       "norm_label": "postcomposerview"
     },
     {
@@ -3546,7 +3546,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "posttype",
-      "community": 7,
+      "community": 24,
       "norm_label": "posttype"
     },
     {
@@ -3556,7 +3556,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_postcomposer_postcomposerview_swift_string",
-      "community": 7,
+      "community": 24,
       "norm_label": "string"
     },
     {
@@ -3576,7 +3576,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "yomora_features_postcomposer_postcomposerview_postcomposerview_title",
-      "community": 7,
+      "community": 24,
       "norm_label": ".title()"
     },
     {
@@ -3626,7 +3626,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_profile_profileview_swift_bool",
-      "community": 7,
+      "community": 1,
       "norm_label": "bool"
     },
     {
@@ -3696,7 +3696,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "yomora_features_profile_profileview_profileeditview",
-      "community": 7,
+      "community": 4,
       "norm_label": "profileeditview"
     },
     {
@@ -3706,7 +3706,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "yomora_features_profile_profileview_profileeditview_init",
-      "community": 7,
+      "community": 4,
       "norm_label": ".init()"
     },
     {
@@ -4156,7 +4156,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomora_features_settings_settingsview",
-      "community": 1,
+      "community": 31,
       "norm_label": "settingsview.swift"
     },
     {
@@ -4166,7 +4166,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "yomora_features_settings_settingsview_notification_name",
-      "community": 1,
+      "community": 31,
       "norm_label": "notification.name"
     },
     {
@@ -4176,7 +4176,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "yomora_features_settings_settingsview_settingsview",
-      "community": 1,
+      "community": 31,
       "norm_label": "settingsview"
     },
     {
@@ -4186,7 +4186,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_settings_settingsview_swift_sessionstore",
-      "community": 1,
+      "community": 31,
       "norm_label": "sessionstore"
     },
     {
@@ -4206,7 +4206,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "yomora_features_settings_settingsview_themeselectionview",
-      "community": 1,
+      "community": 31,
       "norm_label": "themeselectionview"
     },
     {
@@ -4216,7 +4216,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomora_features_statistics_statisticsview",
-      "community": 7,
+      "community": 24,
       "norm_label": "statisticsview.swift"
     },
     {
@@ -4226,7 +4226,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "yomora_features_statistics_statisticsview_statisticsview",
-      "community": 7,
+      "community": 24,
       "norm_label": "statisticsview"
     },
     {
@@ -4236,7 +4236,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "yomora_features_statistics_statisticsview_statisticsview_tile",
-      "community": 7,
+      "community": 24,
       "norm_label": ".tile()"
     },
     {
@@ -4246,7 +4246,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_statistics_statisticsview_swift_string",
-      "community": 7,
+      "community": 24,
       "norm_label": "string"
     },
     {
@@ -4256,7 +4256,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomora_features_today_todayview",
-      "community": 1,
+      "community": 13,
       "norm_label": "todayview.swift"
     },
     {
@@ -4266,7 +4266,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "yomora_features_today_todayview_todayview",
-      "community": 1,
+      "community": 13,
       "norm_label": "todayview"
     },
     {
@@ -4276,7 +4276,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "todayviewmodel",
-      "community": 5,
+      "community": 13,
       "norm_label": "todayviewmodel"
     },
     {
@@ -4286,7 +4286,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "yomora_features_today_todayview_todayview_init",
-      "community": 1,
+      "community": 13,
       "norm_label": ".init()"
     },
     {
@@ -4316,7 +4316,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "yomora_features_today_todayview_todayview_reload",
-      "community": 1,
+      "community": 13,
       "norm_label": ".reload()"
     },
     {
@@ -4336,7 +4336,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "yomora_features_today_todayviewmodel_state",
-      "community": 3,
+      "community": 13,
       "norm_label": "state"
     },
     {
@@ -4346,7 +4346,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "yomora_features_today_todayviewmodel_state_idle",
-      "community": 3,
+      "community": 13,
       "norm_label": "idle"
     },
     {
@@ -4356,7 +4356,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "yomora_features_today_todayviewmodel_state_loading",
-      "community": 3,
+      "community": 13,
       "norm_label": "loading"
     },
     {
@@ -4366,7 +4366,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "yomora_features_today_todayviewmodel_state_loaded",
-      "community": 3,
+      "community": 13,
       "norm_label": "loaded"
     },
     {
@@ -4376,7 +4376,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "yomora_features_today_todayviewmodel_state_error",
-      "community": 3,
+      "community": 13,
       "norm_label": "error"
     },
     {
@@ -4386,7 +4386,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_today_todayviewmodel_swift_string",
-      "community": 3,
+      "community": 13,
       "norm_label": "string"
     },
     {
@@ -4416,7 +4416,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "yomora_features_today_todayviewmodel_load",
-      "community": 4,
+      "community": 3,
       "norm_label": "load()"
     },
     {
@@ -4426,7 +4426,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomora_features_today_todayviewmodel_swift_int",
-      "community": 4,
+      "community": 3,
       "norm_label": "int"
     },
     {
@@ -4668,7 +4668,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "users_leonardoschunckrainha_documents_codex_2026_07_13_yo_work_yomora_apps_ios_yomoratests_searchviewmodeltests_swift",
-      "community": 5,
+      "community": 9,
       "norm_label": "searchviewmodeltests.swift"
     },
     {
@@ -4858,7 +4858,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "yomoratests_todayviewmodeltests",
-      "community": 5,
+      "community": 13,
       "norm_label": "todayviewmodeltests.swift"
     },
     {
@@ -4868,7 +4868,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "yomoratests_todayviewmodeltests_todayviewmodeltests",
-      "community": 5,
+      "community": 13,
       "norm_label": "todayviewmodeltests"
     },
     {
@@ -4878,7 +4878,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "yomoratests_todayviewmodeltests_todayviewmodeltests_testapplyingpersistedgoalupdatesthevisiblegoal",
-      "community": 5,
+      "community": 13,
       "norm_label": ".testapplyingpersistedgoalupdatesthevisiblegoal()"
     },
     {
@@ -4888,7 +4888,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "yomoratests_todayviewmodeltests_todayviewmodeltests_testcancelledrefreshkeepsloadedcontentvisible",
-      "community": 5,
+      "community": 13,
       "norm_label": ".testcancelledrefreshkeepsloadedcontentvisible()"
     },
     {
@@ -4898,7 +4898,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "yomoratests_todayviewmodeltests_todayviewmodeltests_testoldercancelledloadcannotoverwritenewersuccess",
-      "community": 5,
+      "community": 13,
       "norm_label": ".testoldercancelledloadcannotoverwritenewersuccess()"
     },
     {
@@ -4908,7 +4908,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "yomoratests_todayviewmodeltests_todayapiclient",
-      "community": 5,
+      "community": 13,
       "norm_label": "todayapiclient"
     },
     {
@@ -4918,7 +4918,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomoratests_todayviewmodeltests_swift_bool",
-      "community": 5,
+      "community": 13,
       "norm_label": "bool"
     },
     {
@@ -4928,7 +4928,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "yomoratests_todayviewmodeltests_todayapiclient_init",
-      "community": 5,
+      "community": 13,
       "norm_label": ".init()"
     },
     {
@@ -4938,7 +4938,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "yomoratests_todayviewmodeltests_todayapiclient_cancelnextstatisticsrequest",
-      "community": 5,
+      "community": 13,
       "norm_label": ".cancelnextstatisticsrequest()"
     },
     {
@@ -4968,7 +4968,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "yomoratests_todayviewmodeltests_todayapiclient_sendvoid",
-      "community": 5,
+      "community": 13,
       "norm_label": ".sendvoid()"
     },
     {
@@ -5018,7 +5018,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_yomoradesigntests",
-      "community": 13,
+      "community": 5,
       "norm_label": "yomoradesigntests"
     },
     {
@@ -5028,7 +5028,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_yomoradesigntests_testdarkpalettekeepsreadingtextataacontrast",
-      "community": 13,
+      "community": 5,
       "norm_label": ".testdarkpalettekeepsreadingtextataacontrast()"
     },
     {
@@ -5038,7 +5038,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_yomoradesigntests_testdarkcommunityaccentisreadableonelevatedsurface",
-      "community": 13,
+      "community": 5,
       "norm_label": ".testdarkcommunityaccentisreadableonelevatedsurface()"
     },
     {
@@ -5048,7 +5048,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_yomoradesigntests_testfocusinputcontentisreadableonwhitefieldindarkmode",
-      "community": 13,
+      "community": 5,
       "norm_label": ".testfocusinputcontentisreadableonwhitefieldindarkmode()"
     },
     {
@@ -5058,7 +5058,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_yomoradesigntests_resolvedrgb",
-      "community": 13,
+      "community": 5,
       "norm_label": ".resolvedrgb()"
     },
     {
@@ -5068,7 +5068,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "uiuserinterfacestyle",
-      "community": 13,
+      "community": 5,
       "norm_label": "uiuserinterfacestyle"
     },
     {
@@ -5078,7 +5078,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_yomoradesigntests_contrast",
-      "community": 13,
+      "community": 5,
       "norm_label": ".contrast()"
     },
     {
@@ -5088,7 +5088,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_swift_double",
-      "community": 13,
+      "community": 5,
       "norm_label": "double"
     },
     {
@@ -5098,7 +5098,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_rgb",
-      "community": 13,
+      "community": 5,
       "norm_label": "rgb"
     },
     {
@@ -5108,7 +5108,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_rgb_linear",
-      "community": 13,
+      "community": 5,
       "norm_label": ".linear()"
     },
     {
@@ -5118,7 +5118,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_keyboardlayouttests",
-      "community": 5,
+      "community": 10,
       "norm_label": "keyboardlayouttests"
     },
     {
@@ -5128,7 +5128,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_keyboardlayouttests_testbottominsetreservesonlykeyboardareaabovethehomeindicator",
-      "community": 5,
+      "community": 10,
       "norm_label": ".testbottominsetreservesonlykeyboardareaabovethehomeindicator()"
     },
     {
@@ -5138,7 +5138,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "yomoratests_tokenandnavigationtests_keyboardlayouttests_testbottominsetiszerowhenkeyboardishidden",
-      "community": 5,
+      "community": 10,
       "norm_label": ".testbottominsetiszerowhenkeyboardishidden()"
     },
     {
@@ -5295,11 +5295,41 @@
       "label": ".testCommentComposerStaysAboveSoftwareKeyboard()",
       "file_type": "code",
       "source_file": "YomoraUITests/YomoraFlowUITests.swift",
-      "source_location": "L46",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "yomorauitests_yomoraflowuitests_yomoraflowuitests_testcommentcomposerstaysabovesoftwarekeyboard",
       "community": 5,
       "norm_label": ".testcommentcomposerstaysabovesoftwarekeyboard()"
+    },
+    {
+      "label": ".launchAuthenticatedApp()",
+      "file_type": "code",
+      "source_file": "YomoraUITests/YomoraFlowUITests.swift",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "yomorauitests_yomoraflowuitests_yomoraflowuitests_launchauthenticatedapp",
+      "community": 5,
+      "norm_label": ".launchauthenticatedapp()"
+    },
+    {
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "yomorauitests_yomoraflowuitests_swift_string",
+      "community": 5,
+      "norm_label": "string"
+    },
+    {
+      "label": "XCUIApplication",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "xcuiapplication",
+      "community": 5,
+      "norm_label": "xcuiapplication"
     },
     {
       "label": "README.md",
@@ -5419,6 +5449,56 @@
       "_origin": "ast",
       "id": "graphify_out_memory_query_20260715_134631_quando_eu_clico_para_finalizar_sess\u00e3o_e_aparece_o_source_nodes",
       "community": 17,
+      "norm_label": "source nodes"
+    },
+    {
+      "label": "query_20260715_140828_github_actions_ios_test_is_failing.md",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260715_140828_github_actions_ios_test_is_failing.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing",
+      "community": 29,
+      "norm_label": "query_20260715_140828_github_actions_ios_test_is_failing.md"
+    },
+    {
+      "label": "Q: github actions ios test is failing",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260715_140828_github_actions_ios_test_is_failing.md",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing_q_github_actions_ios_test_is_failing",
+      "community": 29,
+      "norm_label": "q: github actions ios test is failing"
+    },
+    {
+      "label": "Answer",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260715_140828_github_actions_ios_test_is_failing.md",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing_answer",
+      "community": 29,
+      "norm_label": "answer"
+    },
+    {
+      "label": "Outcome",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260715_140828_github_actions_ios_test_is_failing.md",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing_outcome",
+      "community": 29,
+      "norm_label": "outcome"
+    },
+    {
+      "label": "Source Nodes",
+      "file_type": "document",
+      "source_file": "graphify-out/memory/query_20260715_140828_github_actions_ios_test_is_failing.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing_source_nodes",
+      "community": 29,
       "norm_label": "source nodes"
     },
     {
@@ -17255,7 +17335,17 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "YomoraUITests/YomoraFlowUITests.swift",
-      "source_location": "L46",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "yomorauitests_yomoraflowuitests_yomoraflowuitests",
+      "target": "yomorauitests_yomoraflowuitests_yomoraflowuitests_launchauthenticatedapp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "YomoraUITests/YomoraFlowUITests.swift",
+      "source_location": "L37",
       "weight": 1.0,
       "source": "yomorauitests_yomoraflowuitests_yomoraflowuitests",
       "target": "yomorauitests_yomoraflowuitests_yomoraflowuitests_testcommentcomposerstaysabovesoftwarekeyboard",
@@ -17269,6 +17359,50 @@
       "weight": 1.0,
       "source": "yomorauitests_yomoraflowuitests_yomoraflowuitests",
       "target": "yomorauitests_yomoraflowuitests_yomoraflowuitests_testloginsearchaddandfinishreadingsession",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "YomoraUITests/YomoraFlowUITests.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "yomorauitests_yomoraflowuitests_yomoraflowuitests_testloginsearchaddandfinishreadingsession",
+      "target": "yomorauitests_yomoraflowuitests_yomoraflowuitests_launchauthenticatedapp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "YomoraUITests/YomoraFlowUITests.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "yomorauitests_yomoraflowuitests_yomoraflowuitests_testcommentcomposerstaysabovesoftwarekeyboard",
+      "target": "yomorauitests_yomoraflowuitests_yomoraflowuitests_launchauthenticatedapp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "YomoraUITests/YomoraFlowUITests.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "yomorauitests_yomoraflowuitests_yomoraflowuitests_launchauthenticatedapp",
+      "target": "xcuiapplication",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "YomoraUITests/YomoraFlowUITests.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "yomorauitests_yomoraflowuitests_yomoraflowuitests_launchauthenticatedapp",
+      "target": "yomorauitests_yomoraflowuitests_swift_string",
       "confidence_score": 1.0
     },
     {
@@ -17359,6 +17493,46 @@
       "weight": 1.0,
       "source": "graphify_out_memory_query_20260715_134631_quando_eu_clico_para_finalizar_sess\u00e3o_e_aparece_o_q_quando_eu_clico_para_finalizar_sess\u00e3o_e_aparece_o_resumo_da_leitura_e_clico_na_seta_para_voltar_ela_volta_para_o_timer_em_contagem_ao_inv\u00e9s_de_voltar_para_a_tela_hoje",
       "target": "graphify_out_memory_query_20260715_134631_quando_eu_clico_para_finalizar_sess\u00e3o_e_aparece_o_source_nodes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260715_140828_github_actions_ios_test_is_failing.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing",
+      "target": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing_q_github_actions_ios_test_is_failing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260715_140828_github_actions_ios_test_is_failing.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing_q_github_actions_ios_test_is_failing",
+      "target": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing_answer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260715_140828_github_actions_ios_test_is_failing.md",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing_q_github_actions_ios_test_is_failing",
+      "target": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing_outcome",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "graphify-out/memory/query_20260715_140828_github_actions_ios_test_is_failing.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing_q_github_actions_ios_test_is_failing",
+      "target": "graphify_out_memory_query_20260715_140828_github_actions_ios_test_is_failing_source_nodes",
       "confidence_score": 1.0
     },
     {
@@ -17513,5 +17687,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "d0013311bcbf72af2bacce5362c81d7ed6d8d693"
+  "built_at_commit": "f41327b5bcffbff18f50d44e30e6f19b86204240"
 }

@@ -3,16 +3,7 @@ import XCTest
 final class YomoraFlowUITests: XCTestCase {
     @MainActor
     func testLoginSearchAddAndFinishReadingSession() {
-        let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--skip-onboarding"]
-        app.launch()
-
-        let email = app.textFields["emailField"]
-        XCTAssertTrue(email.waitForExistence(timeout: 3))
-        email.tap(); email.typeText("marina@yomora.local")
-        let password = app.secureTextFields["passwordField"]
-        password.tap(); password.typeText("Yomora123!")
-        app.buttons["authenticationButton"].tap()
+        let app = launchAuthenticatedApp(email: "marina@yomora.local")
 
         XCTAssertTrue(app.tabBars.buttons["Descobrir"].waitForExistence(timeout: 3))
         app.tabBars.buttons["Descobrir"].tap()
@@ -45,16 +36,7 @@ final class YomoraFlowUITests: XCTestCase {
 
     @MainActor
     func testCommentComposerStaysAboveSoftwareKeyboard() throws {
-        let app = XCUIApplication()
-        app.launchArguments = ["--ui-testing", "--skip-onboarding"]
-        app.launch()
-
-        let email = app.textFields["emailField"]
-        XCTAssertTrue(email.waitForExistence(timeout: 3))
-        email.tap(); email.typeText("keyboard@yomora.local")
-        let password = app.secureTextFields["passwordField"]
-        password.tap(); password.typeText("Yomora123!")
-        app.buttons["authenticationButton"].tap()
+        let app = launchAuthenticatedApp(email: "keyboard@yomora.local")
 
         let community = app.tabBars.buttons["Comunidade"]
         XCTAssertTrue(community.waitForExistence(timeout: 3)); community.tap()
@@ -71,5 +53,22 @@ final class YomoraFlowUITests: XCTestCase {
         }
         XCTAssertLessThanOrEqual(field.frame.maxY, keyboard.frame.minY + 1)
         XCTAssertTrue(app.buttons["sendCommentButton"].isHittable)
+    }
+
+    @MainActor
+    private func launchAuthenticatedApp(email address: String) -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchArguments = ["--ui-testing", "--skip-onboarding"]
+        app.launch()
+
+        let email = app.textFields["emailField"]
+        XCTAssertTrue(email.waitForExistence(timeout: 3))
+        email.tap(); email.typeText(address)
+        let password = app.secureTextFields["passwordField"]
+        password.tap(); password.typeText("Yomora123!")
+        app.buttons["authenticationButton"].tap()
+
+        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 10))
+        return app
     }
 }
