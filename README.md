@@ -61,7 +61,7 @@ O conjunto inclui um livro, biblioteca em andamento, meta, sessão, seguimento e
 
 ## Testes e CI
 
-O backend possui testes unitários de regras, controller/segurança, arquitetura, agregação de provedores e integração real com PostgreSQL via Testcontainers. O app possui testes de ViewModels, timer, HTTP/Keychain e um fluxo XCUITest. GitHub Actions separa backend, OpenAPI e iOS; o job iOS usa runner macOS.
+O backend possui testes unitários de regras, controller/segurança, arquitetura, agregação de provedores e integração real com PostgreSQL via Testcontainers. O app possui testes de ViewModels, timer, HTTP/Keychain e um fluxo XCUITest. GitHub Actions separa backend, OpenAPI e iOS; o job iOS usa runner macOS. O workflow CodeQL analisa Java/Kotlin, Swift e os próprios workflows em pushes e pull requests relevantes, além de uma execução semanal.
 
 ## Experiência de leitura
 

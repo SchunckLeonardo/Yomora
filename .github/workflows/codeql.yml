@@ -1,0 +1,99 @@
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "services/api/**"
+      - "apps/ios/**"
+      - ".github/workflows/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "services/api/**"
+      - "apps/ios/**"
+      - ".github/workflows/**"
+  schedule:
+    - cron: "23 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+  security-events: write
+
+concurrency:
+  group: codeql-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    name: Analyze ${{ matrix.language }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: java-kotlin
+            build-mode: manual
+            os: ubuntu-latest
+          - language: swift
+            build-mode: manual
+            os: macos-15
+          - language: actions
+            build-mode: none
+            os: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Java
+        if: matrix.language == 'java-kotlin'
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+
+      - name: Validate Gradle wrapper
+        if: matrix.language == 'java-kotlin'
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Install XcodeGen
+        if: matrix.language == 'swift'
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        if: matrix.language == 'swift'
+        working-directory: apps/ios
+        run: xcodegen generate
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+          queries: security-and-quality
+
+      - name: Build backend
+        if: matrix.language == 'java-kotlin'
+        working-directory: services/api
+        run: ./gradlew clean classes --no-daemon
+
+      - name: Build iOS app
+        if: matrix.language == 'swift'
+        working-directory: apps/ios
+        run: >-
+          xcodebuild clean build
+          -project Yomora.xcodeproj
+          -scheme Yomora
+          -destination 'generic/platform=iOS Simulator'
+          -derivedDataPath "$RUNNER_TEMP/YomoraDerivedData"
+          CODE_SIGNING_ALLOWED=NO
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:${{ matrix.language }}"
