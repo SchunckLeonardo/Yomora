@@ -116,8 +116,8 @@ private struct BookWritingView: View {
     let page: Int
     let api: any APIClientProtocol
     @Environment(\.dismiss) private var dismiss
-    @State private var title = ""
-    @State private var text = ""
+    @State private var title = TextDraft()
+    @State private var text = TextDraft()
     @State private var rating = 4
     @State private var privateNote = true
     @State private var spoiler = false
@@ -125,8 +125,12 @@ private struct BookWritingView: View {
     var body: some View {
         Form {
             Section(book.title) {
-                if mode == .review { RatingView(rating: $rating); TextField("Título opcional", text: $title) }
-                TextField(mode == .note ? "Sua nota" : "O que você achou?", text: $text, axis: .vertical).lineLimit(5...12)
+                if mode == .review {
+                    RatingView(rating: $rating)
+                    DraftTextField(prompt: "Título opcional", draft: title)
+                }
+                DraftTextField(prompt: mode == .note ? "Sua nota" : "O que você achou?", draft: text, axis: .vertical)
+                    .lineLimit(5...12)
                 if mode == .note { Toggle("Manter privada", isOn: $privateNote) }
                 Toggle("Contém spoiler", isOn: $spoiler)
             }
@@ -134,7 +138,9 @@ private struct BookWritingView: View {
         .navigationTitle(mode == .note ? "Nova nota" : "Nova review")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) { Button("Cancelar") { dismiss() } }
-            ToolbarItem(placement: .confirmationAction) { Button("Publicar") { Task { await submit() } }.disabled(text.isEmpty) }
+            ToolbarItem(placement: .confirmationAction) {
+                DraftActionButton(title: "Publicar", draft: text) { Task { await submit() } }
+            }
         }
     }
 
@@ -142,12 +148,19 @@ private struct BookWritingView: View {
         if mode == .note {
             struct Body: Encodable { let editionId: UUID; let content: String; let page: Int?; let chapter: String?; let privateNote: Bool; let spoiler: Bool }
             var endpoint = Endpoint(path: "/api/v1/notes", method: .post)
-            endpoint.body = try? Endpoint.json(Body(editionId: book.editionId, content: text, page: page, chapter: nil, privateNote: privateNote, spoiler: spoiler))
+            endpoint.body = try? Endpoint.json(Body(editionId: book.editionId, content: text.value, page: page, chapter: nil, privateNote: privateNote, spoiler: spoiler))
             if (try? await api.send(endpoint, as: Note.self)) != nil { dismiss() }
         } else {
             struct Body: Encodable { let workId: UUID; let editionId: UUID; let rating: Int; let title: String?; let text: String; let spoiler: Bool }
             var endpoint = Endpoint(path: "/api/v1/reviews", method: .post)
-            endpoint.body = try? Endpoint.json(Body(workId: book.workId, editionId: book.editionId, rating: rating, title: title.isEmpty ? nil : title, text: text, spoiler: spoiler))
+            endpoint.body = try? Endpoint.json(Body(
+                workId: book.workId,
+                editionId: book.editionId,
+                rating: rating,
+                title: title.value.isEmpty ? nil : title.value,
+                text: text.value,
+                spoiler: spoiler
+            ))
             if (try? await api.send(endpoint, as: Review.self)) != nil { dismiss() }
         }
     }
@@ -157,12 +170,12 @@ private struct ShelfListView: View {
     let api: any APIClientProtocol
     @Environment(\.dismiss) private var dismiss
     @State private var shelves: [Shelf] = []
-    @State private var name = ""
+    @State private var name = TextDraft()
     var body: some View {
         List {
             Section("Nova estante") {
-                TextField("Ex.: Ler em 2026", text: $name)
-                Button("Criar") { Task { await create() } }.disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
+                DraftTextField(prompt: "Ex.: Ler em 2026", draft: name)
+                DraftActionButton(title: "Criar", draft: name) { Task { await create() } }
             }
             Section("Suas estantes") {
                 ForEach(shelves) { shelf in Label(shelf.name, systemImage: shelf.publicShelf ? "globe" : "lock") }
@@ -176,7 +189,7 @@ private struct ShelfListView: View {
     private func create() async {
         struct Body: Encodable { let name: String; let publicShelf: Bool }
         var endpoint = Endpoint(path: "/api/v1/shelves", method: .post)
-        endpoint.body = try? Endpoint.json(Body(name: name, publicShelf: false))
-        if let shelf = try? await api.send(endpoint, as: Shelf.self) { shelves.append(shelf); name = "" }
+        endpoint.body = try? Endpoint.json(Body(name: name.value, publicShelf: false))
+        if let shelf = try? await api.send(endpoint, as: Shelf.self) { shelves.append(shelf); name.value = "" }
     }
 }

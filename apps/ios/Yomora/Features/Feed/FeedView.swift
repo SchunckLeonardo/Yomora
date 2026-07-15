@@ -77,7 +77,7 @@ struct PostDetailsView: View {
     let onPostChange: ((Post, Bool?) -> Void)?
     @State private var currentPost: Post
     @State private var comments: [Comment] = []
-    @State private var text = ""
+    @State private var text = TextDraft()
     @State private var isLiked: Bool
     @State private var isLoadingComments = true
     @State private var isSending = false
@@ -184,40 +184,12 @@ struct PostDetailsView: View {
     }
 
     private var composer: some View {
-        HStack(alignment: .bottom, spacing: 10) {
-            UserAvatar(url: nil, size: 34)
-            TextField("Escreva um comentário…", text: $text, axis: .vertical)
-                .lineLimit(1...4)
-                .focused($isComposerFocused)
-                .submitLabel(.send)
-                .onSubmit { Task { await comment() } }
-                .padding(.horizontal, 14)
-                .padding(.vertical, 11)
-                .background(YomoraColor.surfaceElevated, in: RoundedRectangle(cornerRadius: 18))
-                .overlay(RoundedRectangle(cornerRadius: 18).stroke(isComposerFocused ? YomoraColor.sereneTeal : YomoraColor.outline))
-                .accessibilityIdentifier("commentField")
-            Button { Task { await comment() } } label: {
-                Group {
-                    if isSending { ProgressView().tint(YomoraColor.onInteractive) }
-                    else { Image(systemName: "arrow.up").font(.headline) }
-                }
-                .frame(width: 44, height: 44)
-                .foregroundStyle(YomoraColor.onInteractive)
-                .background(YomoraColor.interactiveFill, in: Circle())
-            }
-            .disabled(trimmedComment.isEmpty || isSending)
-            .opacity(trimmedComment.isEmpty ? 0.5 : 1)
-            .accessibilityLabel("Enviar comentário")
-            .accessibilityIdentifier("sendCommentButton")
-        }
-        .padding(.horizontal, YomoraSpacing.md)
-        .padding(.vertical, 10)
-        .background(.ultraThinMaterial)
-        .overlay(alignment: .top) { Rectangle().fill(YomoraColor.outline.opacity(0.45)).frame(height: 0.5) }
-    }
-
-    private var trimmedComment: String {
-        text.trimmingCharacters(in: .whitespacesAndNewlines)
+        CommentComposer(
+            draft: text,
+            isFocused: $isComposerFocused,
+            isSending: isSending,
+            onSend: { Task { await comment() } }
+        )
     }
 
     private func updateKeyboard(_ notification: Notification, geometry: GeometryProxy) {
@@ -248,7 +220,7 @@ struct PostDetailsView: View {
     }
 
     private func comment() async {
-        let message = trimmedComment
+        let message = text.trimmed
         guard !message.isEmpty, !isSending else { return }
         struct Body: Encodable { let text: String }
         var endpoint = Endpoint(path: "/api/v1/posts/\(post.id)/comments", method: .post)
@@ -259,7 +231,7 @@ struct PostDetailsView: View {
             withAnimation(.easeOut(duration: 0.25)) { comments.append(value) }
             currentPost = currentPost.updatingEngagement(commentCount: currentPost.commentCount + 1)
             onPostChange?(currentPost, nil)
-            text = ""
+            text.value = ""
             highlightedCommentID = value.id
             interactionError = nil
         } catch {
@@ -280,5 +252,45 @@ struct PostDetailsView: View {
         } catch {
             interactionError = error.localizedDescription
         }
+    }
+}
+
+private struct CommentComposer: View {
+    @Bindable var draft: TextDraft
+    var isFocused: FocusState<Bool>.Binding
+    let isSending: Bool
+    let onSend: () -> Void
+
+    var body: some View {
+        HStack(alignment: .bottom, spacing: 10) {
+            UserAvatar(url: nil, size: 34)
+            TextField("Escreva um comentário…", text: $draft.value, axis: .vertical)
+                .lineLimit(1...4)
+                .focused(isFocused)
+                .submitLabel(.send)
+                .onSubmit(onSend)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 11)
+                .background(YomoraColor.surfaceElevated, in: RoundedRectangle(cornerRadius: 18))
+                .overlay(RoundedRectangle(cornerRadius: 18).stroke(isFocused.wrappedValue ? YomoraColor.sereneTeal : YomoraColor.outline))
+                .accessibilityIdentifier("commentField")
+            Button(action: onSend) {
+                Group {
+                    if isSending { ProgressView().tint(YomoraColor.onInteractive) }
+                    else { Image(systemName: "arrow.up").font(.headline) }
+                }
+                .frame(width: 44, height: 44)
+                .foregroundStyle(YomoraColor.onInteractive)
+                .background(YomoraColor.interactiveFill, in: Circle())
+            }
+            .disabled(draft.isBlank || isSending)
+            .opacity(draft.isBlank ? 0.5 : 1)
+            .accessibilityLabel("Enviar comentário")
+            .accessibilityIdentifier("sendCommentButton")
+        }
+        .padding(.horizontal, YomoraSpacing.md)
+        .padding(.vertical, 10)
+        .background(.ultraThinMaterial)
+        .overlay(alignment: .top) { Rectangle().fill(YomoraColor.outline.opacity(0.45)).frame(height: 0.5) }
     }
 }

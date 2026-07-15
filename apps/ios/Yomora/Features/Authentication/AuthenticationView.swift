@@ -3,10 +3,10 @@ import SwiftUI
 struct AuthenticationView: View {
     @Bindable var session: SessionStore
     @State private var mode: Mode = .login
-    @State private var name = ""
-    @State private var username = ""
-    @State private var email = ""
-    @State private var password = ""
+    @State private var name = TextDraft()
+    @State private var username = TextDraft()
+    @State private var email = TextDraft()
+    @State private var password = TextDraft()
     @State private var busy = false
     @State private var showingReset = false
 
@@ -23,12 +23,24 @@ struct AuthenticationView: View {
                         ForEach(Mode.allCases, id: \.self) { Text($0.rawValue).tag($0) }
                     }.pickerStyle(.segmented)
                     if mode == .register {
-                        YomoraTextField(title: "Nome", prompt: "Como podemos chamar você?", text: $name)
-                        YomoraTextField(title: "Nome de usuário", prompt: "seu.nome", text: $username)
+                        YomoraDraftField(title: "Nome", prompt: "Como podemos chamar você?", draft: name)
+                        YomoraDraftField(title: "Nome de usuário", prompt: "seu.nome", draft: username, contentType: .username)
                     }
-                    YomoraTextField(title: "E-mail", prompt: "voce@exemplo.com", text: $email, keyboard: .emailAddress)
+                    YomoraDraftField(
+                        title: "E-mail",
+                        prompt: "voce@exemplo.com",
+                        draft: email,
+                        keyboard: .emailAddress,
+                        contentType: mode == .login ? .username : .emailAddress
+                    )
                         .accessibilityIdentifier("emailField")
-                    YomoraTextField(title: "Senha", prompt: "Mínimo de 8 caracteres", text: $password, secure: true)
+                    YomoraDraftField(
+                        title: "Senha",
+                        prompt: "Mínimo de 8 caracteres",
+                        draft: password,
+                        secure: true,
+                        contentType: mode == .login ? .password : .newPassword
+                    )
                         .accessibilityIdentifier("passwordField")
                     if let message = session.errorMessage {
                         Text(message).font(.footnote).foregroundStyle(YomoraColor.danger).frame(maxWidth: .infinity, alignment: .leading)
@@ -50,10 +62,18 @@ struct AuthenticationView: View {
 
     @MainActor
     private func submit() async {
-        guard !email.isEmpty, !password.isEmpty else { return }
+        guard !email.isBlank, !password.isBlank else { return }
         busy = true
-        if mode == .login { _ = await session.login(email: email, password: password) }
-        else { _ = await session.register(name: name, username: username, email: email, password: password) }
+        if mode == .login {
+            _ = await session.login(email: email.value, password: password.value)
+        } else {
+            _ = await session.register(
+                name: name.value,
+                username: username.value,
+                email: email.value,
+                password: password.value
+            )
+        }
         busy = false
     }
 }
@@ -61,14 +81,16 @@ struct AuthenticationView: View {
 private struct PasswordResetView: View {
     let session: SessionStore
     @Environment(\.dismiss) private var dismiss
-    @State private var email = ""
+    @State private var email = TextDraft()
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 20) {
                 Text("Recuperar acesso").font(.yomoraTitle)
                 Text("Enviaremos as instruções se houver uma conta com este e-mail.").foregroundStyle(.secondary)
-                YomoraTextField(title: "E-mail", text: $email, keyboard: .emailAddress)
-                PrimaryButton(title: "Solicitar recuperação") { Task { if await session.requestPasswordReset(email: email) { dismiss() } } }
+                YomoraDraftField(title: "E-mail", draft: email, keyboard: .emailAddress, contentType: .emailAddress)
+                PrimaryButton(title: "Solicitar recuperação") {
+                    Task { if await session.requestPasswordReset(email: email.value) { dismiss() } }
+                }
                 Spacer()
             }
             .padding()

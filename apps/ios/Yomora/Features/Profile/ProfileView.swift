@@ -70,24 +70,24 @@ private struct ProfileEditView: View {
     let profile: UserProfile
     let api: any APIClientProtocol
     @Environment(\.dismiss) private var dismiss
-    @State private var name: String
-    @State private var username: String
-    @State private var bio: String
-    @State private var avatar: String
+    @State private var name: TextDraft
+    @State private var username: TextDraft
+    @State private var bio: TextDraft
+    @State private var avatar: TextDraft
     @State private var isPublic: Bool
 
     init(profile: UserProfile, api: any APIClientProtocol) {
         self.profile = profile; self.api = api
-        _name = State(initialValue: profile.name); _username = State(initialValue: profile.username)
-        _bio = State(initialValue: profile.bio); _avatar = State(initialValue: profile.avatarUrl ?? "")
+        _name = State(initialValue: TextDraft(profile.name)); _username = State(initialValue: TextDraft(profile.username))
+        _bio = State(initialValue: TextDraft(profile.bio)); _avatar = State(initialValue: TextDraft(profile.avatarUrl ?? ""))
         _isPublic = State(initialValue: profile.publicProfile)
     }
     var body: some View {
         Form {
-            YomoraTextField(title: "Nome", text: $name)
-            YomoraTextField(title: "Nome de usuário", text: $username)
-            YomoraTextField(title: "URL do avatar", text: $avatar, keyboard: .URL)
-            TextField("Biografia", text: $bio, axis: .vertical).lineLimit(3...8)
+            YomoraDraftField(title: "Nome", draft: name, contentType: .name)
+            YomoraDraftField(title: "Nome de usuário", draft: username, contentType: .username)
+            YomoraDraftField(title: "URL do avatar", draft: avatar, keyboard: .URL, contentType: .URL)
+            DraftTextField(prompt: "Biografia", draft: bio, axis: .vertical).lineLimit(3...8)
             Toggle("Perfil público", isOn: $isPublic)
         }
         .navigationTitle("Editar perfil")
@@ -96,7 +96,13 @@ private struct ProfileEditView: View {
     private func save() async {
         struct Body: Encodable { let name: String; let username: String; let bio: String; let avatarUrl: String?; let publicProfile: Bool }
         var endpoint = Endpoint(path: "/api/v1/users/me", method: .patch)
-        endpoint.body = try? Endpoint.json(Body(name: name, username: username, bio: bio, avatarUrl: avatar.isEmpty ? nil : avatar, publicProfile: isPublic))
+        endpoint.body = try? Endpoint.json(Body(
+            name: name.value,
+            username: username.value,
+            bio: bio.value,
+            avatarUrl: avatar.value.isEmpty ? nil : avatar.value,
+            publicProfile: isPublic
+        ))
         if (try? await api.send(endpoint, as: UserProfile.self)) != nil { dismiss() }
     }
 }

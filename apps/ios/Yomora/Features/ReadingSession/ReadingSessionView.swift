@@ -26,8 +26,7 @@ struct ReadingSessionView: View {
                 if viewModel.session != nil {
                     Stepper("Página alcançada: \(viewModel.endPage)", value: $viewModel.endPage, in: 0...20_000)
                         .foregroundStyle(.white).padding().background(.white.opacity(0.1), in: RoundedRectangle(cornerRadius: 14))
-                    TextField("Nota opcional da sessão", text: $viewModel.note, axis: .vertical)
-                        .padding().background(.white, in: RoundedRectangle(cornerRadius: 14))
+                    ReadingSessionNoteField(viewModel: viewModel)
                 }
                 Spacer()
             }
@@ -66,6 +65,16 @@ struct ReadingSessionView: View {
 
     private func formatted(_ interval: TimeInterval) -> String {
         let seconds = Int(interval); return String(format: "%02d:%02d:%02d", seconds / 3600, (seconds / 60) % 60, seconds % 60)
+    }
+}
+
+private struct ReadingSessionNoteField: View {
+    @Bindable var viewModel: ReadingSessionViewModel
+
+    var body: some View {
+        TextField("Nota opcional da sessão", text: $viewModel.note, axis: .vertical)
+            .padding()
+            .background(.white, in: RoundedRectangle(cornerRadius: 14))
     }
 }
 

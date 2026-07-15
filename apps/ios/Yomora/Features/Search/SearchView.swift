@@ -9,15 +9,7 @@ struct SearchView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-                TextField("Título, autor ou ISBN", text: $viewModel.query)
-                    .textInputAutocapitalization(.never).submitLabel(.search)
-                    .onSubmit { Task { await viewModel.search() } }
-                    .accessibilityIdentifier("bookSearchField")
-                if !viewModel.query.isEmpty { Button { viewModel.query = "" } label: { Image(systemName: "xmark.circle.fill") } }
-            }
-            .padding().background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: 14)).padding()
+            SearchBar(viewModel: viewModel)
 
             Group {
                 switch viewModel.state {
@@ -45,5 +37,27 @@ struct SearchView: View {
         }
         .navigationTitle("Descobrir")
         .background(YomoraColor.canvas)
+    }
+}
+
+private struct SearchBar: View {
+    @Bindable var viewModel: SearchViewModel
+
+    var body: some View {
+        HStack {
+            Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
+            TextField("Título, autor ou ISBN", text: $viewModel.query)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .submitLabel(.search)
+                .onSubmit { Task { await viewModel.search() } }
+                .accessibilityIdentifier("bookSearchField")
+            if !viewModel.query.isEmpty {
+                Button { viewModel.query = "" } label: { Image(systemName: "xmark.circle.fill") }
+            }
+        }
+        .padding()
+        .background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: 14))
+        .padding()
     }
 }
