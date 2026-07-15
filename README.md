@@ -32,7 +32,7 @@ make seed
 
 A API fica em `http://localhost:8080`; Swagger UI em `http://localhost:8080/swagger-ui.html`. Para banco com interface visual, execute `docker compose --profile tools --env-file .env -f infrastructure/docker-compose.yml up -d` e abra o Adminer em `http://localhost:8081`.
 
-Abra `apps/ios/Yomora.xcodeproj`, escolha um iPhone Simulator e execute o esquema `Yomora`. No simulador, a URL padrão da API é `http://localhost:8080`.
+Abra `apps/ios/Yomora.xcodeproj`, escolha um iPhone Simulator e execute o esquema `Yomora`. No simulador, a URL padrão da API é `http://localhost:8080`. Para usar um iPhone físico, siga `apps/ios/Config/README.md`; a URL local do dispositivo fica em `Config/Local.xcconfig`, que não é versionado.
 
 ## Comandos
 
@@ -43,6 +43,8 @@ make ios-test     # XCTest e XCUITest
 make openapi      # lint do contrato em container
 make docker-down
 ```
+
+Ao adicionar arquivos ou targets no app, execute `cd apps/ios && xcodegen generate` antes de abrir o projeto ou rodar os testes.
 
 ## Configuração
 
@@ -61,8 +63,12 @@ O conjunto inclui um livro, biblioteca em andamento, meta, sessão, seguimento e
 
 O backend possui testes unitários de regras, controller/segurança, arquitetura, agregação de provedores e integração real com PostgreSQL via Testcontainers. O app possui testes de ViewModels, timer, HTTP/Keychain e um fluxo XCUITest. GitHub Actions separa backend, OpenAPI e iOS; o job iOS usa runner macOS.
 
+## Experiência de leitura
+
+A API mantém uma única sessão ativa por usuário e persiste pausa, tempo decorrido e página atual. O app restaura essa sessão ao abrir ou voltar ao primeiro plano. Durante a leitura, uma Live Activity exibe o estado na Tela Bloqueada e Dynamic Island; o toque retorna ao timer ativo. Em Configurações, o leitor pode ativar lembretes locais por horário e dias da semana. O Yomora deixa de lembrar no dia quando a meta diária já foi concluída.
+
 ## Decisões e limitações do MVP
 
-As cinco decisões estruturais estão em `docs/decisions`. Sign in with Apple e Live Activities possuem fronteiras prontas, mas a ativação exige entitlements e credenciais do time Apple. Recuperação de senha usa uma caixa local em memória no profile `local`; produção deve fornecer o adapter de e-mail. Aprovação de seguidores de contas privadas, notificações push e links web universais ficam para a próxima versão.
+As cinco decisões estruturais estão em `docs/decisions`. Sign in with Apple ainda exige entitlements e credenciais do time Apple. Recuperação de senha usa uma caixa local em memória no profile `local`; produção deve fornecer o adapter de e-mail. Aprovação de seguidores de contas privadas, notificações push remotas e links web universais ficam para a próxima versão.
 
 Próximos passos naturais: adapter de e-mail, APNs, Universal Links, moderação administrativa e telemetria de produto com consentimento.
