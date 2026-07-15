@@ -22,12 +22,13 @@ final class ReadingSessionRestorationTests: XCTestCase {
     func testProgressPauseAndResumeAreSynchronizedWithTheServer() async {
         let fixture = ReadingSessionFixture()
         let coordinator = ActiveReadingSessionCoordinator(api: fixture.api)
+        let activity = RecordingReadingActivityManager()
         coordinator.set(session: fixture.runningSession, entry: fixture.entry, book: fixture.book)
         let viewModel = ReadingSessionViewModel(
             entry: fixture.entry,
             book: fixture.book,
             api: fixture.api,
-            activity: NoopReadingActivityManager(),
+            activity: activity,
             coordinator: coordinator,
             existingSession: fixture.runningSession,
             restoredAt: Date(timeIntervalSince1970: 2_000)
@@ -49,7 +50,20 @@ final class ReadingSessionRestorationTests: XCTestCase {
                 "PATCH /api/v1/reading-sessions/\(fixture.runningSession.id)/resume"
             ]
         )
+        let snapshots = await activity.updatedSnapshots()
+        XCTAssertEqual(snapshots.map(\.status), [.running, .paused, .running])
+        XCTAssertEqual(snapshots.map(\.currentPage), [52, 52, 52])
     }
+}
+
+private actor RecordingReadingActivityManager: ReadingActivityManaging {
+    private var updates: [ReadingActivitySnapshot] = []
+
+    func start(_ snapshot: ReadingActivitySnapshot) async { }
+    func update(_ snapshot: ReadingActivitySnapshot) async { updates.append(snapshot) }
+    func end() async { }
+
+    func updatedSnapshots() -> [ReadingActivitySnapshot] { updates }
 }
 
 private struct ReadingSessionFixture {

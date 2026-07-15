@@ -29,10 +29,30 @@ targets:
         INFOPLIST_FILE: Config/AppInfo.plist
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SUPPORTS_MACCATALYST: NO
+    dependencies:
+      - target: YomoraLiveActivity
+        embed: true
     scheme:
       testTargets:
         - YomoraTests
         - YomoraUITests
+  YomoraLiveActivity:
+    type: app-extension
+    platform: iOS
+    sources:
+      - YomoraLiveActivity
+      - Yomora/Core/Utilities/ReadingActivityAttributes.swift
+    info:
+      path: YomoraLiveActivity/Info.plist
+      properties:
+        CFBundleDisplayName: Yomora
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.yomora.ios.liveactivity
+        SKIP_INSTALL: YES
+        APPLICATION_EXTENSION_API_ONLY: YES
   YomoraTests:
     type: bundle.unit-test
     platform: iOS

@@ -56,7 +56,9 @@ final class ReadingSessionViewModel {
             session = startedSession
             endPage = startedSession.currentPage
             timer.start(at: date)
-            await activity.start(bookTitle: title, startedAt: date)
+            if let snapshot = ReadingActivitySnapshot(session: startedSession, bookTitle: title, at: date) {
+                await activity.start(snapshot)
+            }
             await publishActiveContext(startedSession)
             syncError = nil
             state = .running
@@ -78,6 +80,7 @@ final class ReadingSessionViewModel {
                 as: ReadingSession.self
             )
             apply(paused, restoredAt: date)
+            await updateActivity(for: paused, at: date)
             syncError = nil
         } catch {
             state = .running
@@ -94,6 +97,7 @@ final class ReadingSessionViewModel {
                 as: ReadingSession.self
             )
             apply(resumed, restoredAt: date)
+            await updateActivity(for: resumed, at: date)
             syncError = nil
         } catch {
             state = .paused
@@ -121,6 +125,7 @@ final class ReadingSessionViewModel {
             let updated = try await api.send(endpoint, as: ReadingSession.self)
             self.session = updated
             coordinator?.update(updated)
+            await updateActivity(for: updated)
             syncError = nil
         } catch {
             syncError = "Não foi possível sincronizar a página: \(error.localizedDescription)"
@@ -178,6 +183,12 @@ final class ReadingSessionViewModel {
             at: restoredAt
         )
         state = session.pausedAt == nil ? .running : .paused
+    }
+
+    private func updateActivity(for session: ReadingSession, at date: Date = .now) async {
+        if let snapshot = ReadingActivitySnapshot(session: session, bookTitle: title, at: date) {
+            await activity.update(snapshot)
+        }
     }
 
     private static func serverDate(_ value: String) -> Date? {

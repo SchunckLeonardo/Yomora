@@ -15,36 +15,43 @@ struct MainTabView: View {
     let session: SessionStore
     @Environment(\.scenePhase) private var scenePhase
     @State private var selectedTab: MainTab = .today
+    @State private var activeSessionRouteRequest = 0
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            FeatureNavigation(container: container, session: session, onExitToToday: selectToday) {
+            FeatureNavigation(container: container, session: session, onExitToToday: selectToday, activeSessionRouteRequest: 0) {
                 TodayView(container: container, user: session.user)
             }
                 .tabItem { Label("Hoje", systemImage: "sun.max") }
                 .tag(MainTab.today)
-            FeatureNavigation(container: container, session: session, onExitToToday: selectToday) {
+            FeatureNavigation(container: container, session: session, onExitToToday: selectToday, activeSessionRouteRequest: 0) {
                 SearchView(container: container)
             }
                 .tabItem { Label("Descobrir", systemImage: "magnifyingglass") }
                 .tag(MainTab.discover)
-            FeatureNavigation(container: container, session: session, onExitToToday: selectToday) {
+            FeatureNavigation(
+                container: container,
+                session: session,
+                onExitToToday: selectToday,
+                activeSessionRouteRequest: activeSessionRouteRequest
+            ) {
                 QuickReadView(container: container)
             }
                 .tabItem { Label("Ler", systemImage: "timer") }
                 .tag(MainTab.read)
-            FeatureNavigation(container: container, session: session, onExitToToday: selectToday) {
+            FeatureNavigation(container: container, session: session, onExitToToday: selectToday, activeSessionRouteRequest: 0) {
                 FeedView(container: container)
             }
                 .tabItem { Label("Comunidade", systemImage: "person.2") }
                 .tag(MainTab.community)
-            FeatureNavigation(container: container, session: session, onExitToToday: selectToday) {
+            FeatureNavigation(container: container, session: session, onExitToToday: selectToday, activeSessionRouteRequest: 0) {
                 LibraryView(container: container)
             }
                 .tabItem { Label("Biblioteca", systemImage: "books.vertical") }
                 .tag(MainTab.library)
         }
         .task { await container.activeReadingSession.restore() }
+        .task(id: container.navigation.requestId) { await handleNavigationRequest() }
         .onChange(of: scenePhase) { _, phase in
             guard phase == .active else { return }
             Task { await container.activeReadingSession.restore() }
@@ -58,12 +65,29 @@ struct MainTabView: View {
     private func selectToday() {
         selectedTab = .today
     }
+
+    private func handleNavigationRequest() async {
+        let requestId = container.navigation.requestId
+        guard let destination = container.navigation.destination else { return }
+        switch destination {
+        case .today:
+            selectedTab = .today
+        case .activeReadingSession:
+            selectedTab = .read
+            await container.activeReadingSession.restore()
+            if container.activeReadingSession.context != nil {
+                activeSessionRouteRequest += 1
+            }
+        }
+        container.navigation.consume(requestId)
+    }
 }
 
 private struct FeatureNavigation<Content: View>: View {
     let container: AppContainer
     let session: SessionStore
     let onExitToToday: () -> Void
+    let activeSessionRouteRequest: Int
     @ViewBuilder let content: () -> Content
     @State private var path: [AppRoute] = []
 
@@ -97,6 +121,12 @@ private struct FeatureNavigation<Content: View>: View {
                     case .theme: SettingsView(container: container, session: session)
                     }
                 }
+        }
+        .task(id: activeSessionRouteRequest) {
+            guard activeSessionRouteRequest > 0,
+                  let context = container.activeReadingSession.context else { return }
+            let route = AppRoute.reading(context.entry, book: context.book)
+            if path.last != route { path.append(route) }
         }
     }
 

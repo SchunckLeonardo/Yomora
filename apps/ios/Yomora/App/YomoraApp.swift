@@ -13,8 +13,13 @@ struct YomoraApp: App {
                 .preferredColorScheme(AppTheme(rawValue: themeRaw)?.colorScheme)
                 .tint(AccentChoice(rawValue: accentRaw)?.color ?? YomoraColor.sereneTeal)
                 .background((AppTheme(rawValue: themeRaw) == .sepia ? YomoraColor.sepia : Color.clear).ignoresSafeArea())
+                .onOpenURL { url in
+                    guard url.scheme == "yomora" else { return }
+                    if url.host == "reading" {
+                        container.navigation.open(.activeReadingSession)
+                    }
+                }
         }
         .modelContainer(container.modelContainer)
     }
 }
-

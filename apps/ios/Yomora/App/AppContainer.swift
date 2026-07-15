@@ -9,6 +9,7 @@ final class AppContainer {
     let modelContainer: ModelContainer
     let readingActivity: any ReadingActivityManaging
     let activeReadingSession: ActiveReadingSessionCoordinator
+    let navigation: AppNavigationCoordinator
 
     init(api: any APIClientProtocol, tokenStore: any TokenStoring, modelContainer: ModelContainer,
          readingActivity: any ReadingActivityManaging = NoopReadingActivityManager()) {
@@ -17,7 +18,8 @@ final class AppContainer {
         self.modelContainer = modelContainer
         self.bookCache = BookCache(container: modelContainer)
         self.readingActivity = readingActivity
-        self.activeReadingSession = ActiveReadingSessionCoordinator(api: api)
+        self.activeReadingSession = ActiveReadingSessionCoordinator(api: api, activity: readingActivity)
+        self.navigation = AppNavigationCoordinator()
     }
 
     static func live() -> AppContainer {
@@ -33,7 +35,11 @@ final class AppContainer {
         let configured = Bundle.main.object(forInfoDictionaryKey: "API_BASE_URL") as? String
         let baseURL = URL(string: configured ?? "http://localhost:8080")!
         let container = try! ModelContainer(for: CachedBook.self)
-        return AppContainer(api: APIClient(baseURL: baseURL, tokenStore: store), tokenStore: store,
-                            modelContainer: container)
+        return AppContainer(
+            api: APIClient(baseURL: baseURL, tokenStore: store),
+            tokenStore: store,
+            modelContainer: container,
+            readingActivity: ActivityKitReadingActivityManager()
+        )
     }
 }

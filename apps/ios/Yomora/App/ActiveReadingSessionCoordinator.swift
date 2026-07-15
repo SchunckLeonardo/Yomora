@@ -15,9 +15,14 @@ final class ActiveReadingSessionCoordinator {
     private(set) var errorMessage: String?
 
     private let api: any APIClientProtocol
+    private let activity: any ReadingActivityManaging
 
-    init(api: any APIClientProtocol) {
+    init(
+        api: any APIClientProtocol,
+        activity: any ReadingActivityManaging = NoopReadingActivityManager()
+    ) {
         self.api = api
+        self.activity = activity
     }
 
     func restore() async {
@@ -42,6 +47,9 @@ final class ActiveReadingSessionCoordinator {
                 as: Book.self
             )
             context = ActiveReadingSessionContext(session: session, entry: entry, book: book)
+            if let snapshot = ReadingActivitySnapshot(session: session, bookTitle: book.title) {
+                await activity.start(snapshot)
+            }
             errorMessage = nil
         } catch {
             errorMessage = error.localizedDescription

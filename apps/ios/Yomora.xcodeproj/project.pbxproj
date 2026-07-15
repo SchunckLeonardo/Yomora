@@ -16,6 +16,7 @@
 		1AA011E4919584FEB8238FEB /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF9D7C8E9C360F2DA34A552 /* OnboardingView.swift */; };
 		1FC0057FE1942551E417C430 /* ButtonsAndFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA672BD6C98BF08335F00BC /* ButtonsAndFields.swift */; };
 		20902D197FA5605246F7600B /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DAD82C8B77BDFC9E32A5BD /* SessionStore.swift */; };
+		26AE64960D53F5993A0F7AA9 /* ReadingActivityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42F5872F9FFDEB259C181B3 /* ReadingActivityManagerTests.swift */; };
 		326AB9ED07E0DB48D2EEFA60 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C777EA9DB2E2D16D006021 /* MainTabView.swift */; };
 		39A538CB7C9EB4203DB8BBB3 /* ActiveReadingSessionCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EFAA0BBF126E0285279A2D /* ActiveReadingSessionCoordinatorTests.swift */; };
 		47BA9202F2E94D695AB492E4 /* BookComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E4440C3831BC070E6437F0 /* BookComponents.swift */; };
@@ -33,9 +34,11 @@
 		679EEE80D27C62343AE5A0A8 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435DF9DCC3E6D855B8297B02 /* LibraryViewModel.swift */; };
 		67E1C9C0B837E855D06C956D /* APIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F012DB798F4CEEFE0E9D8C /* APIModels.swift */; };
 		6BD13AAE784262881F9645F8 /* SessionStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BA6CF04F97E8F18E5C7288 /* SessionStoreTests.swift */; };
+		6FD26C2DB2B99CB600866FB5 /* ReadingActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F37BA1525C6270054BC32E5 /* ReadingActivityAttributes.swift */; };
 		719421243EB6D0F41B9D6965 /* ReadingSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D4213BB11A57B3EDE26A45 /* ReadingSessionViewModel.swift */; };
 		720F3A9C48CEFC2A4A7A7E61 /* YomoraFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469CA01C69C3A81A7B3328E5 /* YomoraFlowUITests.swift */; };
 		73FBC362B0D880727F8B908F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B969BADD5DA40622D81D7C3C /* ProfileView.swift */; };
+		783D9F2CA4172D371D850AA1 /* AppNavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC79F5B483C2C2D5D762F1 /* AppNavigationCoordinator.swift */; };
 		7A808752AD6487BF689AE02C /* ReadingActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641DDE9B2C93EB3C8169B481 /* ReadingActivityManager.swift */; };
 		7E52599BB0C078A1E5F11600 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40353EFB142ADDCCDAD496B3 /* AppRouter.swift */; };
 		87DE58F5FFB8EEC8D725DDFC /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964F5D5A2DF476BBD4A2B5CE /* AppContainer.swift */; };
@@ -43,6 +46,7 @@
 		89DF9FDFBFD7B1044DF0BF59 /* ReadingSessionRestorationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7866E08F52D1E54CA23272 /* ReadingSessionRestorationTests.swift */; };
 		8F04DD8AD9CFA8E5C80EC5A4 /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E946F409746E49E9AE6ED0A2 /* APIClientTests.swift */; };
 		912391D43609BB3990F9AECC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FADE4E85DC24816DDAB5381 /* RootView.swift */; };
+		980936353A7FFE38212DBFA5 /* ReadingActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F37BA1525C6270054BC32E5 /* ReadingActivityAttributes.swift */; };
 		9FBA4438F3665BECD5D56BCF /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712488C29CC9427C04389DBE /* Endpoint.swift */; };
 		A61016EE88F3554159196F6D /* ActiveReadingSessionBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7205AD2C41EEC4245D5FDE5A /* ActiveReadingSessionBanner.swift */; };
 		AF4BA8D0B53ED268198B9D79 /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CAE7B23F05692ED28274DB /* TestSupport.swift */; };
@@ -52,13 +56,22 @@
 		CC65F2EAD280143910287278 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C2C3336A394FE47A454AD6E /* Assets.xcassets */; };
 		D53C7A2A7B63DDA2E6943B1F /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2215BE91C77ADBBEB079C8E7 /* AuthenticationView.swift */; };
 		E32E3B9CEE4876D6EBA3D63D /* SearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FF4C5AAF1437695E6AB765 /* SearchViewModelTests.swift */; };
+		E4BED93F559377F864462036 /* YomoraLiveActivity.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1CFD7774EC895EEB798178D2 /* YomoraLiveActivity.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E6CB702BEACB78DC5D113D5A /* ReadingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E138AC3452DFF89F5F6D39 /* ReadingTimer.swift */; };
 		EC0CD53BEF98CA097AF495D7 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 441653B834F985A0E8CAB165 /* FeedView.swift */; };
+		F7185CD224B16EF8344CA320 /* YomoraLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB9B6AB9A598B9092AFFA21 /* YomoraLiveActivity.swift */; };
 		FB278CD3D4BAB38143EF71C2 /* TokenAndNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2794A19DDD6A2B4EA4C77937 /* TokenAndNavigationTests.swift */; };
 		FC390E313EB070AB8334E32C /* StateAndSocialComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987EC6B41BAB9BCD4D4F1599 /* StateAndSocialComponents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		BE990AE0D179D946CC62B2FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BD9F6563D76CEC4ECE1B5F51 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F3BFD22194AF1E7E66840500;
+			remoteInfo = YomoraLiveActivity;
+		};
 		E696EA0A15F9AFE2CD0B3FD7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BD9F6563D76CEC4ECE1B5F51 /* Project object */;
@@ -75,13 +88,30 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A925354537AB960FF07F201E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E4BED93F559377F864462036 /* YomoraLiveActivity.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		03B288CE85B0157CF0B8550C /* TodayViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewModelTests.swift; sourceTree = "<group>"; };
 		0A7866E08F52D1E54CA23272 /* ReadingSessionRestorationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSessionRestorationTests.swift; sourceTree = "<group>"; };
+		0F37BA1525C6270054BC32E5 /* ReadingActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingActivityAttributes.swift; sourceTree = "<group>"; };
 		15E4440C3831BC070E6437F0 /* BookComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookComponents.swift; sourceTree = "<group>"; };
+		1CFD7774EC895EEB798178D2 /* YomoraLiveActivity.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = YomoraLiveActivity.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2215BE91C77ADBBEB079C8E7 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		2794A19DDD6A2B4EA4C77937 /* TokenAndNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenAndNavigationTests.swift; sourceTree = "<group>"; };
 		2E5E350A12848A6208A1FB1B /* UITestAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestAPIClient.swift; sourceTree = "<group>"; };
+		2FB9B6AB9A598B9092AFFA21 /* YomoraLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YomoraLiveActivity.swift; sourceTree = "<group>"; };
 		3CAD737DCE75E85D1A3E39E6 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		40353EFB142ADDCCDAD496B3 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		418A4905FA475C2FCE53FA21 /* PostComposerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostComposerView.swift; sourceTree = "<group>"; };
@@ -94,6 +124,7 @@
 		4A4356C26FF119225726CC95 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		4AA224813C98DC6C8F6A4B1B /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
 		4D62EAC9C1119F57DB91FE9F /* ReadingSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSessionView.swift; sourceTree = "<group>"; };
+		51AC79F5B483C2C2D5D762F1 /* AppNavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationCoordinator.swift; sourceTree = "<group>"; };
 		562995E8DEC6A4232FDF79F0 /* ActiveReadingSessionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveReadingSessionCoordinator.swift; sourceTree = "<group>"; };
 		58BA6CF04F97E8F18E5C7288 /* SessionStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStoreTests.swift; sourceTree = "<group>"; };
 		5AF9D7C8E9C360F2DA34A552 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -121,10 +152,12 @@
 		9E34B60E72F14B959DB6767F /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		B0C79FCFCCC1707951241002 /* Yomora.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Yomora.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B969BADD5DA40622D81D7C3C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		B9FFFC29F4E9B0EEB3AC6E27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BC2E9E7C473467ACDB0C72A8 /* AppInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = AppInfo.plist; sourceTree = "<group>"; };
 		C1FF4C5AAF1437695E6AB765 /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
 		C249F1AA5D7B7F14FC31B2E5 /* BookCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCache.swift; sourceTree = "<group>"; };
 		C3CAE7B23F05692ED28274DB /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
+		E42F5872F9FFDEB259C181B3 /* ReadingActivityManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingActivityManagerTests.swift; sourceTree = "<group>"; };
 		E6DAD82C8B77BDFC9E32A5BD /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		E946F409746E49E9AE6ED0A2 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
 		E9BED404A4492B76725BB3EA /* TodayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewModel.swift; sourceTree = "<group>"; };
@@ -139,6 +172,7 @@
 		13526996ADC5788E1F2D51D9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				0F37BA1525C6270054BC32E5 /* ReadingActivityAttributes.swift */,
 				641DDE9B2C93EB3C8169B481 /* ReadingActivityManager.swift */,
 				66E138AC3452DFF89F5F6D39 /* ReadingTimer.swift */,
 			);
@@ -149,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				B0C79FCFCCC1707951241002 /* Yomora.app */,
+				1CFD7774EC895EEB798178D2 /* YomoraLiveActivity.appex */,
 				5D221F30ED68C38B71E9C9C6 /* YomoraTests.xctest */,
 				787B2B7C4AF58535F17CAEC4 /* YomoraUITests.xctest */,
 			);
@@ -180,6 +215,7 @@
 			children = (
 				20FD2DDB800E105065AE1A6F /* Config */,
 				78A011A63AEFD298BA668803 /* Yomora */,
+				4A436A2EC86E910799AA4A57 /* YomoraLiveActivity */,
 				B2EF389E6BAB8A6F1CC30DB8 /* YomoraTests */,
 				24AEDD1F1597292F80005E04 /* YomoraUITests */,
 				1BAA25BAFB40AE58D831C433 /* Products */,
@@ -203,6 +239,15 @@
 				2E5E350A12848A6208A1FB1B /* UITestAPIClient.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		4A436A2EC86E910799AA4A57 /* YomoraLiveActivity */ = {
+			isa = PBXGroup;
+			children = (
+				B9FFFC29F4E9B0EEB3AC6E27 /* Info.plist */,
+				2FB9B6AB9A598B9092AFFA21 /* YomoraLiveActivity.swift */,
+			);
+			path = YomoraLiveActivity;
 			sourceTree = "<group>";
 		};
 		58E7820DC7A3286C6D1AEEDE /* Feed */ = {
@@ -256,6 +301,7 @@
 			children = (
 				562995E8DEC6A4232FDF79F0 /* ActiveReadingSessionCoordinator.swift */,
 				964F5D5A2DF476BBD4A2B5CE /* AppContainer.swift */,
+				51AC79F5B483C2C2D5D762F1 /* AppNavigationCoordinator.swift */,
 				40353EFB142ADDCCDAD496B3 /* AppRouter.swift */,
 				64C777EA9DB2E2D16D006021 /* MainTabView.swift */,
 				5FADE4E85DC24816DDAB5381 /* RootView.swift */,
@@ -353,6 +399,7 @@
 			children = (
 				42EFAA0BBF126E0285279A2D /* ActiveReadingSessionCoordinatorTests.swift */,
 				E946F409746E49E9AE6ED0A2 /* APIClientTests.swift */,
+				E42F5872F9FFDEB259C181B3 /* ReadingActivityManagerTests.swift */,
 				0A7866E08F52D1E54CA23272 /* ReadingSessionRestorationTests.swift */,
 				F235E2F0B4067A3D3CF3ABBC /* ReadingTimerTests.swift */,
 				C1FF4C5AAF1437695E6AB765 /* SearchViewModelTests.swift */,
@@ -442,10 +489,12 @@
 			buildPhases = (
 				196484DA2F98C9536396E18D /* Sources */,
 				350DF0C78183D539B19AC715 /* Resources */,
+				A925354537AB960FF07F201E /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				706FDC9B894900EA1BF285F1 /* PBXTargetDependency */,
 			);
 			name = Yomora;
 			packageProductDependencies = (
@@ -472,6 +521,23 @@
 			productReference = 5D221F30ED68C38B71E9C9C6 /* YomoraTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		F3BFD22194AF1E7E66840500 /* YomoraLiveActivity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C7797CFA118CF891D12DAE0B /* Build configuration list for PBXNativeTarget "YomoraLiveActivity" */;
+			buildPhases = (
+				EA09694D2451F438EDF0A3C1 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YomoraLiveActivity;
+			packageProductDependencies = (
+			);
+			productName = YomoraLiveActivity;
+			productReference = 1CFD7774EC895EEB798178D2 /* YomoraLiveActivity.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -494,6 +560,10 @@
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
+					F3BFD22194AF1E7E66840500 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 8297F6B29B4FBD39C3B1CA37 /* Build configuration list for PBXProject "Yomora" */;
@@ -511,6 +581,7 @@
 			projectRoot = "";
 			targets = (
 				41A354578C2884E4C4F8739A /* Yomora */,
+				F3BFD22194AF1E7E66840500 /* YomoraLiveActivity */,
 				A36AA1D80C66F36122F3A20F /* YomoraTests */,
 				1962772FF5E85234B2825103 /* YomoraUITests */,
 			);
@@ -538,6 +609,7 @@
 				A61016EE88F3554159196F6D /* ActiveReadingSessionBanner.swift in Sources */,
 				6083B435F24B4F1E4A5A9378 /* ActiveReadingSessionCoordinator.swift in Sources */,
 				87DE58F5FFB8EEC8D725DDFC /* AppContainer.swift in Sources */,
+				783D9F2CA4172D371D850AA1 /* AppNavigationCoordinator.swift in Sources */,
 				7E52599BB0C078A1E5F11600 /* AppRouter.swift in Sources */,
 				D53C7A2A7B63DDA2E6943B1F /* AuthenticationView.swift in Sources */,
 				56B0EC731AEF70D7E8507DEF /* BookCache.swift in Sources */,
@@ -553,6 +625,7 @@
 				1AA011E4919584FEB8238FEB /* OnboardingView.swift in Sources */,
 				126F84232BBD4CA634F55E7A /* PostComposerView.swift in Sources */,
 				73FBC362B0D880727F8B908F /* ProfileView.swift in Sources */,
+				6FD26C2DB2B99CB600866FB5 /* ReadingActivityAttributes.swift in Sources */,
 				7A808752AD6487BF689AE02C /* ReadingActivityManager.swift in Sources */,
 				0E771DD0B943BC3D80A7E21F /* ReadingSessionView.swift in Sources */,
 				719421243EB6D0F41B9D6965 /* ReadingSessionViewModel.swift in Sources */,
@@ -573,12 +646,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EA09694D2451F438EDF0A3C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				980936353A7FFE38212DBFA5 /* ReadingActivityAttributes.swift in Sources */,
+				F7185CD224B16EF8344CA320 /* YomoraLiveActivity.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EDEFC5C3325CD6D36E755A4B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				8F04DD8AD9CFA8E5C80EC5A4 /* APIClientTests.swift in Sources */,
 				39A538CB7C9EB4203DB8BBB3 /* ActiveReadingSessionCoordinatorTests.swift in Sources */,
+				26AE64960D53F5993A0F7AA9 /* ReadingActivityManagerTests.swift in Sources */,
 				89DF9FDFBFD7B1044DF0BF59 /* ReadingSessionRestorationTests.swift in Sources */,
 				CA64EE5AAD24908A5BD7339C /* ReadingTimerTests.swift in Sources */,
 				E32E3B9CEE4876D6EBA3D63D /* SearchViewModelTests.swift in Sources */,
@@ -601,6 +684,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		706FDC9B894900EA1BF285F1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F3BFD22194AF1E7E66840500 /* YomoraLiveActivity */;
+			targetProxy = BE990AE0D179D946CC62B2FD /* PBXContainerItemProxy */;
+		};
 		B15A9F84EBE1CFBF8A8A2BA7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 41A354578C2884E4C4F8739A /* Yomora */;
@@ -756,6 +844,23 @@
 			};
 			name = Release;
 		};
+		77B31165D1C76FBC7ED1E07D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				INFOPLIST_FILE = YomoraLiveActivity/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.yomora.ios.liveactivity;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		88312AA5A8E402FFA4C99BBA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -849,6 +954,23 @@
 			};
 			name = Debug;
 		};
+		B95E37B93718F07C1D1C7085 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				INFOPLIST_FILE = YomoraLiveActivity/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.yomora.ios.liveactivity;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -875,6 +997,15 @@
 			buildConfigurations = (
 				959B5C3EB141CFE8D564CBFC /* Debug */,
 				88312AA5A8E402FFA4C99BBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C7797CFA118CF891D12DAE0B /* Build configuration list for PBXNativeTarget "YomoraLiveActivity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77B31165D1C76FBC7ED1E07D /* Debug */,
+				B95E37B93718F07C1D1C7085 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
