@@ -17,6 +17,17 @@ struct ReadingTimer: Sendable, Equatable {
         self.startedAt = nil
     }
 
+    mutating func restore(
+        sessionStartedAt: Date,
+        pausedAt: Date?,
+        pausedSeconds: TimeInterval,
+        at restoredAt: Date = .now
+    ) {
+        let effectiveEnd = pausedAt ?? restoredAt
+        accumulated = max(0, effectiveEnd.timeIntervalSince(sessionStartedAt) - pausedSeconds)
+        startedAt = pausedAt == nil ? restoredAt : nil
+    }
+
     func elapsed(at date: Date = .now) -> TimeInterval {
         accumulated + (startedAt.map { max(0, date.timeIntervalSince($0)) } ?? 0)
     }

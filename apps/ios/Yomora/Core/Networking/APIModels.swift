@@ -87,9 +87,12 @@ struct ReadingSession: Codable, Identifiable, Sendable, Equatable {
     let userId: UUID
     let userBookId: UUID
     let startPage: Int
+    let currentPage: Int
     let endPage: Int?
     let goalPages: Int?
     let startedAt: String
+    let pausedAt: String?
+    let pausedSeconds: Int
     let finishedAt: String?
     let durationSeconds: Int?
     let pagesRead: Int?

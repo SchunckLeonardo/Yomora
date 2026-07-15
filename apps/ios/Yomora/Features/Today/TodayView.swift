@@ -21,6 +21,9 @@ struct TodayView: View {
                     Text("Olá, \(user?.name.components(separatedBy: " ").first ?? "leitor")").font(.yomoraTitle)
                     Text(Date.now.formatted(.dateTime.weekday(.wide).day().month(.wide))).foregroundStyle(.secondary)
                 }
+                if let active = container.activeReadingSession.context {
+                    ActiveReadingSessionBanner(context: active)
+                }
                 switch viewModel.state {
                 case .idle, .loading:
                     LoadingSkeleton(); LoadingSkeleton()
@@ -33,7 +36,7 @@ struct TodayView: View {
                        let book = viewModel.featuredBook {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Continue lendo").font(.yomoraHeading)
-                            NavigationLink(value: AppRoute.reading(entry, title: book.title)) {
+                            NavigationLink(value: AppRoute.reading(entry, book: book)) {
                                 BookCard(book: book, progress: progress(entry: entry, book: book))
                             }.buttonStyle(.plain).accessibilityIdentifier("continueReadingCard")
                         }

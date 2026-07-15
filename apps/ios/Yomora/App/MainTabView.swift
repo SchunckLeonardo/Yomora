@@ -13,6 +13,7 @@ private enum MainTab: Hashable {
 struct MainTabView: View {
     let container: AppContainer
     let session: SessionStore
+    @Environment(\.scenePhase) private var scenePhase
     @State private var selectedTab: MainTab = .today
 
     var body: some View {
@@ -43,6 +44,15 @@ struct MainTabView: View {
                 .tabItem { Label("Biblioteca", systemImage: "books.vertical") }
                 .tag(MainTab.library)
         }
+        .task { await container.activeReadingSession.restore() }
+        .onChange(of: scenePhase) { _, phase in
+            guard phase == .active else { return }
+            Task { await container.activeReadingSession.restore() }
+        }
+        .onDisappear {
+            container.activeReadingSession.clear()
+            Task { await container.readingActivity.end() }
+        }
     }
 
     private func selectToday() {
@@ -64,10 +74,13 @@ private struct FeatureNavigation<Content: View>: View {
                     switch route {
                     case let .book(book): BookDetailsView(book: book, api: container.api)
                     case let .libraryBook(entry): LibraryBookDetailsView(entry: entry, container: container)
-                    case let .reading(entry, title):
+                    case let .reading(entry, book):
+                        let active = container.activeReadingSession.context
+                        let matchingActive = active?.entry.id == entry.id ? active : nil
                         ReadingSessionView(
                             entry: entry,
-                            title: title,
+                            book: book ?? matchingActive?.book,
+                            existingSession: matchingActive?.session,
                             container: container,
                             onExitToToday: finishReadingFlow
                         )
@@ -157,18 +170,24 @@ private struct QuickReadView: View {
     }
 
     var body: some View {
-        Group {
-            switch viewModel.state {
-            case .idle, .loading:
-                VStack(spacing: YomoraSpacing.md) {
-                    LoadingSkeleton()
-                    LoadingSkeleton()
+        VStack(spacing: 0) {
+            if let active = container.activeReadingSession.context {
+                ActiveReadingSessionBanner(context: active)
+                    .padding([.horizontal, .top])
+            }
+            Group {
+                switch viewModel.state {
+                case .idle, .loading:
+                    VStack(spacing: YomoraSpacing.md) {
+                        LoadingSkeleton()
+                        LoadingSkeleton()
+                    }
+                    .padding()
+                case let .error(message):
+                    ErrorStateView(message: message) { Task { await viewModel.load() } }
+                case .loaded:
+                    content
                 }
-                .padding()
-            case let .error(message):
-                ErrorStateView(message: message) { Task { await viewModel.load() } }
-            case .loaded:
-                content
             }
         }
         .navigationTitle("Ler")
@@ -225,7 +244,7 @@ private struct QuickReadView: View {
                             .multilineTextAlignment(.center)
                         Text(selected.book.title).foregroundStyle(.secondary)
                     }
-                    NavigationLink(value: AppRoute.reading(selected.entry, title: selected.book.title)) {
+                    NavigationLink(value: AppRoute.reading(selected.entry, book: selected.book)) {
                         Label("Iniciar leitura", systemImage: "play.fill")
                             .font(.headline)
                             .frame(maxWidth: .infinity, minHeight: 54)

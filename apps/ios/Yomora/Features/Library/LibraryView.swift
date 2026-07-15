@@ -92,7 +92,7 @@ struct LibraryBookDetailsView: View {
                     }
                 }
                 if status == .reading {
-                    NavigationLink(value: AppRoute.reading(entry, title: book?.title ?? "Sua leitura")) {
+                    NavigationLink(value: AppRoute.reading(entry, book: book)) {
                         Label("Iniciar sessão de leitura", systemImage: "timer")
                             .font(.headline).frame(maxWidth: .infinity, minHeight: 52).foregroundStyle(YomoraColor.onInteractive)
                             .background(YomoraColor.interactiveFill, in: RoundedRectangle(cornerRadius: YomoraRadius.button))

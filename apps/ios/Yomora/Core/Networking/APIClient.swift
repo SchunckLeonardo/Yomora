@@ -2,7 +2,18 @@ import Foundation
 
 protocol APIClientProtocol: Sendable {
     func send<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T
+    func sendOptional<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T?
     func sendVoid(_ endpoint: Endpoint) async throws
+}
+
+extension APIClientProtocol {
+    func sendOptional<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T? {
+        do {
+            return try await send(endpoint, as: type)
+        } catch APIError.invalidResponse {
+            return nil
+        }
+    }
 }
 
 actor APIClient: APIClientProtocol {
@@ -19,6 +30,13 @@ actor APIClient: APIClientProtocol {
 
     func send<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T {
         let data = try await perform(endpoint, retryAfterRefresh: true)
+        do { return try decoder.decode(T.self, from: data) }
+        catch { throw APIError.invalidResponse }
+    }
+
+    func sendOptional<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T? {
+        let data = try await perform(endpoint, retryAfterRefresh: true)
+        guard !data.isEmpty else { return nil }
         do { return try decoder.decode(T.self, from: data) }
         catch { throw APIError.invalidResponse }
     }
@@ -68,4 +86,3 @@ actor APIClient: APIClientProtocol {
         return request
     }
 }
-

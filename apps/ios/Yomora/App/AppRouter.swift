@@ -3,7 +3,7 @@ import Foundation
 enum AppRoute: Hashable {
     case book(Book)
     case libraryBook(LibraryBook)
-    case reading(LibraryBook, title: String)
+    case reading(LibraryBook, book: Book?)
     case sessionSummary(SessionSummary)
     case post(Post)
     case composer
@@ -11,4 +11,3 @@ enum AppRoute: Hashable {
     case followers(UUID)
     case theme
 }
-

@@ -6,11 +6,25 @@ struct ReadingSessionView: View {
     @State private var viewModel: ReadingSessionViewModel
     @FocusState private var noteFocused: Bool
 
-    init(entry: LibraryBook, title: String, container: AppContainer, onExitToToday: @escaping () -> Void) {
+    init(
+        entry: LibraryBook,
+        book: Book?,
+        existingSession: ReadingSession?,
+        container: AppContainer,
+        onExitToToday: @escaping () -> Void
+    ) {
+        let title = book?.title ?? "Sua leitura"
         self.title = title
         self.onExitToToday = onExitToToday
-        _viewModel = State(initialValue: ReadingSessionViewModel(entry: entry, title: title,
-                                                                 api: container.api, activity: container.readingActivity))
+        _viewModel = State(initialValue: ReadingSessionViewModel(
+            entry: entry,
+            book: book,
+            title: title,
+            api: container.api,
+            activity: container.readingActivity,
+            coordinator: container.activeReadingSession,
+            existingSession: existingSession
+        ))
     }
 
     var body: some View {
@@ -42,6 +56,13 @@ struct ReadingSessionView: View {
                                     .foregroundStyle(.white)
                                     .padding()
                                     .background(.white.opacity(0.1), in: RoundedRectangle(cornerRadius: 14))
+                                    .onChange(of: viewModel.endPage) { _, _ in viewModel.scheduleProgressUpdate() }
+                                if let syncError = viewModel.syncError {
+                                    Text(syncError)
+                                        .font(.footnote)
+                                        .foregroundStyle(.white)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                }
                                 ReadingSessionNoteField(viewModel: viewModel, isFocused: $noteFocused)
                                     .id("readingSessionNote")
                             }
@@ -91,14 +112,14 @@ struct ReadingSessionView: View {
             ProgressView().tint(.white).controlSize(.large)
         case .running:
             HStack(spacing: 14) {
-                Button { viewModel.pause() } label: { Label("Pausar", systemImage: "pause.fill").frame(maxWidth: .infinity, minHeight: 50) }
+                Button { Task { await viewModel.pause() } } label: { Label("Pausar", systemImage: "pause.fill").frame(maxWidth: .infinity, minHeight: 50) }
                     .buttonStyle(.bordered).tint(.white)
                 Button { Task { await viewModel.finish() } } label: { Label("Finalizar", systemImage: "stop.fill").frame(maxWidth: .infinity, minHeight: 50) }
                     .buttonStyle(.borderedProminent).tint(YomoraColor.progressGold).accessibilityIdentifier("timerFinishButton")
             }
         case .paused:
             HStack(spacing: 14) {
-                Button { viewModel.resume() } label: { Label("Continuar", systemImage: "play.fill").frame(maxWidth: .infinity, minHeight: 50) }.buttonStyle(.bordered).tint(.white)
+                Button { Task { await viewModel.resume() } } label: { Label("Continuar", systemImage: "play.fill").frame(maxWidth: .infinity, minHeight: 50) }.buttonStyle(.bordered).tint(.white)
                 Button { Task { await viewModel.finish() } } label: { Label("Finalizar", systemImage: "stop.fill").frame(maxWidth: .infinity, minHeight: 50) }.buttonStyle(.borderedProminent).tint(YomoraColor.progressGold)
             }
         case .finished: EmptyView()

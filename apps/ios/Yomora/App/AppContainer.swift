@@ -8,6 +8,7 @@ final class AppContainer {
     let bookCache: BookCache
     let modelContainer: ModelContainer
     let readingActivity: any ReadingActivityManaging
+    let activeReadingSession: ActiveReadingSessionCoordinator
 
     init(api: any APIClientProtocol, tokenStore: any TokenStoring, modelContainer: ModelContainer,
          readingActivity: any ReadingActivityManaging = NoopReadingActivityManager()) {
@@ -16,6 +17,7 @@ final class AppContainer {
         self.modelContainer = modelContainer
         self.bookCache = BookCache(container: modelContainer)
         self.readingActivity = readingActivity
+        self.activeReadingSession = ActiveReadingSessionCoordinator(api: api)
     }
 
     static func live() -> AppContainer {
