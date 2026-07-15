@@ -12,6 +12,8 @@ import java.util.UUID;
 interface SpringDataReadingSessionRepository extends JpaRepository<ReadingSessionEntity, UUID> {
     Optional<ReadingSessionEntity> findByIdAndUserId(UUID id, UUID userId);
 
+    Optional<ReadingSessionEntity> findFirstByUserIdAndFinishedAtIsNullOrderByStartedAtDesc(UUID userId);
+
     List<ReadingSessionEntity> findAllByUserIdOrderByStartedAtDesc(UUID userId);
 
     @Query(value = """

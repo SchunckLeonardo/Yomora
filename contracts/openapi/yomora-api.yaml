@@ -237,7 +237,44 @@ paths:
       tags: [Reading]
       summary: Iniciar sessão
       requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/StartSessionRequest'}}}}
-      responses: {'201': {description: Sessão iniciada, content: {application/json: {schema: {$ref: '#/components/schemas/ReadingSession'}}}}}
+      responses:
+        '201': {description: Sessão iniciada, content: {application/json: {schema: {$ref: '#/components/schemas/ReadingSession'}}}}
+        '409': {description: Já existe uma sessão ativa; o Problem inclui `code=ACTIVE_READING_SESSION_EXISTS` e `activeSessionId`, content: {application/problem+json: {schema: {$ref: '#/components/schemas/Problem'}}}}
+  /reading-sessions/active:
+    get:
+      tags: [Reading]
+      summary: Recuperar a sessão ativa
+      responses:
+        '200': {description: Sessão ativa, content: {application/json: {schema: {$ref: '#/components/schemas/ReadingSession'}}}}
+        '204': {description: Não há sessão ativa}
+  /reading-sessions/{id}/pause:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    patch:
+      tags: [Reading]
+      summary: Pausar sessão idempotentemente
+      responses:
+        '200': {description: Sessão pausada, content: {application/json: {schema: {$ref: '#/components/schemas/ReadingSession'}}}}
+        '404': {$ref: '#/components/responses/Problem'}
+  /reading-sessions/{id}/resume:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    patch:
+      tags: [Reading]
+      summary: Retomar sessão idempotentemente
+      responses:
+        '200': {description: Sessão retomada, content: {application/json: {schema: {$ref: '#/components/schemas/ReadingSession'}}}}
+        '404': {$ref: '#/components/responses/Problem'}
+  /reading-sessions/{id}/progress:
+    parameters: [{$ref: '#/components/parameters/Id'}]
+    patch:
+      tags: [Reading]
+      summary: Persistir a página atual da sessão
+      requestBody:
+        required: true
+        content: {application/json: {schema: {$ref: '#/components/schemas/ReadingSessionProgressRequest'}}}
+      responses:
+        '200': {description: Progresso persistido, content: {application/json: {schema: {$ref: '#/components/schemas/ReadingSession'}}}}
+        '400': {$ref: '#/components/responses/Problem'}
+        '404': {$ref: '#/components/responses/Problem'}
   /reading-sessions/{id}/finish:
     parameters: [{$ref: '#/components/parameters/Id'}]
     patch:
@@ -459,8 +496,12 @@ components:
       properties: {userBookId: {type: string, format: uuid}, startPage: {type: integer, minimum: 0}, goalPages: {type: [integer, 'null'], minimum: 1}}
     ReadingSession:
       type: object
-      required: [id, userId, userBookId, startPage, startedAt]
-      properties: {id: {type: string, format: uuid}, userId: {type: string, format: uuid}, userBookId: {type: string, format: uuid}, startPage: {type: integer}, endPage: {type: [integer, 'null']}, goalPages: {type: [integer, 'null']}, startedAt: {type: string, format: date-time}, finishedAt: {type: [string, 'null'], format: date-time}, durationSeconds: {type: [integer, 'null']}, pagesRead: {type: [integer, 'null']}, note: {type: [string, 'null']}}
+      required: [id, userId, userBookId, startPage, currentPage, startedAt, pausedSeconds]
+      properties: {id: {type: string, format: uuid}, userId: {type: string, format: uuid}, userBookId: {type: string, format: uuid}, startPage: {type: integer}, currentPage: {type: integer}, endPage: {type: [integer, 'null']}, goalPages: {type: [integer, 'null']}, startedAt: {type: string, format: date-time}, pausedAt: {type: [string, 'null'], format: date-time}, pausedSeconds: {type: integer, minimum: 0}, finishedAt: {type: [string, 'null'], format: date-time}, durationSeconds: {type: [integer, 'null']}, pagesRead: {type: [integer, 'null']}, note: {type: [string, 'null']}}
+    ReadingSessionProgressRequest:
+      type: object
+      required: [currentPage]
+      properties: {currentPage: {type: integer, minimum: 0}}
     SessionSummary:
       type: object
       properties: {sessionId: {type: string, format: uuid}, durationMinutes: {type: integer}, pagesRead: {type: integer}, progressPercent: {type: number}, averagePagesPerHour: {type: number}, estimatedSessionsRemaining: {type: integer}, estimatedFinishDate: {type: [string, 'null'], format: date}, currentStreak: {type: integer}}

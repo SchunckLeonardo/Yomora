@@ -8,9 +8,12 @@ public record ReadingSession(
         UUID userId,
         UUID userBookId,
         int startPage,
+        int currentPage,
         Integer endPage,
         Integer goalPages,
         Instant startedAt,
+        Instant pausedAt,
+        long pausedSeconds,
         Instant finishedAt,
         Long durationSeconds,
         Integer pagesRead,
@@ -18,5 +21,9 @@ public record ReadingSession(
 ) {
     public boolean active() {
         return finishedAt == null;
+    }
+
+    public boolean paused() {
+        return pausedAt != null;
     }
 }

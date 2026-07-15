@@ -13,6 +13,8 @@ public interface ReadingSessionRepository {
 
     Optional<ReadingSession> findOwned(UUID id, UUID userId);
 
+    Optional<ReadingSession> findActive(UUID userId);
+
     List<ReadingSession> list(UUID userId);
 
     Map<LocalDate, DailyReading> dailyReading(UUID userId, LocalDate since);

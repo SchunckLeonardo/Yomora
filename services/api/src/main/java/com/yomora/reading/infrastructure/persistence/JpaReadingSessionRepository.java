@@ -31,6 +31,12 @@ class JpaReadingSessionRepository implements ReadingSessionRepository {
     }
 
     @Override
+    public Optional<ReadingSession> findActive(UUID userId) {
+        return repository.findFirstByUserIdAndFinishedAtIsNullOrderByStartedAtDesc(userId)
+                .map(ReadingSessionEntity::toDomain);
+    }
+
+    @Override
     public List<ReadingSession> list(UUID userId) {
         return repository.findAllByUserIdOrderByStartedAtDesc(userId).stream()
                 .map(ReadingSessionEntity::toDomain)

@@ -19,6 +19,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class ReadingSessionService {
@@ -62,21 +63,73 @@ public class ReadingSessionService {
     @Transactional
     public ReadingSession start(UUID userId, UUID userBookId, Integer startPage, Integer goalPages) {
         UserBook book = userBookRepository.findOwned(userBookId, userId).orElseThrow(LibraryEntryNotFoundException::new);
+        repository.findActive(userId).ifPresent(active -> {
+            throw new ActiveReadingSessionExistsException(active.id());
+        });
         int page = startPage == null ? book.currentPage() : startPage;
         if (page < 0) {
             throw new InvalidBookProgressException("Página inicial inválida");
         }
         return repository.save(new ReadingSession(
-                UUID.randomUUID(), userId, userBookId, page, null, goalPages,
-                clock.instant(), null, null, null, null
+                UUID.randomUUID(), userId, userBookId, page, page, null, goalPages,
+                clock.instant(), null, 0, null, null, null, null
         ));
     }
 
     @Transactional
+    public ReadingSession pause(UUID userId, UUID sessionId) {
+        ReadingSession session = activeOwned(userId, sessionId);
+        if (session.paused()) {
+            return session;
+        }
+        return repository.save(new ReadingSession(
+                session.id(), session.userId(), session.userBookId(), session.startPage(), session.currentPage(),
+                session.endPage(),
+                session.goalPages(), session.startedAt(), clock.instant(), session.pausedSeconds(),
+                session.finishedAt(), session.durationSeconds(), session.pagesRead(), session.note()
+        ));
+    }
+
+    @Transactional
+    public ReadingSession resume(UUID userId, UUID sessionId) {
+        ReadingSession session = activeOwned(userId, sessionId);
+        if (!session.paused()) {
+            return session;
+        }
+        Instant resumedAt = clock.instant();
+        long pausedSeconds = session.pausedSeconds()
+                + Math.max(0, Duration.between(session.pausedAt(), resumedAt).toSeconds());
+        return repository.save(new ReadingSession(
+                session.id(), session.userId(), session.userBookId(), session.startPage(), session.currentPage(),
+                session.endPage(),
+                session.goalPages(), session.startedAt(), null, pausedSeconds,
+                session.finishedAt(), session.durationSeconds(), session.pagesRead(), session.note()
+        ));
+    }
+
+    @Transactional
+    public ReadingSession updateProgress(UUID userId, UUID sessionId, int currentPage) {
+        ReadingSession session = activeOwned(userId, sessionId);
+        validatePage(userId, session, currentPage);
+        if (session.currentPage() == currentPage) {
+            return session;
+        }
+        return repository.save(new ReadingSession(
+                session.id(), session.userId(), session.userBookId(), session.startPage(), currentPage,
+                session.endPage(), session.goalPages(), session.startedAt(), session.pausedAt(),
+                session.pausedSeconds(), session.finishedAt(), session.durationSeconds(), session.pagesRead(),
+                session.note()
+        ));
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<ReadingSession> active(UUID userId) {
+        return repository.findActive(userId);
+    }
+
+    @Transactional
     public ReadingSessionSummary finish(UUID userId, UUID sessionId, int endPage, String note) {
-        ReadingSession session = repository.findOwned(sessionId, userId)
-                .filter(ReadingSession::active)
-                .orElseThrow(ReadingSessionNotFoundException::new);
+        ReadingSession session = activeOwned(userId, sessionId);
         UserBook book = userBookRepository.findOwned(session.userBookId(), userId)
                 .orElseThrow(LibraryEntryNotFoundException::new);
         BookSearchResult edition = catalogRepository.findEdition(book.editionId())
@@ -86,11 +139,19 @@ public class ReadingSessionService {
         }
 
         Instant finishedAt = clock.instant();
-        long durationSeconds = Math.max(1, Duration.between(session.startedAt(), finishedAt).toSeconds());
+        long pausedSeconds = session.pausedSeconds();
+        if (session.paused()) {
+            pausedSeconds += Math.max(0, Duration.between(session.pausedAt(), finishedAt).toSeconds());
+        }
+        long durationSeconds = Math.max(
+                1,
+                Duration.between(session.startedAt(), finishedAt).toSeconds() - pausedSeconds
+        );
         int pagesRead = endPage - session.startPage();
         ReadingSession finished = repository.save(new ReadingSession(
-                session.id(), session.userId(), session.userBookId(), session.startPage(), endPage,
-                session.goalPages(), session.startedAt(), finishedAt, durationSeconds, pagesRead,
+                session.id(), session.userId(), session.userBookId(), session.startPage(), endPage, endPage,
+                session.goalPages(), session.startedAt(), null, pausedSeconds,
+                finishedAt, durationSeconds, pagesRead,
                 note == null || note.isBlank() ? null : note.trim()
         ));
 
@@ -126,6 +187,22 @@ public class ReadingSessionService {
     @Transactional(readOnly = true)
     public List<ReadingSession> list(UUID userId) {
         return repository.list(userId);
+    }
+
+    private ReadingSession activeOwned(UUID userId, UUID sessionId) {
+        return repository.findOwned(sessionId, userId)
+                .filter(ReadingSession::active)
+                .orElseThrow(ReadingSessionNotFoundException::new);
+    }
+
+    private void validatePage(UUID userId, ReadingSession session, int page) {
+        UserBook book = userBookRepository.findOwned(session.userBookId(), userId)
+                .orElseThrow(LibraryEntryNotFoundException::new);
+        BookSearchResult edition = catalogRepository.findEdition(book.editionId())
+                .orElseThrow(LibraryEntryNotFoundException::new);
+        if (page < session.startPage() || edition.pageCount() != null && page > edition.pageCount()) {
+            throw new InvalidBookProgressException("Página atual fora dos limites da edição");
+        }
     }
 
     private double round2(double value) {

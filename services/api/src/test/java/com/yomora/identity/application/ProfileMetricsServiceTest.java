@@ -43,7 +43,7 @@ class ProfileMetricsServiceTest {
 
     private ReadingSession session(UUID userId, Long seconds) {
         Instant now = Instant.parse("2026-07-13T12:00:00Z");
-        return new ReadingSession(UUID.randomUUID(), userId, UUID.randomUUID(), 1, 10, null,
-                now.minusSeconds(seconds), now, seconds, 9, null);
+        return new ReadingSession(UUID.randomUUID(), userId, UUID.randomUUID(), 1, 10, 10, null,
+                now.minusSeconds(seconds), null, 0, now, seconds, 9, null);
     }
 }

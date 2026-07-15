@@ -50,9 +50,35 @@ class ReadingSessionController {
         return service.finish(currentUser.id(authentication), id, request.endPage(), request.note());
     }
 
+    @PatchMapping("/{id}/pause")
+    ReadingSession pause(Authentication authentication, @PathVariable UUID id) {
+        return service.pause(currentUser.id(authentication), id);
+    }
+
+    @PatchMapping("/{id}/resume")
+    ReadingSession resume(Authentication authentication, @PathVariable UUID id) {
+        return service.resume(currentUser.id(authentication), id);
+    }
+
+    @PatchMapping("/{id}/progress")
+    ReadingSession progress(
+            Authentication authentication,
+            @PathVariable UUID id,
+            @Valid @RequestBody ProgressRequest request
+    ) {
+        return service.updateProgress(currentUser.id(authentication), id, request.currentPage());
+    }
+
     @GetMapping
     List<ReadingSession> list(Authentication authentication) {
         return service.list(currentUser.id(authentication));
+    }
+
+    @GetMapping("/active")
+    ResponseEntity<ReadingSession> active(Authentication authentication) {
+        return service.active(currentUser.id(authentication))
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
     record StartRequest(
@@ -63,5 +89,8 @@ class ReadingSessionController {
     }
 
     record FinishRequest(@Min(0) int endPage, @Size(max = 2000) String note) {
+    }
+
+    record ProgressRequest(@Min(0) int currentPage) {
     }
 }

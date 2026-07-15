@@ -10,6 +10,7 @@ import com.yomora.library.application.LibraryConflictException;
 import com.yomora.library.application.LibraryEntryNotFoundException;
 import com.yomora.library.application.ShelfNotFoundException;
 import com.yomora.reading.application.ReadingSessionNotFoundException;
+import com.yomora.reading.application.ActiveReadingSessionExistsException;
 import com.yomora.social.application.ContentForbiddenException;
 import com.yomora.social.application.ContentNotFoundException;
 import com.yomora.social.application.InvalidFollowException;
@@ -28,6 +29,14 @@ import java.util.Map;
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
+    @ExceptionHandler(ActiveReadingSessionExistsException.class)
+    ProblemDetail activeReadingSessionConflict(ActiveReadingSessionExistsException exception) {
+        ProblemDetail detail = problem(HttpStatus.CONFLICT, "Sessão de leitura em andamento", exception.getMessage());
+        detail.setProperty("code", "ACTIVE_READING_SESSION_EXISTS");
+        detail.setProperty("activeSessionId", exception.activeSessionId());
+        return detail;
+    }
+
     @ExceptionHandler(IdentityConflictException.class)
     ProblemDetail conflict(IdentityConflictException exception) {
         return problem(HttpStatus.CONFLICT, "Conflito de identidade", exception.getMessage());

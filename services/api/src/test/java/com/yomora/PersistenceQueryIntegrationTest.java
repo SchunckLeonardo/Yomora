@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Import(TestcontainersConfiguration.class)
 @SpringBootTest
@@ -128,6 +130,18 @@ class PersistenceQueryIntegrationTest {
         assertThat(discovered).extracting(Post::id).contains(post.id());
     }
 
+    @Test
+    void databaseAllowsOnlyOneActiveReadingSessionPerUser() {
+        UUID userId = UUID.randomUUID();
+        insertUser(userId, "active-reader");
+        UUID firstUserBookId = insertUserBook(userId, "Primeira leitura");
+        UUID secondUserBookId = insertUserBook(userId, "Segunda leitura");
+        insertActiveSession(userId, firstUserBookId);
+
+        assertThatThrownBy(() -> insertActiveSession(userId, secondUserBookId))
+                .isInstanceOf(DataIntegrityViolationException.class);
+    }
+
     private void saveBook(String title, List<String> authors, String externalId) {
         bookCatalogRepository.save(new BookCandidate(
                 title,
@@ -178,5 +192,33 @@ class PersistenceQueryIntegrationTest {
                 Timestamp.from(NOW),
                 Timestamp.from(NOW)
         );
+    }
+
+    private UUID insertUserBook(UUID userId, String title) {
+        UUID workId = UUID.randomUUID();
+        UUID editionId = UUID.randomUUID();
+        UUID userBookId = UUID.randomUUID();
+        jdbcTemplate.update("""
+                INSERT INTO book_works (id, title, description, created_at, updated_at)
+                VALUES (?, ?, '', ?, ?)
+                """, workId, title, Timestamp.from(NOW), Timestamp.from(NOW));
+        jdbcTemplate.update("""
+                INSERT INTO book_editions (id, work_id, language, page_count, created_at, updated_at)
+                VALUES (?, ?, 'pt', 200, ?, ?)
+                """, editionId, workId, Timestamp.from(NOW), Timestamp.from(NOW));
+        jdbcTemplate.update("""
+                INSERT INTO user_books (
+                    id, user_id, edition_id, status, current_page, started_at, created_at, updated_at
+                ) VALUES (?, ?, ?, 'READING', 0, ?, ?, ?)
+                """, userBookId, userId, editionId, Timestamp.from(NOW), Timestamp.from(NOW), Timestamp.from(NOW));
+        return userBookId;
+    }
+
+    private void insertActiveSession(UUID userId, UUID userBookId) {
+        jdbcTemplate.update("""
+                INSERT INTO reading_sessions (
+                    id, user_id, user_book_id, start_page, current_page, started_at, paused_seconds
+                ) VALUES (?, ?, ?, 0, 0, ?, 0)
+                """, UUID.randomUUID(), userId, userBookId, Timestamp.from(NOW));
     }
 }

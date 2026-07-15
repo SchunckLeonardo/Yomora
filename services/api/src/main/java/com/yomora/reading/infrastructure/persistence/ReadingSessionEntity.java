@@ -20,12 +20,18 @@ class ReadingSessionEntity {
     UUID userBookId;
     @Column(name = "start_page")
     int startPage;
+    @Column(name = "current_page")
+    int currentPage;
     @Column(name = "end_page")
     Integer endPage;
     @Column(name = "goal_pages")
     Integer goalPages;
     @Column(name = "started_at")
     Instant startedAt;
+    @Column(name = "paused_at")
+    Instant pausedAt;
+    @Column(name = "paused_seconds")
+    long pausedSeconds;
     @Column(name = "finished_at")
     Instant finishedAt;
     @Column(name = "duration_seconds")
@@ -42,9 +48,12 @@ class ReadingSessionEntity {
         this.userId = session.userId();
         this.userBookId = session.userBookId();
         this.startPage = session.startPage();
+        this.currentPage = session.currentPage();
         this.endPage = session.endPage();
         this.goalPages = session.goalPages();
         this.startedAt = session.startedAt();
+        this.pausedAt = session.pausedAt();
+        this.pausedSeconds = session.pausedSeconds();
         this.finishedAt = session.finishedAt();
         this.durationSeconds = session.durationSeconds();
         this.pagesRead = session.pagesRead();
@@ -57,8 +66,8 @@ class ReadingSessionEntity {
 
     ReadingSession toDomain() {
         return new ReadingSession(
-                id, userId, userBookId, startPage, endPage, goalPages,
-                startedAt, finishedAt, durationSeconds, pagesRead, note
+                id, userId, userBookId, startPage, currentPage, endPage, goalPages,
+                startedAt, pausedAt, pausedSeconds, finishedAt, durationSeconds, pagesRead, note
         );
     }
 }
