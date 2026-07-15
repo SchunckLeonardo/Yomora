@@ -2,6 +2,7 @@ package com.yomora.catalog.infrastructure.provider;
 
 import com.yomora.catalog.application.BookProviderUnavailableException;
 import com.yomora.catalog.domain.BookCandidate;
+import com.yomora.catalog.domain.BookLanguage;
 import com.yomora.catalog.domain.BookProvider;
 import com.yomora.catalog.domain.BookProviderQuery;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,7 +58,7 @@ class GoogleBooksProvider implements BookProvider {
                         .uri(uri -> {
                             Map<String, Object> variables = new LinkedHashMap<>();
                             variables.put("query", query.query());
-                            variables.put("language", query.language());
+                            variables.put("language", BookLanguage.toIso6391(query.language()));
                             variables.put("limit", query.limit());
                             var builder = uri.path("/books/v1/volumes")
                                     .queryParam("q", "{query}")

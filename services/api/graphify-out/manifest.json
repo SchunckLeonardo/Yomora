@@ -20,9 +20,9 @@
     "semantic_hash": "56b71e4153d875a8c83bf55db0fd05da"
   },
   "src/main/java/com/yomora/catalog/application/BookCatalogAggregator.java": {
-    "mtime": 1783958823.0,
-    "ast_hash": "19d69aa92adc35afaa9503ea1556481d",
-    "semantic_hash": "19d69aa92adc35afaa9503ea1556481d"
+    "mtime": 1784126580.6926596,
+    "ast_hash": "9127cd4a53e9b729dfa9974c230579bf",
+    "semantic_hash": "9127cd4a53e9b729dfa9974c230579bf"
   },
   "src/main/java/com/yomora/catalog/application/BookProviderUnavailableException.java": {
     "mtime": 1783962450.0,
@@ -30,14 +30,14 @@
     "semantic_hash": "7f2546d143b71897e56295b80d777f0d"
   },
   "src/main/java/com/yomora/catalog/application/SearchBooksQuery.java": {
-    "mtime": 1783958628.0,
-    "ast_hash": "cde5ed217d8e4286b2a06e2bf173d4ec",
-    "semantic_hash": "cde5ed217d8e4286b2a06e2bf173d4ec"
+    "mtime": 1784126149.8436742,
+    "ast_hash": "ae36187270f4bf4e531ce6436b6930b6",
+    "semantic_hash": "ae36187270f4bf4e531ce6436b6930b6"
   },
   "src/main/java/com/yomora/catalog/domain/BookCandidate.java": {
-    "mtime": 1783958627.0,
-    "ast_hash": "0459613a3a6bd26057bc1e068fb9d699",
-    "semantic_hash": "0459613a3a6bd26057bc1e068fb9d699"
+    "mtime": 1784126149.610684,
+    "ast_hash": "4ebea096317685f732d834138246310c",
+    "semantic_hash": "4ebea096317685f732d834138246310c"
   },
   "src/main/java/com/yomora/catalog/domain/BookCatalogRepository.java": {
     "mtime": 1783958725.0,
@@ -50,9 +50,9 @@
     "semantic_hash": "1d0753a95ca01607120ce8528e5c73f9"
   },
   "src/main/java/com/yomora/catalog/domain/BookProviderQuery.java": {
-    "mtime": 1783958627.0,
-    "ast_hash": "a540b77840354c70eea8fe96a602f2f4",
-    "semantic_hash": "a540b77840354c70eea8fe96a602f2f4"
+    "mtime": 1784126149.731004,
+    "ast_hash": "f6a618bffb5e29a7c0683ca45a08b8c9",
+    "semantic_hash": "f6a618bffb5e29a7c0683ca45a08b8c9"
   },
   "src/main/java/com/yomora/catalog/domain/BookSearchResult.java": {
     "mtime": 1783958627.0,
@@ -75,9 +75,9 @@
     "semantic_hash": "18ca75bad756fd7886a6ea144c25b9c8"
   },
   "src/main/java/com/yomora/catalog/infrastructure/persistence/JpaBookCatalogRepository.java": {
-    "mtime": 1783970146.9099166,
-    "ast_hash": "e0c7b464cd7f2e746356c4a23f6a2277",
-    "semantic_hash": "e0c7b464cd7f2e746356c4a23f6a2277"
+    "mtime": 1784126281.1472292,
+    "ast_hash": "cff86fab1b9c8cdb8408c2fc4c8b75e6",
+    "semantic_hash": "cff86fab1b9c8cdb8408c2fc4c8b75e6"
   },
   "src/main/java/com/yomora/catalog/infrastructure/persistence/SpringDataBookEditionRepository.java": {
     "mtime": 1783966224.3899841,
@@ -90,19 +90,19 @@
     "semantic_hash": "af4bdb389879171bd3941d69482aa379"
   },
   "src/main/java/com/yomora/catalog/infrastructure/provider/GoogleBooksProvider.java": {
-    "mtime": 1783970646.2285283,
-    "ast_hash": "410b5c5e36b054d7e3516a5095308ed8",
-    "semantic_hash": "410b5c5e36b054d7e3516a5095308ed8"
+    "mtime": 1784126150.0649056,
+    "ast_hash": "99ce93d9cfc32f62bd3d3b5d91aaead3",
+    "semantic_hash": "99ce93d9cfc32f62bd3d3b5d91aaead3"
   },
   "src/main/java/com/yomora/catalog/infrastructure/provider/OpenLibraryProvider.java": {
-    "mtime": 1783970646.3307166,
-    "ast_hash": "ef7a75fae64491c809f6cfd535c96ab2",
-    "semantic_hash": "ef7a75fae64491c809f6cfd535c96ab2"
+    "mtime": 1784126150.1754284,
+    "ast_hash": "08d924bd6168636a115af9ca9fe475f7",
+    "semantic_hash": "08d924bd6168636a115af9ca9fe475f7"
   },
   "src/main/java/com/yomora/catalog/web/BookCatalogController.java": {
-    "mtime": 1783958823.0,
-    "ast_hash": "6091b18739a2fef1d2a8a502a0b0f18b",
-    "semantic_hash": "6091b18739a2fef1d2a8a502a0b0f18b"
+    "mtime": 1784126150.2850893,
+    "ast_hash": "6de1e1349fda30daa1b52caadda207da",
+    "semantic_hash": "6de1e1349fda30daa1b52caadda207da"
   },
   "src/main/java/com/yomora/identity/application/AccessTokenIssuer.java": {
     "mtime": 1783958295.0,
@@ -850,9 +850,9 @@
     "semantic_hash": "8a94a431070fd69538f7bd979ef1787c"
   },
   "src/test/java/com/yomora/catalog/application/BookCatalogAggregatorTest.java": {
-    "mtime": 1783958559.0,
-    "ast_hash": "d4d0022913264ea71b6e4d413d725ee9",
-    "semantic_hash": "d4d0022913264ea71b6e4d413d725ee9"
+    "mtime": 1784126562.1913817,
+    "ast_hash": "04880fcd0623f4589b28bea4a4f98fd9",
+    "semantic_hash": "04880fcd0623f4589b28bea4a4f98fd9"
   },
   "src/test/java/com/yomora/identity/application/PasswordResetServiceTest.java": {
     "mtime": 1783960514.0,
@@ -910,7 +910,7 @@
     "semantic_hash": "c52d92fad92da11d437e62eb8a643b49"
   },
   "src/main/resources/application.yml": {
-    "mtime": 1783958295.1457984,
+    "mtime": 1783958295.0,
     "ast_hash": "e4f8364b3290f460ea8498f22ed47730",
     "semantic_hash": "e4f8364b3290f460ea8498f22ed47730"
   },
@@ -920,8 +920,33 @@
     "semantic_hash": "3ec0ebd3eb612a01bea7836abdea84a8"
   },
   "src/test/java/com/yomora/catalog/infrastructure/provider/ExternalBookProviderUriTest.java": {
-    "mtime": 1783970614.9154637,
-    "ast_hash": "fbebedb0c611e66df0cd967d43782b57",
-    "semantic_hash": "fbebedb0c611e66df0cd967d43782b57"
+    "mtime": 1784126219.962001,
+    "ast_hash": "e731daea1b90a2c8e3e0b708cf68a827",
+    "semantic_hash": "e731daea1b90a2c8e3e0b708cf68a827"
+  },
+  "src/main/java/com/yomora/catalog/domain/BookLanguage.java": {
+    "mtime": 1784126149.4980662,
+    "ast_hash": "b4861bb0fb76bd0e8e2176ad42367e5b",
+    "semantic_hash": "b4861bb0fb76bd0e8e2176ad42367e5b"
+  },
+  "src/main/resources/db/migration/V6__normalize_book_language_codes.sql": {
+    "mtime": 1784126150.3915496,
+    "ast_hash": "00bf50cdc38862e39d72a078332aa65e",
+    "semantic_hash": "00bf50cdc38862e39d72a078332aa65e"
+  },
+  "src/test/java/com/yomora/catalog/application/SearchBooksQueryTest.java": {
+    "mtime": 1784126082.4324915,
+    "ast_hash": "2c28ee4065d52ceab64aa7eb8ec0b2f1",
+    "semantic_hash": "2c28ee4065d52ceab64aa7eb8ec0b2f1"
+  },
+  "graphify-out/memory/query_20260715_142519_existe_uma_api_de_livros_mais_completa_para_buscas.md": {
+    "mtime": 1784125519.0692983,
+    "ast_hash": "30dc4b51dfb1fa47259086f93e4b266f",
+    "semantic_hash": ""
+  },
+  "graphify-out/memory/query_20260715_144035_vamos_seguir_nisso_ent\u00e3o__teste_bem_porque_antes_a.md": {
+    "mtime": 1784126435.1184742,
+    "ast_hash": "962ff4f32c51c96a86e1133dad4f7b0a",
+    "semantic_hash": ""
   }
 }

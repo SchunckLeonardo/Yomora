@@ -18,4 +18,7 @@ public record BookCandidate(
         String externalProvider,
         String externalId
 ) {
+    public BookCandidate {
+        language = BookLanguage.normalize(language);
+    }
 }

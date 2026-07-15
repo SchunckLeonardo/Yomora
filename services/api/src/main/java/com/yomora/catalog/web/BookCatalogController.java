@@ -39,7 +39,7 @@ class BookCatalogController {
     @GetMapping("/search")
     List<BookSearchResult> search(
             @RequestParam("q") @NotBlank String query,
-            @RequestParam(defaultValue = "pt") String language,
+            @RequestParam(defaultValue = "por") String language,
             @RequestParam(defaultValue = "20") @Min(1) @Max(50) int limit
     ) {
         return aggregator.search(new SearchBooksQuery(query, language, limit));

@@ -2,6 +2,7 @@ package com.yomora.catalog.infrastructure.provider;
 
 import com.yomora.catalog.application.BookProviderUnavailableException;
 import com.yomora.catalog.domain.BookCandidate;
+import com.yomora.catalog.domain.BookLanguage;
 import com.yomora.catalog.domain.BookProvider;
 import com.yomora.catalog.domain.BookProviderQuery;
 import org.springframework.stereotype.Component;
@@ -50,12 +51,12 @@ class OpenLibraryProvider implements BookProvider {
                 return client.get()
                         .uri(uri -> uri.path("/search.json")
                                 .queryParam("q", "{query}")
-                                .queryParam("language", "{language}")
+                                .queryParam("lang", "{language}")
                                 .queryParam("limit", "{limit}")
                                 .queryParam("fields", "key,title,author_name,isbn,publisher,first_publish_year,language,cover_i,number_of_pages_median,subject")
                                 .build(Map.of(
                                         "query", query.query(),
-                                        "language", query.language(),
+                                        "language", BookLanguage.toIso6391(query.language()),
                                         "limit", query.limit()
                                 )))
                         .retrieve()

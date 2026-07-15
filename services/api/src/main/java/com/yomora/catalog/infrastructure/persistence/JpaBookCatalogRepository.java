@@ -2,6 +2,7 @@ package com.yomora.catalog.infrastructure.persistence;
 
 import com.yomora.catalog.domain.BookCandidate;
 import com.yomora.catalog.domain.BookCatalogRepository;
+import com.yomora.catalog.domain.BookLanguage;
 import com.yomora.catalog.domain.BookSearchResult;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
@@ -36,7 +37,8 @@ class JpaBookCatalogRepository implements BookCatalogRepository {
     @Transactional(readOnly = true)
     public List<BookSearchResult> search(String query, String language, int limit) {
         String normalized = BookSearchResult.normalizeIsbn(query);
-        return editionRepository.search(query, normalized, language == null ? "" : language, PageRequest.of(0, limit))
+        String normalizedLanguage = language == null ? "" : BookLanguage.normalize(language);
+        return editionRepository.search(query, normalized, normalizedLanguage, PageRequest.of(0, limit))
                 .stream()
                 .map(BookEditionEntity::toResult)
                 .toList();
