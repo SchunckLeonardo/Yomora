@@ -68,6 +68,11 @@ struct SettingsView: View {
             }
             Section("Aparência") { Button { showingThemes = true } label: { Label("Tema e destaque", systemImage: "paintpalette") } }
             Section("Conta") {
+                NavigationLink {
+                    AccessMethodsView(session: session)
+                } label: {
+                    Label("Métodos de acesso", systemImage: "person.badge.key")
+                }
                 Button("Sair") { Task { await session.logout() } }
                 Button("Excluir minha conta", role: .destructive) { showingDelete = true }
             }
@@ -76,7 +81,9 @@ struct SettingsView: View {
         .navigationTitle("Configurações")
         .sheet(isPresented: $showingThemes) { NavigationStack { ThemeSelectionView() } }
         .confirmationDialog("Excluir a conta e todos os dados?", isPresented: $showingDelete, titleVisibility: .visible) {
-            Button("Excluir definitivamente", role: .destructive) { Task { try? await container.api.sendVoid(Endpoint(path: "/api/v1/users/me", method: .delete)); await session.logout() } }
+            Button("Excluir definitivamente", role: .destructive) {
+                Task { _ = await session.deleteAccount() }
+            }
         }
         .alert("Lembretes desativados", isPresented: $showingReminderDenied) {
             Button("Abrir Ajustes") {

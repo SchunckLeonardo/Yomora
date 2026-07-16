@@ -49,6 +49,19 @@ struct AuthenticationView: View {
                         Task { await submit() }
                     }
                     .accessibilityIdentifier("authenticationButton")
+                    HStack {
+                        Rectangle().frame(height: 1).foregroundStyle(YomoraColor.outline)
+                        Text("ou").font(.footnote).foregroundStyle(YomoraColor.textSecondary)
+                        Rectangle().frame(height: 1).foregroundStyle(YomoraColor.outline)
+                    }
+                    AppleCredentialButton(disabled: busy) { payload in
+                        busy = true
+                        _ = await session.appleSignIn(payload)
+                        busy = false
+                    } onError: { message in
+                        session.reportAuthenticationError(message)
+                    }
+                        .accessibilityIdentifier("appleSignInButton")
                     if mode == .login {
                         Button("Esqueci minha senha") { showingReset = true }
                     }

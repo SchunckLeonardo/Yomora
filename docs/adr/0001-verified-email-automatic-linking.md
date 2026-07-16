@@ -1,0 +1,3 @@
+# Vincular identidades externas automaticamente somente por e-mail verificado
+
+O Yomora identifica um acesso externo pelo provedor e seu identificador estável. Quando ainda não existir vínculo, a identidade pode ser associada automaticamente a uma Conta Yomora somente se o provedor e o Yomora tiverem verificado o mesmo e-mail; contas locais não verificadas exigem autenticação pelo método já cadastrado. Essa regra preserva a experiência de login automático sem permitir que um e-mail apenas informado reúna duas pessoas na mesma conta. Uma conta pode manter senha e Apple simultaneamente, e contas criadas pela Apple podem adicionar uma senha após nova autenticação Apple; um vínculo só pode ser removido quando outro Método de acesso permanecer ativo.

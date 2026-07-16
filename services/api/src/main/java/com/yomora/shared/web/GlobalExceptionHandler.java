@@ -4,6 +4,12 @@ import com.yomora.identity.application.IdentityConflictException;
 import com.yomora.identity.application.InvalidCredentialsException;
 import com.yomora.identity.application.InvalidRefreshTokenException;
 import com.yomora.identity.application.InvalidPasswordResetTokenException;
+import com.yomora.identity.application.InvalidEmailVerificationTokenException;
+import com.yomora.identity.application.InvalidExternalAuthorizationCodeException;
+import com.yomora.identity.application.InvalidExternalIdentityTokenException;
+import com.yomora.identity.application.IdentityLinkRequiredException;
+import com.yomora.identity.application.ExternalAuthenticationUnavailableException;
+import com.yomora.identity.application.LastAccessMethodException;
 import com.yomora.identity.web.UserNotFoundException;
 import com.yomora.library.application.InvalidBookProgressException;
 import com.yomora.library.application.LibraryConflictException;
@@ -43,9 +49,22 @@ class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({InvalidCredentialsException.class, InvalidRefreshTokenException.class,
-            InvalidPasswordResetTokenException.class})
+            InvalidPasswordResetTokenException.class, InvalidExternalAuthorizationCodeException.class,
+            InvalidExternalIdentityTokenException.class})
     ProblemDetail unauthorized(RuntimeException exception) {
         return problem(HttpStatus.UNAUTHORIZED, "Não autorizado", exception.getMessage());
+    }
+
+    @ExceptionHandler(IdentityLinkRequiredException.class)
+    ProblemDetail identityLinkRequired(IdentityLinkRequiredException exception) {
+        ProblemDetail detail = problem(HttpStatus.CONFLICT, "Confirmação da conta necessária", exception.getMessage());
+        detail.setProperty("code", "IDENTITY_LINK_REQUIRED");
+        return detail;
+    }
+
+    @ExceptionHandler(ExternalAuthenticationUnavailableException.class)
+    ProblemDetail externalAuthenticationUnavailable(ExternalAuthenticationUnavailableException exception) {
+        return problem(HttpStatus.SERVICE_UNAVAILABLE, "Login externo indisponível", exception.getMessage());
     }
 
     @ExceptionHandler(UserNotFoundException.class)
@@ -74,6 +93,11 @@ class GlobalExceptionHandler {
         return problem(HttpStatus.FORBIDDEN, "Operação não permitida", exception.getMessage());
     }
 
+    @ExceptionHandler(LastAccessMethodException.class)
+    ProblemDetail lastAccessMethod(LastAccessMethodException exception) {
+        return problem(HttpStatus.CONFLICT, "Último método de acesso", exception.getMessage());
+    }
+
     @ExceptionHandler(InvalidFollowException.class)
     ProblemDetail invalidFollow(InvalidFollowException exception) {
         return problem(HttpStatus.BAD_REQUEST, "Operação de seguimento inválida", exception.getMessage());
@@ -84,7 +108,8 @@ class GlobalExceptionHandler {
         return problem(HttpStatus.CONFLICT, "Conflito na biblioteca", exception.getMessage());
     }
 
-    @ExceptionHandler({InvalidBookProgressException.class, IllegalArgumentException.class})
+    @ExceptionHandler({InvalidBookProgressException.class, InvalidEmailVerificationTokenException.class,
+            IllegalArgumentException.class})
     ProblemDetail invalidRule(RuntimeException exception) {
         return problem(HttpStatus.BAD_REQUEST, "Operação inválida", exception.getMessage());
     }

@@ -41,6 +41,30 @@ paths:
       responses:
         '200': {description: Sessão criada, content: {application/json: {schema: {$ref: '#/components/schemas/TokenPair'}}}}
         '401': {$ref: '#/components/responses/Problem'}
+  /auth/apple:
+    post:
+      tags: [Auth]
+      summary: Entrar ou criar conta com Sign in with Apple
+      security: []
+      requestBody:
+        required: true
+        content: {application/json: {schema: {$ref: '#/components/schemas/AppleCredential'}}}
+      responses:
+        '201': {description: Conta autenticada, content: {application/json: {schema: {$ref: '#/components/schemas/TokenPair'}}}}
+        '401': {$ref: '#/components/responses/Problem'}
+        '409': {$ref: '#/components/responses/Problem'}
+        '503': {$ref: '#/components/responses/Problem'}
+  /auth/apple/events:
+    post:
+      tags: [Auth]
+      summary: Receber notificações assinadas da Apple sobre a conta
+      security: []
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [payload], properties: {payload: {type: string}}}}}
+      responses:
+        '204': {description: Evento processado}
+        '401': {$ref: '#/components/responses/Problem'}
   /auth/refresh:
     post:
       tags: [Auth]
@@ -78,6 +102,32 @@ paths:
       responses:
         '204': {description: Senha alterada}
         '401': {$ref: '#/components/responses/Problem'}
+  /auth/email-verification/request:
+    post:
+      tags: [Auth]
+      summary: Reenviar link de confirmação do e-mail autenticado
+      responses:
+        '202': {description: Solicitação aceita}
+  /auth/email-verification/confirm:
+    post:
+      tags: [Auth]
+      summary: Confirmar e-mail com token de uso único
+      security: []
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [token], properties: {token: {type: string}}}}}
+      responses:
+        '204': {description: E-mail confirmado}
+        '400': {$ref: '#/components/responses/Problem'}
+    get:
+      tags: [Auth]
+      summary: Confirmar e-mail a partir do link recebido
+      security: []
+      parameters:
+        - {name: token, in: query, required: true, schema: {type: string}}
+      responses:
+        '200': {description: Página de confirmação, content: {text/html: {schema: {type: string}}}}
+        '400': {$ref: '#/components/responses/Problem'}
   /users/me:
     get:
       tags: [Users]
@@ -98,6 +148,50 @@ paths:
       summary: Excluir conta e dados relacionados
       responses:
         '204': {description: Conta excluída}
+  /users/me/access-methods:
+    get:
+      tags: [Users]
+      summary: Consultar métodos de acesso configurados
+      responses:
+        '200': {description: Métodos de acesso, content: {application/json: {schema: {$ref: '#/components/schemas/AccessMethods'}}}}
+  /users/me/access-methods/{provider}:
+    parameters:
+      - {name: provider, in: path, required: true, schema: {type: string, enum: [apple]}}
+    post:
+      tags: [Users]
+      summary: Vincular uma identidade externa após autenticação no provedor
+      requestBody:
+        required: true
+        content: {application/json: {schema: {$ref: '#/components/schemas/AppleCredential'}}}
+      responses:
+        '204': {description: Método vinculado}
+        '409': {$ref: '#/components/responses/Problem'}
+    delete:
+      tags: [Users]
+      summary: Desvincular uma identidade externa após nova autenticação
+      requestBody:
+        required: true
+        content: {application/json: {schema: {$ref: '#/components/schemas/AppleCredential'}}}
+      responses:
+        '204': {description: Método desvinculado}
+        '409': {$ref: '#/components/responses/Problem'}
+  /users/me/password:
+    post:
+      tags: [Users]
+      summary: Adicionar senha a uma conta externa após nova autenticação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [newPassword, apple]
+              properties:
+                newPassword: {type: string, minLength: 8, maxLength: 72}
+                apple: {$ref: '#/components/schemas/AppleCredential'}
+      responses:
+        '204': {description: Senha adicionada}
+        '401': {$ref: '#/components/responses/Problem'}
   /users/{id}:
     parameters: [{$ref: '#/components/parameters/Id'}]
     get:
@@ -443,6 +537,20 @@ components:
       type: object
       required: [accessToken, refreshToken, tokenType, expiresIn]
       properties: {accessToken: {type: string}, refreshToken: {type: string}, tokenType: {type: string, const: Bearer}, expiresIn: {type: integer}}
+    AppleCredential:
+      type: object
+      required: [identityToken, authorizationCode, nonce]
+      properties:
+        identityToken: {type: string}
+        authorizationCode: {type: string}
+        nonce: {type: string, maxLength: 256}
+        fullName: {type: [string, 'null'], maxLength: 120}
+    AccessMethods:
+      type: object
+      required: [password, providers]
+      properties:
+        password: {type: boolean}
+        providers: {type: array, items: {type: string, enum: [APPLE]}}
     UpdateProfileRequest:
       type: object
       required: [name, username, bio, publicProfile]
@@ -450,7 +558,7 @@ components:
     UserProfile:
       type: object
       required: [id, name, username, bio, publicProfile, followers, following, finishedBooks, totalReadingMinutes, currentStreak, createdAt]
-      properties: {id: {type: string, format: uuid}, name: {type: string}, username: {type: string}, email: {type: [string, 'null'], format: email}, bio: {type: string}, avatarUrl: {type: [string, 'null']}, publicProfile: {type: boolean}, followers: {type: integer}, following: {type: integer}, finishedBooks: {type: integer}, totalReadingMinutes: {type: integer}, currentStreak: {type: integer}, createdAt: {type: string, format: date-time}}
+      properties: {id: {type: string, format: uuid}, name: {type: string}, username: {type: string}, email: {type: [string, 'null'], format: email}, emailVerified: {type: boolean}, profileComplete: {type: boolean}, bio: {type: string}, avatarUrl: {type: [string, 'null']}, publicProfile: {type: boolean}, followers: {type: integer}, following: {type: integer}, finishedBooks: {type: integer}, totalReadingMinutes: {type: integer}, currentStreak: {type: integer}, createdAt: {type: string, format: date-time}}
     Book:
       type: object
       required: [workId, editionId, title, description, authors, categories, language]

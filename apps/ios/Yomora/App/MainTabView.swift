@@ -50,6 +50,11 @@ struct MainTabView: View {
                 .tabItem { Label("Biblioteca", systemImage: "books.vertical") }
                 .tag(MainTab.library)
         }
+        .safeAreaInset(edge: .top, spacing: 0) {
+            if session.user?.needsEmailVerification == true {
+                EmailVerificationBanner(session: session)
+            }
+        }
         .task {
             processPendingReminderOpen()
             await container.activeReadingSession.restore()

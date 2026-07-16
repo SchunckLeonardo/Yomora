@@ -61,8 +61,8 @@ class UserProfileServiceTest {
     }
 
     private User user(String username, String email) {
-        return new User(UUID.randomUUID(), "Leitora", username, email, "hash", "", null,
-                true, NOW.minusSeconds(60), NOW.minusSeconds(60));
+        return new User(UUID.randomUUID(), "Leitora", username, email, "hash", NOW, NOW,
+                "", null, true, NOW.minusSeconds(60), NOW.minusSeconds(60));
     }
 
     private static final class InMemoryUserRepository implements UserRepository {

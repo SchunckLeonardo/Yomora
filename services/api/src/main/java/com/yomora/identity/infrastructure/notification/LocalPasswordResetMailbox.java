@@ -15,7 +15,7 @@ public class LocalPasswordResetMailbox implements PasswordResetNotifier {
     private final Map<String, String> tokens = new ConcurrentHashMap<>();
 
     @Override
-    public void send(String email, String rawToken) {
+    public void sendPasswordReset(String email, String rawToken) {
         tokens.put(email.toLowerCase(Locale.ROOT), rawToken);
     }
 

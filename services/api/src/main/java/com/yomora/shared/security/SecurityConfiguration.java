@@ -36,9 +36,13 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/register", "/api/v1/auth/login", "/api/v1/auth/refresh",
-                                "/api/v1/auth/password-reset/request", "/api/v1/auth/password-reset/confirm").permitAll()
+                        .requestMatchers("/api/v1/auth/register", "/api/v1/auth/login", "/api/v1/auth/apple",
+                                "/api/v1/auth/apple/events",
+                                "/api/v1/auth/refresh",
+                                "/api/v1/auth/password-reset/request", "/api/v1/auth/password-reset/confirm",
+                                "/api/v1/auth/email-verification/confirm").permitAll()
                         .requestMatchers("/actuator/health", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/.well-known/apple-app-site-association").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/books/search", "/api/v1/books/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(resourceServer -> resourceServer.jwt(Customizer.withDefaults()))
