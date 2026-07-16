@@ -10,4 +10,4 @@ The reading API is authoritative for an in-progress session: at most one active 
 
 Generate `apps/ios/Yomora.xcodeproj` from `apps/ios/project.yml` with XcodeGen after adding targets or source files. Keep device-only values in ignored `Config/Local.xcconfig`; the committed plist must contain build-setting references only. Reading sessions update the Live Activity, and opt-in reading reminders are local notifications rebuilt when goals or sessions change. UI tests inject no-op managers so system permission dialogs never make CI nondeterministic.
 
-Useful commands: `make setup`, `make backend`, `make test`, `make docker-up`, `make seed`, `make ios-test`. Configuration belongs in environment variables; never commit real secrets.
+Useful commands: `make setup`, `make backend`, `make test`, `make docker-up`, `make seed`, `make ios-test`. Backend `./gradlew check` includes SpotBugs and FindSecBugs. GitHub security CI uses Semgrep CE, Trivy and zizmor; Dependabot maintains Gradle and GitHub Actions dependencies. Configuration belongs in environment variables; never commit real secrets.

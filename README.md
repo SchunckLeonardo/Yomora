@@ -61,7 +61,7 @@ O conjunto inclui um livro, biblioteca em andamento, meta, sessão, seguimento e
 
 ## Testes e CI
 
-O backend possui testes unitários de regras, controller/segurança, arquitetura, agregação de provedores e integração real com PostgreSQL via Testcontainers. O app possui testes de ViewModels, timer, HTTP/Keychain e um fluxo XCUITest. GitHub Actions separa backend, OpenAPI e iOS; o job iOS usa runner macOS. O workflow CodeQL analisa Java/Kotlin, Swift e os próprios workflows em pushes e pull requests relevantes, além de uma execução semanal.
+O backend possui testes unitários de regras, controller/segurança, arquitetura, agregação de provedores e integração real com PostgreSQL via Testcontainers. O app possui testes de ViewModels, timer, HTTP/Keychain e um fluxo XCUITest. GitHub Actions separa backend, OpenAPI, iOS e segurança; o job iOS usa runner macOS. SpotBugs e FindSecBugs analisam o bytecode Java durante `./gradlew check`, enquanto Semgrep CE analisa Java e Swift, Trivy verifica dependências, segredos e configurações, e zizmor audita os workflows. Dependabot mantém as dependências Gradle e GitHub Actions atualizadas.
 
 ## Experiência de leitura
 

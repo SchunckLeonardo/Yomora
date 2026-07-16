@@ -1,5 +1,6 @@
 plugins {
 	java
+	id("com.github.spotbugs") version "6.5.8"
 	id("org.springframework.boot") version "4.1.0"
 	id("io.spring.dependency-management") version "1.1.7"
 }
@@ -45,6 +46,15 @@ dependencies {
 	testImplementation("org.testcontainers:testcontainers-postgresql")
 	testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0")
+}
+
+spotbugs {
+	excludeFilter.set(file("config/spotbugs-exclude.xml"))
+}
+
+tasks.named("spotbugsTest") {
+	enabled = false
 }
 
 tasks.withType<Test> {
