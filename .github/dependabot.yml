@@ -8,6 +8,8 @@ updates:
       day: monday
       time: "09:00"
       timezone: America/Sao_Paulo
+    cooldown:
+      default-days: 7
     groups:
       backend-dependencies:
         patterns:
@@ -21,6 +23,8 @@ updates:
       day: monday
       time: "09:30"
       timezone: America/Sao_Paulo
+    cooldown:
+      default-days: 7
     groups:
       github-actions:
         patterns:

@@ -32,7 +32,8 @@ jobs:
       - name: Scan application source
         run: >-
           semgrep scan
-          --config auto
+          --config p/default
+          --oss-only
           --error
           --metrics=off
           --exclude '**/graphify-out/**'
