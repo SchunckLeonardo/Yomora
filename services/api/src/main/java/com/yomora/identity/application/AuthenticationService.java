@@ -21,9 +21,10 @@ import java.util.HexFormat;
 import java.util.UUID;
 
 @Service
-public class AuthenticationService {
+public class AuthenticationService implements YomoraSessionIssuer {
     private final UserRegistrationService registrationService;
     private final UserRepository userRepository;
+    private final EmailVerificationService emailVerificationService;
     private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final AccessTokenIssuer accessTokenIssuer;
@@ -34,6 +35,7 @@ public class AuthenticationService {
     public AuthenticationService(
             UserRegistrationService registrationService,
             UserRepository userRepository,
+            EmailVerificationService emailVerificationService,
             RefreshTokenRepository refreshTokenRepository,
             PasswordEncoder passwordEncoder,
             AccessTokenIssuer accessTokenIssuer,
@@ -42,6 +44,7 @@ public class AuthenticationService {
     ) {
         this.registrationService = registrationService;
         this.userRepository = userRepository;
+        this.emailVerificationService = emailVerificationService;
         this.refreshTokenRepository = refreshTokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.accessTokenIssuer = accessTokenIssuer;
@@ -51,15 +54,18 @@ public class AuthenticationService {
 
     @Transactional
     public TokenPair register(RegisterCommand command) {
-        return issueTokens(registrationService.register(command));
+        User user = registrationService.register(command);
+        emailVerificationService.request(user.id());
+        return issue(user);
     }
 
     @Transactional
     public TokenPair login(String email, String password) {
         User user = userRepository.findByEmail(email.trim().toLowerCase())
+                .filter(User::hasPassword)
                 .filter(candidate -> passwordEncoder.matches(password, candidate.passwordHash()))
                 .orElseThrow(InvalidCredentialsException::new);
-        return issueTokens(user);
+        return issue(user);
     }
 
     @Transactional
@@ -70,7 +76,7 @@ public class AuthenticationService {
                 .orElseThrow(InvalidRefreshTokenException::new);
         refreshTokenRepository.save(stored.revokeAt(now));
         User user = userRepository.findById(stored.userId()).orElseThrow(InvalidRefreshTokenException::new);
-        return issueTokens(user);
+        return issue(user);
     }
 
     @Transactional
@@ -81,7 +87,9 @@ public class AuthenticationService {
                 .ifPresent(token -> refreshTokenRepository.save(token.revokeAt(now)));
     }
 
-    private TokenPair issueTokens(User user) {
+    @Override
+    @Transactional
+    public TokenPair issue(User user) {
         Instant now = clock.instant();
         String plainRefreshToken = randomToken();
         refreshTokenRepository.save(new RefreshToken(

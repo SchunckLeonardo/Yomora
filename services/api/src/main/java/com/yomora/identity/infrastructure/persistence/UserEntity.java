@@ -19,6 +19,10 @@ class UserEntity {
     String email;
     @Column(name = "password_hash")
     String passwordHash;
+    @Column(name = "email_verified_at")
+    Instant emailVerifiedAt;
+    @Column(name = "profile_completed_at")
+    Instant profileCompletedAt;
     String bio;
     @Column(name = "avatar_url")
     String avatarUrl;
@@ -38,6 +42,8 @@ class UserEntity {
         this.username = user.username();
         this.email = user.email();
         this.passwordHash = user.passwordHash();
+        this.emailVerifiedAt = user.emailVerifiedAt();
+        this.profileCompletedAt = user.profileCompletedAt();
         this.bio = user.bio();
         this.avatarUrl = user.avatarUrl();
         this.publicProfile = user.publicProfile();
@@ -50,6 +56,7 @@ class UserEntity {
     }
 
     User toDomain() {
-        return new User(id, name, username, email, passwordHash, bio, avatarUrl, publicProfile, createdAt, updatedAt);
+        return new User(id, name, username, email, passwordHash, emailVerifiedAt, profileCompletedAt,
+                bio, avatarUrl, publicProfile, createdAt, updatedAt);
     }
 }

@@ -48,7 +48,19 @@ Ao adicionar arquivos ou targets no app, execute `cd apps/ios && xcodegen genera
 
 ## Configuração
 
-Copie `.env.example` para `.env`. Todas as credenciais incluídas são locais e descartáveis. Defina uma chave aleatória de pelo menos 32 bytes em `JWT_SECRET` fora do ambiente local. `GOOGLE_BOOKS_API_KEY` é opcional durante o desenvolvimento; quando preenchida, eleva a cota do provedor. O fallback Open Library não requer chave. O comando `make backend` carrega automaticamente as variáveis desse arquivo; reinicie a API depois de preencher ou alterar a chave.
+Copie `.env.example` para `.env`. Todas as credenciais incluídas são locais e descartáveis. Defina chaves aleatórias e distintas de pelo menos 32 bytes em `JWT_SECRET` e `EXTERNAL_TOKEN_ENCRYPTION_KEY` fora do ambiente local. `GOOGLE_BOOKS_API_KEY` é opcional durante o desenvolvimento; quando preenchida, eleva a cota do provedor. O fallback Open Library não requer chave. O comando `make backend` carrega automaticamente as variáveis desse arquivo; reinicie a API depois de preencher ou alterar a chave.
+
+### Sign in with Apple e e-mail
+
+O app já contém o entitlement, o botão nativo, nonce, onboarding e gestão dos métodos de acesso. Para habilitar em um ambiente real:
+
+1. Ative **Sign in with Apple** e **Associated Domains** para `app.yomora.ios` no Apple Developer.
+2. Gere uma chave privada Apple e mantenha o arquivo `.p8` fora do repositório.
+3. Configure `APPLE_SIGN_IN_ENABLED=true`, `APPLE_CLIENT_ID`, `APPLE_TEAM_ID`, `APPLE_KEY_ID` e `APPLE_PRIVATE_KEY` somente no secret manager do ambiente.
+4. Publique a API em HTTPS, configure `PUBLIC_API_URL` e faça o domínio definido por `ASSOCIATED_DOMAIN` apontar para ela. O backend serve `/.well-known/apple-app-site-association`.
+5. No perfil `prod`, configure `MAIL_HOST`, `MAIL_USERNAME`, `MAIL_PASSWORD` e `MAIL_FROM`. A aplicação falha na inicialização se o transporte de e-mail obrigatório não estiver configurado.
+
+`APPLE_PRIVATE_KEY` aceita o conteúdo PEM com quebras de linha reais ou representadas por `\n`. Nenhuma credencial Apple ou SMTP deve ser colocada em `Local.xcconfig`.
 
 ## Dados de demonstração
 
@@ -69,9 +81,9 @@ A API mantém uma única sessão ativa por usuário e persiste pausa, tempo deco
 
 ## Decisões e limitações do MVP
 
-As cinco decisões estruturais estão em `docs/decisions`. Sign in with Apple ainda exige entitlements e credenciais do time Apple. Recuperação de senha usa uma caixa local em memória no profile `local`; produção deve fornecer o adapter de e-mail. Aprovação de seguidores de contas privadas, notificações push remotas e links web universais ficam para a próxima versão.
+As decisões estruturais estão em `docs/decisions` e `docs/adr`. Sign in with Apple depende da configuração da capability, chave e domínio no Apple Developer. Em desenvolvimento, os links de e-mail ficam em uma caixa local em memória; em produção, o adapter SMTP é obrigatório. Aprovação de seguidores de contas privadas, notificações push remotas e telemetria com consentimento ficam para uma próxima versão.
 
-Próximos passos naturais: adapter de e-mail, APNs, Universal Links, moderação administrativa e telemetria de produto com consentimento.
+Próximos passos naturais: APNs, moderação administrativa e telemetria de produto com consentimento.
 
 ## Licença
 

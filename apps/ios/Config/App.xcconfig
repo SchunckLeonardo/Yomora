@@ -1,3 +1,4 @@
 API_BASE_URL = http:/$()/localhost:8080
+ASSOCIATED_DOMAIN = api.yomora.app
 
 #include? "Local.xcconfig"

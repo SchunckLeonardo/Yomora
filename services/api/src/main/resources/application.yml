@@ -27,6 +27,15 @@ management:
         include: health,info
 
 yomora:
+  public-api-url: ${PUBLIC_API_URL:http://localhost:8080}
+  external-token-encryption-key: ${EXTERNAL_TOKEN_ENCRYPTION_KEY:local-development-external-token-key}
+  apple:
+    enabled: ${APPLE_SIGN_IN_ENABLED:false}
+    client-id: ${APPLE_CLIENT_ID:app.yomora.ios}
+    team-id: ${APPLE_TEAM_ID:}
+    key-id: ${APPLE_KEY_ID:}
+    private-key: ${APPLE_PRIVATE_KEY:}
+    jwk-set-uri: ${APPLE_JWK_SET_URI:https://appleid.apple.com/auth/keys}
   security:
     issuer: ${JWT_ISSUER:yomora-local}
     secret: ${JWT_SECRET:local-development-secret-change-me-32-bytes}

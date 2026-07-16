@@ -12,6 +12,8 @@ struct UserProfile: Codable, Identifiable, Sendable, Equatable {
     let name: String
     let username: String
     let email: String?
+    let emailVerified: Bool?
+    let profileComplete: Bool?
     let bio: String
     let avatarUrl: String?
     let publicProfile: Bool
@@ -21,6 +23,50 @@ struct UserProfile: Codable, Identifiable, Sendable, Equatable {
     let totalReadingMinutes: Int
     let currentStreak: Int
     let createdAt: String
+
+    init(
+        id: UUID,
+        name: String,
+        username: String,
+        email: String?,
+        emailVerified: Bool? = nil,
+        profileComplete: Bool? = nil,
+        bio: String,
+        avatarUrl: String?,
+        publicProfile: Bool,
+        followers: Int,
+        following: Int,
+        finishedBooks: Int,
+        totalReadingMinutes: Int,
+        currentStreak: Int,
+        createdAt: String
+    ) {
+        self.id = id
+        self.name = name
+        self.username = username
+        self.email = email
+        self.emailVerified = emailVerified
+        self.profileComplete = profileComplete
+        self.bio = bio
+        self.avatarUrl = avatarUrl
+        self.publicProfile = publicProfile
+        self.followers = followers
+        self.following = following
+        self.finishedBooks = finishedBooks
+        self.totalReadingMinutes = totalReadingMinutes
+        self.currentStreak = currentStreak
+        self.createdAt = createdAt
+    }
+
+    var needsEmailVerification: Bool { emailVerified == false }
+    var needsProfileCompletion: Bool { profileComplete == false }
+}
+
+struct AccessMethods: Codable, Sendable, Equatable {
+    let password: Bool
+    let providers: [String]
+
+    var hasApple: Bool { providers.contains("APPLE") }
 }
 
 struct Book: Codable, Identifiable, Sendable, Equatable, Hashable {

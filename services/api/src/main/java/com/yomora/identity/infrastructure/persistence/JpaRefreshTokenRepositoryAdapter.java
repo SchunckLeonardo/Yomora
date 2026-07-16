@@ -5,6 +5,8 @@ import com.yomora.identity.domain.RefreshTokenRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.time.Instant;
+import java.util.UUID;
 
 @Repository
 class JpaRefreshTokenRepositoryAdapter implements RefreshTokenRepository {
@@ -22,5 +24,10 @@ class JpaRefreshTokenRepositoryAdapter implements RefreshTokenRepository {
     @Override
     public Optional<RefreshToken> findByHash(String tokenHash) {
         return repository.findByTokenHash(tokenHash).map(RefreshTokenEntity::toDomain);
+    }
+
+    @Override
+    public void revokeAllByUserId(UUID userId, Instant revokedAt) {
+        repository.revokeAllByUserId(userId, revokedAt);
     }
 }

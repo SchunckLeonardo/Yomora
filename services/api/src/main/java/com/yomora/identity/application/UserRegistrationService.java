@@ -38,6 +38,8 @@ public final class UserRegistrationService {
                 username,
                 email,
                 passwordEncoder.encode(command.password()),
+                null,
+                now,
                 "",
                 null,
                 true,

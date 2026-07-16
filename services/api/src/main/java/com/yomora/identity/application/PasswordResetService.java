@@ -45,7 +45,7 @@ public class PasswordResetService {
             String rawToken = randomToken();
             tokens.save(new PasswordResetToken(UUID.randomUUID(), user.id(), hash(rawToken),
                     now.plus(30, ChronoUnit.MINUTES), null, now));
-            notifier.send(user.email(), rawToken);
+            notifier.sendPasswordReset(user.email(), rawToken);
         });
     }
 
@@ -57,7 +57,8 @@ public class PasswordResetService {
                 .orElseThrow(InvalidPasswordResetTokenException::new);
         User user = users.findById(token.userId()).orElseThrow(InvalidPasswordResetTokenException::new);
         users.save(new User(user.id(), user.name(), user.username(), user.email(),
-                passwordEncoder.encode(newPassword), user.bio(), user.avatarUrl(), user.publicProfile(),
+                passwordEncoder.encode(newPassword), user.emailVerifiedAt(), user.profileCompletedAt(),
+                user.bio(), user.avatarUrl(), user.publicProfile(),
                 user.createdAt(), now));
         tokens.save(token.useAt(now));
     }

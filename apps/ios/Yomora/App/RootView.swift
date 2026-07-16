@@ -19,7 +19,12 @@ struct RootView: View {
                 switch session.state {
                 case .restoring: ProgressView("Retomando sua leitura…")
                 case .signedOut: AuthenticationView(session: session)
-                case .signedIn: MainTabView(container: container, session: session)
+                case .signedIn:
+                    if session.user?.needsProfileCompletion == true {
+                        ProfileCompletionView(session: session)
+                    } else {
+                        MainTabView(container: container, session: session)
+                    }
                 }
             }
         }
@@ -29,6 +34,9 @@ struct RootView: View {
             try? await Task.sleep(for: .milliseconds(650))
             withAnimation(.easeOut(duration: 0.25)) { showingSplash = false }
             _ = await restore
+        }
+        .onOpenURL { url in
+            Task { await session.handleEmailVerificationURL(url) }
         }
     }
 }

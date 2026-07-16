@@ -31,7 +31,7 @@ class PasswordResetServiceTest {
     @Test
     void issuesAndConsumesASingleUseResetToken() {
         User user = users.save(new User(UUID.randomUUID(), "Marina", "marina", "marina@example.com",
-                passwordEncoder.encode("senha-antiga"), "", null, true, NOW, NOW));
+                passwordEncoder.encode("senha-antiga"), NOW, NOW, "", null, true, NOW, NOW));
 
         service.request(" MARINA@example.com ");
         service.confirm(notifier.token, "uma-nova-senha");
@@ -55,7 +55,7 @@ class PasswordResetServiceTest {
         private String token;
 
         @Override
-        public void send(String email, String rawToken) {
+        public void sendPasswordReset(String email, String rawToken) {
             token = rawToken;
         }
     }

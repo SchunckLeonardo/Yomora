@@ -33,6 +33,8 @@ public class UserProfileService {
                 username,
                 current.email(),
                 current.passwordHash(),
+                current.emailVerifiedAt(),
+                current.profileCompletedAt() == null ? clock.instant() : current.profileCompletedAt(),
                 command.bio() == null ? "" : command.bio().trim(),
                 normalizeNullable(command.avatarUrl()),
                 command.publicProfile(),

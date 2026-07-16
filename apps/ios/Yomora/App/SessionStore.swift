@@ -62,8 +62,50 @@ final class SessionStore {
         }
     }
 
+    func appleSignIn(_ payload: AppleAuthorizationPayload) async -> Bool {
+        do {
+            var endpoint = Endpoint(path: "/api/v1/auth/apple", method: .post, authenticated: false)
+            endpoint.body = try Endpoint.json(payload)
+            let pair = try await api.send(endpoint, as: TokenPair.self)
+            try await tokens.save(pair)
+            user = try await api.send(Endpoint(path: "/api/v1/users/me"), as: UserProfile.self)
+            state = .signedIn
+            errorMessage = nil
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+
     func refreshUser() async {
         user = try? await api.send(Endpoint(path: "/api/v1/users/me"), as: UserProfile.self)
+    }
+
+    func completeProfile(name: String, username: String) async -> Bool {
+        struct Body: Encodable {
+            let name: String
+            let username: String
+            let bio: String
+            let avatarUrl: String?
+            let publicProfile: Bool
+        }
+        do {
+            var endpoint = Endpoint(path: "/api/v1/users/me", method: .patch)
+            endpoint.body = try Endpoint.json(Body(
+                name: name,
+                username: username,
+                bio: user?.bio ?? "",
+                avatarUrl: user?.avatarUrl,
+                publicProfile: user?.publicProfile ?? true
+            ))
+            user = try await api.send(endpoint, as: UserProfile.self)
+            errorMessage = nil
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
     }
 
     func requestPasswordReset(email: String) async -> Bool {
@@ -72,6 +114,84 @@ final class SessionStore {
             var endpoint = Endpoint(path: "/api/v1/auth/password-reset/request", method: .post, authenticated: false)
             endpoint.body = try Endpoint.json(Body(email: email))
             try await api.sendVoid(endpoint)
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+
+    func requestEmailVerification() async -> Bool {
+        do {
+            try await api.sendVoid(Endpoint(path: "/api/v1/auth/email-verification/request", method: .post))
+            errorMessage = nil
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+
+    func handleEmailVerificationURL(_ url: URL) async {
+        let isCompletionReturn = url.scheme == "yomora" && url.host == "email-verification"
+        let isConfirmationLink = url.path == "/api/v1/auth/email-verification/confirm"
+        guard isCompletionReturn || isConfirmationLink else { return }
+        do {
+            if isConfirmationLink,
+               let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+               let token = components.queryItems?.first(where: { $0.name == "token" })?.value {
+                struct Body: Encodable { let token: String }
+                var endpoint = Endpoint(
+                    path: "/api/v1/auth/email-verification/confirm",
+                    method: .post,
+                    authenticated: false
+                )
+                endpoint.body = try Endpoint.json(Body(token: token))
+                try await api.sendVoid(endpoint)
+            }
+            await refreshUser()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func reportAuthenticationError(_ message: String) {
+        errorMessage = message
+    }
+
+    func accessMethods() async throws -> AccessMethods {
+        try await api.send(Endpoint(path: "/api/v1/users/me/access-methods"), as: AccessMethods.self)
+    }
+
+    func linkApple(_ payload: AppleAuthorizationPayload) async -> Bool {
+        await performAppleAccessChange(path: "/api/v1/users/me/access-methods/apple", method: .post, payload: payload)
+    }
+
+    func unlinkApple(_ payload: AppleAuthorizationPayload) async -> Bool {
+        await performAppleAccessChange(path: "/api/v1/users/me/access-methods/apple", method: .delete, payload: payload)
+    }
+
+    func addPassword(_ password: String, apple payload: AppleAuthorizationPayload) async -> Bool {
+        struct Body: Encodable { let newPassword: String; let apple: AppleAuthorizationPayload }
+        do {
+            var endpoint = Endpoint(path: "/api/v1/users/me/password", method: .post)
+            endpoint.body = try Endpoint.json(Body(newPassword: password, apple: payload))
+            try await api.sendVoid(endpoint)
+            errorMessage = nil
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+
+    func deleteAccount() async -> Bool {
+        do {
+            try await api.sendVoid(Endpoint(path: "/api/v1/users/me", method: .delete))
+            try await tokens.clear()
+            user = nil
+            state = .signedOut
+            errorMessage = nil
             return true
         } catch {
             errorMessage = error.localizedDescription
@@ -89,5 +209,22 @@ final class SessionStore {
         try? await tokens.clear()
         user = nil
         state = .signedOut
+    }
+
+    private func performAppleAccessChange(
+        path: String,
+        method: Endpoint.Method,
+        payload: AppleAuthorizationPayload
+    ) async -> Bool {
+        do {
+            var endpoint = Endpoint(path: path, method: method)
+            endpoint.body = try Endpoint.json(payload)
+            try await api.sendVoid(endpoint)
+            errorMessage = nil
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
     }
 }
