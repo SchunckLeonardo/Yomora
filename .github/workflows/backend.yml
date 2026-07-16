@@ -1,12 +1,13 @@
 name: Backend
 on:
   pull_request:
-    paths: ["services/api/**", ".github/workflows/backend.yml"]
+    branches: [main]
   push:
     branches: [main]
 permissions: {}
 jobs:
   test:
+    name: Backend tests
     runs-on: ubuntu-latest
     permissions:
       contents: read

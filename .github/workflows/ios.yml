@@ -1,12 +1,13 @@
 name: iOS
 on:
   pull_request:
-    paths: ["apps/ios/**", ".github/workflows/ios.yml"]
+    branches: [main]
   push:
     branches: [main]
 permissions: {}
 jobs:
   test:
+    name: iOS tests
     runs-on: macos-15
     permissions:
       contents: read

@@ -1,12 +1,13 @@
 name: OpenAPI
 on:
   pull_request:
-    paths: ["contracts/openapi/**", ".github/workflows/openapi.yml"]
+    branches: [main]
   push:
     branches: [main]
 permissions: {}
 jobs:
   lint:
+    name: OpenAPI lint
     runs-on: ubuntu-latest
     permissions:
       contents: read
