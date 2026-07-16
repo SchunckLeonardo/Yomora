@@ -72,3 +72,7 @@ A API mantém uma única sessão ativa por usuário e persiste pausa, tempo deco
 As cinco decisões estruturais estão em `docs/decisions`. Sign in with Apple ainda exige entitlements e credenciais do time Apple. Recuperação de senha usa uma caixa local em memória no profile `local`; produção deve fornecer o adapter de e-mail. Aprovação de seguidores de contas privadas, notificações push remotas e links web universais ficam para a próxima versão.
 
 Próximos passos naturais: adapter de e-mail, APNs, Universal Links, moderação administrativa e telemetria de produto com consentimento.
+
+## Licença
+
+O Yomora é distribuído sob a [licença MIT](LICENSE).
