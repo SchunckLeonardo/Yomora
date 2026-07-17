@@ -10,6 +10,7 @@
 		03CEAD208071F8ECF4C8B6F1 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAD737DCE75E85D1A3E39E6 /* SearchViewModel.swift */; };
 		06CFDC050516D1D75C7A9A68 /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BED404A4492B76725BB3EA /* TodayViewModel.swift */; };
 		0CA6A82A9245EF631306AF1D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BC5FCDEC2FC888F064653E /* SettingsView.swift */; };
+		0D249DDF184810331C616AC5 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D0AE065B71E1C314B88D96 /* ProfileViewModel.swift */; };
 		0E771DD0B943BC3D80A7E21F /* ReadingSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D62EAC9C1119F57DB91FE9F /* ReadingSessionView.swift */; };
 		123D65E000752AA453446A01 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5051443F697DF9FCE6217 /* APIClient.swift */; };
 		126F84232BBD4CA634F55E7A /* PostComposerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418A4905FA475C2FCE53FA21 /* PostComposerView.swift */; };
@@ -40,6 +41,7 @@
 		720F3A9C48CEFC2A4A7A7E61 /* YomoraFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469CA01C69C3A81A7B3328E5 /* YomoraFlowUITests.swift */; };
 		73FBC362B0D880727F8B908F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B969BADD5DA40622D81D7C3C /* ProfileView.swift */; };
 		783D9F2CA4172D371D850AA1 /* AppNavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC79F5B483C2C2D5D762F1 /* AppNavigationCoordinator.swift */; };
+		7884C83B7926565CF8FF639A /* ProfileViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598D25FE6401013ACC144FB7 /* ProfileViewModelTests.swift */; };
 		7A808752AD6487BF689AE02C /* ReadingActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641DDE9B2C93EB3C8169B481 /* ReadingActivityManager.swift */; };
 		7E52599BB0C078A1E5F11600 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40353EFB142ADDCCDAD496B3 /* AppRouter.swift */; };
 		87DE58F5FFB8EEC8D725DDFC /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964F5D5A2DF476BBD4A2B5CE /* AppContainer.swift */; };
@@ -132,6 +134,7 @@
 		562995E8DEC6A4232FDF79F0 /* ActiveReadingSessionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveReadingSessionCoordinator.swift; sourceTree = "<group>"; };
 		58BA6CF04F97E8F18E5C7288 /* SessionStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStoreTests.swift; sourceTree = "<group>"; };
 		59886A65482003871CBB5E1B /* ReadingReminderPlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingReminderPlannerTests.swift; sourceTree = "<group>"; };
+		598D25FE6401013ACC144FB7 /* ProfileViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModelTests.swift; sourceTree = "<group>"; };
 		5AF9D7C8E9C360F2DA34A552 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		5D221F30ED68C38B71E9C9C6 /* YomoraTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = YomoraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FADE4E85DC24816DDAB5381 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -163,6 +166,7 @@
 		C1FF4C5AAF1437695E6AB765 /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
 		C249F1AA5D7B7F14FC31B2E5 /* BookCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCache.swift; sourceTree = "<group>"; };
 		C3CAE7B23F05692ED28274DB /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
+		D4D0AE065B71E1C314B88D96 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		E42F5872F9FFDEB259C181B3 /* ReadingActivityManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingActivityManagerTests.swift; sourceTree = "<group>"; };
 		E6DAD82C8B77BDFC9E32A5BD /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		E946F409746E49E9AE6ED0A2 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
@@ -286,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				B969BADD5DA40622D81D7C3C /* ProfileView.swift */,
+				D4D0AE065B71E1C314B88D96 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -407,6 +412,7 @@
 			children = (
 				42EFAA0BBF126E0285279A2D /* ActiveReadingSessionCoordinatorTests.swift */,
 				E946F409746E49E9AE6ED0A2 /* APIClientTests.swift */,
+				598D25FE6401013ACC144FB7 /* ProfileViewModelTests.swift */,
 				E42F5872F9FFDEB259C181B3 /* ReadingActivityManagerTests.swift */,
 				59886A65482003871CBB5E1B /* ReadingReminderPlannerTests.swift */,
 				0A7866E08F52D1E54CA23272 /* ReadingSessionRestorationTests.swift */,
@@ -634,6 +640,7 @@
 				1AA011E4919584FEB8238FEB /* OnboardingView.swift in Sources */,
 				126F84232BBD4CA634F55E7A /* PostComposerView.swift in Sources */,
 				73FBC362B0D880727F8B908F /* ProfileView.swift in Sources */,
+				0D249DDF184810331C616AC5 /* ProfileViewModel.swift in Sources */,
 				6FD26C2DB2B99CB600866FB5 /* ReadingActivityAttributes.swift in Sources */,
 				7A808752AD6487BF689AE02C /* ReadingActivityManager.swift in Sources */,
 				4EB3EBB374EAC5D9BBEB2933 /* ReadingReminderManager.swift in Sources */,
@@ -672,6 +679,7 @@
 			files = (
 				8F04DD8AD9CFA8E5C80EC5A4 /* APIClientTests.swift in Sources */,
 				39A538CB7C9EB4203DB8BBB3 /* ActiveReadingSessionCoordinatorTests.swift in Sources */,
+				7884C83B7926565CF8FF639A /* ProfileViewModelTests.swift in Sources */,
 				26AE64960D53F5993A0F7AA9 /* ReadingActivityManagerTests.swift in Sources */,
 				E33C9AE4ECD9C0826D332A2D /* ReadingReminderPlannerTests.swift in Sources */,
 				89DF9FDFBFD7B1044DF0BF59 /* ReadingSessionRestorationTests.swift in Sources */,

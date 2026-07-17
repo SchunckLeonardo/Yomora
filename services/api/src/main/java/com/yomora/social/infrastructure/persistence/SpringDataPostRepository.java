@@ -15,6 +15,11 @@ interface SpringDataPostRepository extends JpaRepository<PostEntity, UUID> {
             WHERE f.follower_id = :userId
               AND f.status = 'ACCEPTED'
               AND p.visibility IN ('PUBLIC', 'FOLLOWERS')
+              AND NOT EXISTS (
+                  SELECT 1 FROM blocked_users blocked
+                  WHERE (blocked.blocker_id = :userId AND blocked.blocked_id = p.author_id)
+                     OR (blocked.blocker_id = p.author_id AND blocked.blocked_id = :userId)
+              )
               AND (CAST(:cursor AS TIMESTAMPTZ) IS NULL OR p.created_at < CAST(:cursor AS TIMESTAMPTZ))
             ORDER BY p.created_at DESC
             LIMIT :limit
@@ -30,11 +35,20 @@ interface SpringDataPostRepository extends JpaRepository<PostEntity, UUID> {
             LEFT JOIN post_likes likes ON likes.post_id = p.id
             LEFT JOIN comments comments ON comments.post_id = p.id
             WHERE p.visibility = 'PUBLIC'
+              AND NOT EXISTS (
+                  SELECT 1 FROM blocked_users blocked
+                  WHERE (blocked.blocker_id = :viewerId AND blocked.blocked_id = p.author_id)
+                     OR (blocked.blocker_id = p.author_id AND blocked.blocked_id = :viewerId)
+              )
               AND (CAST(:cursor AS TIMESTAMPTZ) IS NULL OR p.created_at < CAST(:cursor AS TIMESTAMPTZ))
             GROUP BY p.id
             ORDER BY (COUNT(DISTINCT likes.id) * 3 + COUNT(DISTINCT comments.id) * 2) DESC,
                      p.created_at DESC
             LIMIT :limit
             """, nativeQuery = true)
-    List<PostEntity> discover(@Param("cursor") Instant cursor, @Param("limit") int limit);
+    List<PostEntity> discover(
+            @Param("viewerId") UUID viewerId,
+            @Param("cursor") Instant cursor,
+            @Param("limit") int limit
+    );
 }

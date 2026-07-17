@@ -23,6 +23,24 @@ struct UserProfile: Codable, Identifiable, Sendable, Equatable {
     let createdAt: String
 }
 
+enum FollowStatus: String, Codable, Sendable, Equatable {
+    case pending = "PENDING"
+    case accepted = "ACCEPTED"
+}
+
+struct FollowStatusResponse: Codable, Sendable, Equatable {
+    let status: FollowStatus?
+}
+
+struct FollowRequest: Codable, Identifiable, Sendable, Equatable {
+    let followerId: UUID
+    let followedId: UUID
+    let status: FollowStatus
+    let createdAt: String
+
+    var id: UUID { followerId }
+}
+
 struct Book: Codable, Identifiable, Sendable, Equatable, Hashable {
     let workId: UUID
     let editionId: UUID

@@ -10,10 +10,20 @@ import java.util.UUID;
 
 public class ModerationService {
     private final ModerationRepository repository;
+    private final SocialConnectionRemover connectionRemover;
     private final Clock clock;
 
     public ModerationService(ModerationRepository repository, Clock clock) {
+        this(repository, (first, second) -> { }, clock);
+    }
+
+    public ModerationService(
+            ModerationRepository repository,
+            SocialConnectionRemover connectionRemover,
+            Clock clock
+    ) {
         this.repository = repository;
+        this.connectionRemover = connectionRemover;
         this.clock = clock;
     }
 
@@ -22,9 +32,11 @@ public class ModerationService {
         if (blockerId.equals(blockedId)) {
             throw new IllegalArgumentException("Você não pode bloquear a si mesmo");
         }
-        return repository.findBlock(blockerId, blockedId).orElseGet(() -> repository.saveBlock(
+        BlockedUser block = repository.findBlock(blockerId, blockedId).orElseGet(() -> repository.saveBlock(
                 new BlockedUser(UUID.randomUUID(), blockerId, blockedId, clock.instant())
         ));
+        connectionRemover.removeBetween(blockerId, blockedId);
+        return block;
     }
 
     @Transactional
