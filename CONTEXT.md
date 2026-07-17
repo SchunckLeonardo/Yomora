@@ -31,3 +31,7 @@ _Avoid_: Publicação obrigatoriamente sobre livro
 **Audiência da publicação**:
 O conjunto de pessoas autorizadas a acessar uma publicação conforme sua visibilidade e a relação com o autor. A Audiência da publicação controla igualmente a leitura, a listagem de comentários e as interações de curtir ou comentar.
 _Avoid_: Privacidade apenas no feed, acesso por link
+
+**Bloqueio mútuo**:
+Uma barreira entre duas pessoas que remove seus seguimentos e impede que ambas vejam perfis, publicações ou comentários uma da outra, ou iniciem novas interações entre si.
+_Avoid_: Silenciar, ocultar apenas para mim
