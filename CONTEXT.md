@@ -55,3 +55,7 @@ _Avoid_: Denúncia de conteúdo
 **Suspensão da Comunidade**:
 Uma medida temporária de moderação aplicada por um Moderador à pessoa alvo de uma Denúncia procedente. A pessoa preserva leitura e Biblioteca, mas não pode acessar a Comunidade nem iniciar interações sociais.
 _Avoid_: Bloqueio mútuo, exclusão de conta, suspensão total da conta
+
+**Prazo de suspensão**:
+O período fixo de 1, 7 ou 30 dias escolhido pelo Moderador para uma Suspensão da Comunidade. Uma Suspensão também pode ser revertida manualmente antes do término.
+_Avoid_: Duração arbitrária, suspensão indefinida
