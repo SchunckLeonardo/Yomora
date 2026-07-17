@@ -35,3 +35,15 @@ _Avoid_: Privacidade apenas no feed, acesso por link
 **Bloqueio mútuo**:
 Uma barreira entre duas pessoas que remove seus seguimentos e impede que ambas vejam perfis, publicações ou comentários uma da outra, ou iniciem novas interações entre si.
 _Avoid_: Silenciar, ocultar apenas para mim
+
+**Denúncia**:
+O relato de uma pessoa sobre conteúdo ou perfil potencialmente inadequado. A Denúncia registra uma categoria e uma explicação opcional para análise, sem bloquear nem ocultar automaticamente o conteúdo.
+_Avoid_: Bloqueio, remoção automática
+
+**Fila de moderação**:
+O conjunto de Denúncias aguardando ou registrando análise humana de um Moderador.
+_Avoid_: Lista de bloqueios, caixa de entrada comum
+
+**Moderador**:
+O administrador autorizado a acessar a Fila de moderação e avaliar se uma Denúncia procede.
+_Avoid_: Usuário comum, denunciante
