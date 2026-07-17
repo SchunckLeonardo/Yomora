@@ -27,3 +27,7 @@ _Avoid_: Livro cadastrado, item de biblioteca
 **Publicação vinculada a uma Edição**:
 Uma publicação que referencia opcionalmente uma Edição para dar contexto à leitura. Uma publicação sem essa associação continua válida como reflexão geral sobre a vida de leitura.
 _Avoid_: Publicação obrigatoriamente sobre livro
+
+**Audiência da publicação**:
+O conjunto de pessoas autorizadas a acessar uma publicação conforme sua visibilidade e a relação com o autor. A Audiência da publicação controla igualmente a leitura, a listagem de comentários e as interações de curtir ou comentar.
+_Avoid_: Privacidade apenas no feed, acesso por link
