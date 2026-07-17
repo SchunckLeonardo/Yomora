@@ -1,5 +1,6 @@
 package com.yomora.moderation.domain;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,4 +17,8 @@ public interface ModerationRepository {
     void deleteBlock(BlockedUser value);
 
     Report saveReport(Report report);
+
+    Optional<Report> findReportById(UUID reportId);
+
+    List<Report> findReportsByStatus(String status);
 }

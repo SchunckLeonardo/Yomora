@@ -5,6 +5,7 @@ import com.yomora.moderation.domain.ModerationRepository;
 import com.yomora.moderation.domain.Report;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,5 +41,17 @@ class JpaModerationRepository implements ModerationRepository {
     @Override
     public Report saveReport(Report report) {
         return reportRepository.save(ReportEntity.from(report)).toDomain();
+    }
+
+    @Override
+    public Optional<Report> findReportById(UUID reportId) {
+        return reportRepository.findById(reportId).map(ReportEntity::toDomain);
+    }
+
+    @Override
+    public List<Report> findReportsByStatus(String status) {
+        return reportRepository.findByStatusOrderByCreatedAtDesc(status).stream()
+                .map(ReportEntity::toDomain)
+                .toList();
     }
 }

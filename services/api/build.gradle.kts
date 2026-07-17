@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+	implementation(platform("software.amazon.awssdk:bom:2.46.8"))
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-cache")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -32,6 +33,8 @@ dependencies {
 	implementation("org.flywaydb:flyway-database-postgresql")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
 	implementation("com.github.ben-manes.caffeine:caffeine")
+	implementation("software.amazon.awssdk:s3")
+	implementation("software.amazon.awssdk:url-connection-client")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-actuator-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-cache-test")

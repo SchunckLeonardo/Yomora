@@ -13,6 +13,7 @@ struct FeedView: View {
     @State private var showingComposer = false
     @State private var showingActivities = false
     @State private var selectedPost: Post?
+    @State private var reportingPost: Post?
 
     init(container: AppContainer) {
         self.container = container
@@ -43,7 +44,8 @@ struct FeedView: View {
                                         isLiked: viewModel.isLiked(post),
                                         onOpen: { selectedPost = post },
                                         onLike: { Task { await viewModel.toggleLike(post) } },
-                                        onComment: { selectedPost = post }
+                                        onComment: { selectedPost = post },
+                                        onReport: { reportingPost = post }
                                     )
                                 }
                                 if let interactionError = viewModel.interactionError {
@@ -73,6 +75,9 @@ struct FeedView: View {
         .sheet(isPresented: $showingActivities) {
             NavigationStack { ActivityInboxView(api: container.api) }
         }
+        .sheet(item: $reportingPost) { post in
+            NavigationStack { ReportPostView(post: post, api: container.api) }
+        }
         .navigationDestination(item: $selectedPost) { post in
             PostDetailsView(
                 post: post,
@@ -99,6 +104,7 @@ struct PostDetailsView: View {
     @State private var isSending = false
     @State private var interactionError: String?
     @State private var highlightedCommentID: UUID?
+    @State private var showingReport = false
     @State private var keyboardBottomInset: CGFloat = 0
     @FocusState private var isComposerFocused: Bool
 
@@ -125,7 +131,8 @@ struct PostDetailsView: View {
                             api: api,
                             isLiked: isLiked,
                             onLike: { Task { await toggleLike() } },
-                            onComment: { isComposerFocused = true }
+                            onComment: { isComposerFocused = true },
+                            onReport: { showingReport = true }
                         )
 
                         HStack(alignment: .firstTextBaseline) {
@@ -198,6 +205,9 @@ struct PostDetailsView: View {
         .navigationTitle("Publicação")
         .navigationBarTitleDisplayMode(.inline)
         .task { await loadComments() }
+        .sheet(isPresented: $showingReport) {
+            NavigationStack { ReportPostView(post: currentPost, api: api) }
+        }
     }
 
     private var composer: some View {
@@ -279,6 +289,64 @@ struct PostDetailsView: View {
             onPostChange?(currentPost, originalLiked)
             interactionError = error.localizedDescription
         }
+    }
+}
+
+private struct ReportPostView: View {
+    let post: Post
+    let api: any APIClientProtocol
+    @Environment(\.dismiss) private var dismiss
+    @State private var reason = "INAPPROPRIATE"
+    @State private var details = ""
+    @State private var errorMessage: String?
+    @State private var isSending = false
+
+    var body: some View {
+        Form {
+            Picker("Motivo", selection: $reason) {
+                Text("Conteúdo impróprio").tag("INAPPROPRIATE")
+                Text("Assédio ou ofensa").tag("HARASSMENT")
+                Text("Spam").tag("SPAM")
+                Text("Outro").tag("OTHER")
+            }
+            TextField("Detalhes opcionais", text: $details, axis: .vertical)
+                .lineLimit(3...8)
+            Text("A publicação continuará visível até a análise da moderação.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            if let errorMessage { Text(errorMessage).foregroundStyle(YomoraColor.danger) }
+        }
+        .navigationTitle("Denunciar publicação")
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) { Button("Cancelar") { dismiss() } }
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Enviar") { Task { await submit() } }.disabled(isSending)
+            }
+        }
+    }
+
+    private func submit() async {
+        struct Body: Encodable {
+            let reportedUserId: UUID
+            let postId: UUID
+            let reason: String
+            let details: String?
+        }
+        var endpoint = Endpoint(path: "/api/v1/moderation/reports", method: .post)
+        endpoint.body = try? Endpoint.json(Body(
+            reportedUserId: post.authorId,
+            postId: post.id,
+            reason: reason,
+            details: details.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : details
+        ))
+        isSending = true
+        do {
+            try await api.sendVoid(endpoint)
+            dismiss()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+        isSending = false
     }
 }
 

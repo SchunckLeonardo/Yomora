@@ -24,6 +24,20 @@ final class APIClientTests: XCTestCase {
 
         XCTAssertEqual(value, expected)
     }
+
+    func testUITestClientAllowsCommunityAccess() async throws {
+        let client = UITestAPIClient()
+
+        let access = try await client.send(
+            Endpoint(path: "/api/v1/community/access"),
+            as: CommunityAccess.self
+        )
+
+        XCTAssertEqual(
+            access,
+            CommunityAccess(allowed: true, suspendedUntil: nil, reason: nil)
+        )
+    }
 }
 
 private final class URLProtocolStub: URLProtocol, @unchecked Sendable {

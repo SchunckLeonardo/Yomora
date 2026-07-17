@@ -59,4 +59,16 @@ final class ProfileViewModelTests: XCTestCase {
         await model.approve(request)
         XCTAssertTrue(model.pendingRequests.isEmpty)
     }
+
+    func testReportingAProfileDoesNotBlockIt() async {
+        let userId = UUID()
+        let api = StubAPIClient(responses: [:])
+        let model = ProfileViewModel(userId: userId, isCurrentUser: false, api: api)
+
+        await model.report(reason: "Assédio", details: "Mensagem ofensiva")
+
+        let paths = await api.paths
+        XCTAssertEqual(paths, ["/api/v1/moderation/reports"])
+        XCTAssertTrue(model.didSubmitReport)
+    }
 }

@@ -34,6 +34,14 @@ yomora:
     refresh-token-days: ${JWT_REFRESH_DAYS:30}
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  moderation:
+    admin-user-ids: ${YOMORA_ADMIN_USER_IDS:}
+  storage:
+    profile-photos:
+      bucket: ${AWS_S3_AVATAR_BUCKET:}
+      region: ${AWS_REGION:us-east-1}
+      endpoint: ${AWS_S3_ENDPOINT:}
+      path-style-access: ${AWS_S3_PATH_STYLE_ACCESS:false}
 
 springdoc:
   swagger-ui:

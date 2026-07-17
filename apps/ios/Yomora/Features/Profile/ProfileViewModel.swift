@@ -8,6 +8,7 @@ final class ProfileViewModel {
     private(set) var followStatus: FollowStatus?
     private(set) var pendingRequests: [FollowRequest] = []
     private(set) var errorMessage: String?
+    private(set) var didSubmitReport = false
 
     let userId: UUID
     let isCurrentUser: Bool
@@ -68,6 +69,41 @@ final class ProfileViewModel {
 
     func approve(_ request: FollowRequest) async {
         await process(request, method: .post, pathSuffix: "/approve")
+    }
+
+    func report(reason: String, details: String) async {
+        struct Body: Encodable {
+            let reportedUserId: UUID
+            let postId: UUID?
+            let reason: String
+            let details: String?
+        }
+        errorMessage = nil
+        didSubmitReport = false
+        do {
+            var endpoint = Endpoint(path: "/api/v1/moderation/reports", method: .post)
+            endpoint.body = try Endpoint.json(Body(
+                reportedUserId: userId,
+                postId: nil,
+                reason: reason,
+                details: details.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : details
+            ))
+            try await api.sendVoid(endpoint)
+            didSubmitReport = true
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func block() async {
+        errorMessage = nil
+        do {
+            var endpoint = Endpoint(path: "/api/v1/moderation/blocks/\(userId)", method: .post)
+            endpoint.body = Data("{}".utf8)
+            try await api.sendVoid(endpoint)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 
     func reject(_ request: FollowRequest) async {

@@ -1,6 +1,9 @@
 package com.yomora.shared.security;
 
+import com.yomora.moderation.application.CommunitySuspensionService;
+import com.yomora.moderation.web.CommunitySuspensionFilter;
 import com.yomora.shared.config.SecurityProperties;
+import tools.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +20,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -30,7 +34,11 @@ import java.util.List;
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfiguration {
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            CommunitySuspensionService suspensions,
+            ObjectMapper objectMapper
+    ) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
@@ -42,6 +50,10 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/api/v1/books/search", "/api/v1/books/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(resourceServer -> resourceServer.jwt(Customizer.withDefaults()))
+                .addFilterAfter(
+                        new CommunitySuspensionFilter(suspensions, objectMapper),
+                        BearerTokenAuthenticationFilter.class
+                )
                 .build();
     }
 

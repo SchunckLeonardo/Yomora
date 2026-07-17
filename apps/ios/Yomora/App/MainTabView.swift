@@ -40,7 +40,8 @@ struct MainTabView: View {
                 .tabItem { Label("Ler", systemImage: "timer") }
                 .tag(MainTab.read)
             FeatureNavigation(container: container, session: session, onExitToToday: selectToday, activeSessionRouteRequest: 0) {
-                FeedView(container: container)
+                CommunityAccessView(container: container)
+                    .id(selectedTab == .community)
             }
                 .tabItem { Label("Comunidade", systemImage: "person.2") }
                 .tag(MainTab.community)
