@@ -15,3 +15,7 @@ _Avoid_: Seguimento automático, amizade
 **Seguidor aprovado**:
 Uma pessoa autorizada pelo dono de um Perfil privado a acessar o conteúdo destinado a seus seguidores.
 _Avoid_: Amigo, contato
+
+**Feed Seguindo**:
+A linha do tempo formada por publicações de outras pessoas que a pessoa segue e tem permissão para ver. As próprias publicações pertencem ao Perfil, não a esse feed.
+_Avoid_: Feed pessoal, mural completo
