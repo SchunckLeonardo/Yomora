@@ -82,6 +82,8 @@ actor UITestAPIClient: APIClientProtocol {
                                    estimatedFinishDate: "2026-08-02", currentStreak: 8)
         case (.get, "/api/v1/reading-sessions"):
             value = sessionNote == nil ? [ReadingSession]() : [finishedSession]
+        case (.get, "/api/v1/community/access"):
+            value = CommunityAccess(allowed: true, suspendedUntil: nil, reason: nil)
         case (.get, "/api/v1/posts/feed"), (.get, "/api/v1/posts/discover"):
             value = [post]
         case (.get, "/api/v1/posts/\(postId)/comments"):
