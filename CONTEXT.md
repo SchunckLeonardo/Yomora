@@ -87,3 +87,7 @@ _Avoid_: Push obrigatório, histórico genérico do feed
 **Em destaque**:
 A linha do tempo pública de descoberta que combina recência e engajamento saudável de publicações públicas. Não se apresenta como recomendação personalizada e respeita Bloqueios e a Audiência da publicação.
 _Avoid_: Para você, ranking pessoal inexistente
+
+**Comentário**:
+Uma contribuição de uma pessoa a uma publicação acessível para ela. Comentários formam uma lista única e cronológica, sem respostas aninhadas, e obedecem à Audiência da publicação.
+_Avoid_: Fio de respostas, conversa fora da publicação
