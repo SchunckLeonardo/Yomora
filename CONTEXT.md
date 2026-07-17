@@ -71,3 +71,7 @@ _Avoid_: Leitor Yomora genérico, autoria anônima
 **Foto de perfil**:
 A imagem personalizada escolhida por uma pessoa para representar seu avatar na Assinatura de autoria e no Perfil. Torna-se visível imediatamente, pode ser denunciada e pode ser removida por um Moderador sem excluir o Perfil.
 _Avoid_: Avatar gerado, imagem de uma publicação
+
+**Conteúdo com spoiler**:
+Uma publicação ou comentário identificado como revelador de uma obra. Seu texto permanece oculto até que a pessoa observadora escolha explicitamente “Mostrar spoiler”; pode informar a página de referência quando disponível.
+_Avoid_: Selo sem ocultação, spoiler exibido automaticamente
