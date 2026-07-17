@@ -91,3 +91,7 @@ _Avoid_: Para você, ranking pessoal inexistente
 **Comentário**:
 Uma contribuição de uma pessoa a uma publicação acessível para ela. Comentários formam uma lista única e cronológica, sem respostas aninhadas, e obedecem à Audiência da publicação.
 _Avoid_: Fio de respostas, conversa fora da publicação
+
+**Modelo de publicação**:
+Uma orientação leve do compositor para os tipos nota, resenha, recomendação, progresso ou citação. Ajusta o texto de ajuda e os campos relevantes, como página quando aplicável, mas preserva a escrita livre.
+_Avoid_: Formulário rígido, editor único sem contexto
