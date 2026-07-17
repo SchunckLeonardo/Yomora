@@ -75,3 +75,7 @@ _Avoid_: Avatar gerado, imagem de uma publicação
 **Conteúdo com spoiler**:
 Uma publicação ou comentário identificado como revelador de uma obra. Seu texto permanece oculto até que a pessoa observadora escolha explicitamente “Mostrar spoiler”; pode informar a página de referência quando disponível.
 _Avoid_: Selo sem ocultação, spoiler exibido automaticamente
+
+**Curtida**:
+A reação reversível de uma pessoa a uma publicação. A seleção e seu contador atualizam imediatamente; se a confirmação falhar, a interface restaura o estado anterior e oferece nova tentativa.
+_Avoid_: Reação permanente, contador sem estado pessoal
