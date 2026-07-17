@@ -47,3 +47,11 @@ _Avoid_: Lista de bloqueios, caixa de entrada comum
 **Moderador**:
 O administrador autorizado a acessar a Fila de moderação e avaliar se uma Denúncia procede.
 _Avoid_: Usuário comum, denunciante
+
+**Denúncia de perfil**:
+Uma Denúncia sobre a presença ou conduta de uma pessoa na Comunidade, em vez de uma publicação ou comentário específico. Pode levar a uma Suspensão quando considerada procedente.
+_Avoid_: Denúncia de conteúdo
+
+**Suspensão**:
+Uma medida temporária de moderação aplicada por um Moderador à pessoa alvo de uma Denúncia procedente. A medida restringe o acesso definido pela política de suspensão.
+_Avoid_: Bloqueio mútuo, exclusão de conta
