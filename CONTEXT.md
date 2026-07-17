@@ -59,3 +59,7 @@ _Avoid_: Bloqueio mútuo, exclusão de conta, suspensão total da conta
 **Prazo de suspensão**:
 O período fixo de 1, 7 ou 30 dias escolhido pelo Moderador para uma Suspensão da Comunidade. Uma Suspensão também pode ser revertida manualmente antes do término.
 _Avoid_: Duração arbitrária, suspensão indefinida
+
+**Aviso de suspensão**:
+A comunicação exibida à pessoa ao tentar abrir a Comunidade durante uma Suspensão da Comunidade. Informa a categoria da decisão e seu término, sem revelar a identidade de quem denunciou.
+_Avoid_: Exposição do denunciante, aviso genérico sem prazo
