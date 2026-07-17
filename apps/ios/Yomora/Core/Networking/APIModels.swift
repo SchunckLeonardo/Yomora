@@ -23,6 +23,54 @@ struct UserProfile: Codable, Identifiable, Sendable, Equatable {
     let createdAt: String
 }
 
+enum FollowStatus: String, Codable, Sendable, Equatable {
+    case pending = "PENDING"
+    case accepted = "ACCEPTED"
+}
+
+struct FollowStatusResponse: Codable, Sendable, Equatable {
+    let status: FollowStatus?
+}
+
+struct FollowRequest: Codable, Identifiable, Sendable, Equatable {
+    let followerId: UUID
+    let followedId: UUID
+    let status: FollowStatus
+    let createdAt: String
+
+    var id: UUID { followerId }
+}
+
+enum CommunityActivityType: String, Codable, Sendable, Equatable {
+    case followRequest = "FOLLOW_REQUEST"
+    case followAccepted = "FOLLOW_ACCEPTED"
+    case userFollowed = "USER_FOLLOWED"
+    case postLiked = "POST_LIKED"
+    case postCommented = "POST_COMMENTED"
+}
+
+struct CommunityActivity: Codable, Identifiable, Sendable, Equatable {
+    let id: UUID
+    let recipientId: UUID
+    let actorId: UUID
+    let type: CommunityActivityType
+    let postId: UUID?
+    let read: Bool
+    let createdAt: String
+}
+
+struct CommunityAccess: Codable, Sendable, Equatable {
+    let allowed: Bool
+    let suspendedUntil: String?
+    let reason: String?
+}
+
+struct ProfilePhotoUpload: Codable, Sendable, Equatable {
+    let objectKey: String
+    let uploadUrl: URL
+    let expiresAt: String
+}
+
 struct Book: Codable, Identifiable, Sendable, Equatable, Hashable {
     let workId: UUID
     let editionId: UUID

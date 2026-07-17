@@ -1,6 +1,8 @@
 package com.yomora.social.application;
 
 import com.yomora.social.domain.Comment;
+import com.yomora.social.domain.FollowRequest;
+import com.yomora.social.domain.FollowStatus;
 import com.yomora.social.domain.Post;
 import com.yomora.social.domain.PostType;
 import com.yomora.social.domain.SocialRepository;
@@ -10,14 +12,40 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class SocialService {
     private final SocialRepository repository;
+    private final ProfileVisibility profileVisibility;
+    private final SocialBlockPolicy blockPolicy;
+    private final ActivityPublisher activityPublisher;
     private final Clock clock;
 
     public SocialService(SocialRepository repository, Clock clock) {
+        this(repository, ignored -> true, (first, second) -> false, ActivityPublisher.noOp(), clock);
+    }
+
+    public SocialService(
+            SocialRepository repository,
+            ProfileVisibility profileVisibility,
+            SocialBlockPolicy blockPolicy,
+            Clock clock
+    ) {
+        this(repository, profileVisibility, blockPolicy, ActivityPublisher.noOp(), clock);
+    }
+
+    public SocialService(
+            SocialRepository repository,
+            ProfileVisibility profileVisibility,
+            SocialBlockPolicy blockPolicy,
+            ActivityPublisher activityPublisher,
+            Clock clock
+    ) {
         this.repository = repository;
+        this.profileVisibility = profileVisibility;
+        this.blockPolicy = blockPolicy;
+        this.activityPublisher = activityPublisher;
         this.clock = clock;
     }
 
@@ -46,6 +74,7 @@ public class SocialService {
     @Transactional(readOnly = true)
     public Post getPostFor(UUID viewerId, UUID postId) {
         Post post = getPost(postId);
+        requireNotBlocked(viewerId, post.authorId());
         if (post.visibility() == Visibility.PRIVATE && !post.authorId().equals(viewerId)) {
             throw new ContentForbiddenException();
         }
@@ -84,24 +113,28 @@ public class SocialService {
 
     @Transactional
     public Post like(UUID userId, UUID postId) {
-        getPost(postId);
-        repository.setLike(postId, userId, true);
-        return getPost(postId);
+        Post post = getPostFor(userId, postId);
+        if (repository.setLike(postId, userId, true)) {
+            activityPublisher.postLiked(post.authorId(), userId, postId);
+        }
+        return getPostFor(userId, postId);
     }
 
     @Transactional
     public Post unlike(UUID userId, UUID postId) {
-        getPost(postId);
+        getPostFor(userId, postId);
         repository.setLike(postId, userId, false);
-        return getPost(postId);
+        return getPostFor(userId, postId);
     }
 
     @Transactional
     public Comment comment(UUID authorId, UUID postId, String text) {
-        getPost(postId);
-        return repository.saveComment(new Comment(
+        Post post = getPostFor(authorId, postId);
+        Comment comment = repository.saveComment(new Comment(
                 UUID.randomUUID(), postId, authorId, normalizeText(text), clock.instant()
         ));
+        activityPublisher.postCommented(post.authorId(), authorId, postId);
+        return comment;
     }
 
     @Transactional
@@ -112,46 +145,120 @@ public class SocialService {
     }
 
     @Transactional(readOnly = true)
-    public List<Comment> comments(UUID postId) {
-        getPost(postId);
+    public List<Comment> comments(UUID viewerId, UUID postId) {
+        getPostFor(viewerId, postId);
         return repository.comments(postId);
     }
 
     @Transactional
-    public void follow(UUID followerId, UUID followedId) {
+    public FollowStatus follow(UUID followerId, UUID followedId) {
         if (followerId.equals(followedId)) {
             throw new InvalidFollowException("Você não pode seguir a si mesmo");
         }
-        repository.setFollowing(followerId, followedId, true);
+        requireNotBlocked(followerId, followedId);
+        FollowStatus current = repository.followStatus(followerId, followedId).orElse(null);
+        if (current == FollowStatus.ACCEPTED) {
+            return current;
+        }
+        FollowStatus requested = profileVisibility.isPublic(followedId)
+                ? FollowStatus.ACCEPTED
+                : FollowStatus.PENDING;
+        FollowStatus result = repository.setFollowing(followerId, followedId, requested);
+        if (current == null && result == FollowStatus.PENDING) {
+            activityPublisher.followRequested(followedId, followerId);
+        } else if (current == null && result == FollowStatus.ACCEPTED) {
+            activityPublisher.followed(followedId, followerId);
+        }
+        return result;
     }
 
     @Transactional
     public void unfollow(UUID followerId, UUID followedId) {
-        repository.setFollowing(followerId, followedId, false);
+        repository.removeFollowing(followerId, followedId);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<FollowStatus> followStatus(UUID followerId, UUID followedId) {
+        if (blockPolicy.isBlockedEitherWay(followerId, followedId)) {
+            return Optional.empty();
+        }
+        return repository.followStatus(followerId, followedId);
+    }
+
+    @Transactional
+    public void approveFollow(UUID followedId, UUID followerId) {
+        requireNotBlocked(followerId, followedId);
+        FollowStatus status = repository.followStatus(followerId, followedId)
+                .orElseThrow(() -> new InvalidFollowException("Solicitação para seguir não encontrada"));
+        if (status != FollowStatus.PENDING) {
+            throw new InvalidFollowException("A solicitação para seguir já foi processada");
+        }
+        repository.setFollowing(followerId, followedId, FollowStatus.ACCEPTED);
+        activityPublisher.followAccepted(followerId, followedId);
+    }
+
+    @Transactional
+    public void rejectFollow(UUID followedId, UUID followerId) {
+        if (repository.followStatus(followerId, followedId).orElse(null) == FollowStatus.PENDING) {
+            repository.removeFollowing(followerId, followedId);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public List<FollowRequest> pendingFollowRequests(UUID followedId) {
+        return repository.pendingFollowRequests(followedId).stream()
+                .filter(request -> !blockPolicy.isBlockedEitherWay(request.followerId(), followedId))
+                .toList();
     }
 
     @Transactional(readOnly = true)
     public List<UUID> followers(UUID userId) {
-        return repository.followers(userId);
+        return repository.followers(userId).stream()
+                .filter(followerId -> !blockPolicy.isBlockedEitherWay(followerId, userId))
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<UUID> followers(UUID viewerId, UUID userId) {
+        requireNotBlocked(viewerId, userId);
+        return followers(userId);
     }
 
     @Transactional(readOnly = true)
     public List<UUID> following(UUID userId) {
-        return repository.following(userId);
+        return repository.following(userId).stream()
+                .filter(followedId -> !blockPolicy.isBlockedEitherWay(userId, followedId))
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<UUID> following(UUID viewerId, UUID userId) {
+        requireNotBlocked(viewerId, userId);
+        return following(userId);
     }
 
     @Transactional(readOnly = true)
     public List<Post> followingFeed(UUID userId, Instant cursor, int limit) {
-        return repository.followingFeed(userId, cursor, bounded(limit));
+        return repository.followingFeed(userId, cursor, bounded(limit)).stream()
+                .filter(post -> !blockPolicy.isBlockedEitherWay(userId, post.authorId()))
+                .toList();
     }
 
     @Transactional(readOnly = true)
-    public List<Post> discover(Instant cursor, int limit) {
-        return repository.discover(cursor, bounded(limit));
+    public List<Post> discover(UUID viewerId, Instant cursor, int limit) {
+        return repository.discover(viewerId, cursor, bounded(limit)).stream()
+                .filter(post -> !blockPolicy.isBlockedEitherWay(viewerId, post.authorId()))
+                .toList();
     }
 
     private void requireOwner(UUID ownerId, UUID actorId) {
         if (!ownerId.equals(actorId)) {
+            throw new ContentForbiddenException();
+        }
+    }
+
+    private void requireNotBlocked(UUID firstUserId, UUID secondUserId) {
+        if (!firstUserId.equals(secondUserId) && blockPolicy.isBlockedEitherWay(firstUserId, secondUserId)) {
             throw new ContentForbiddenException();
         }
     }

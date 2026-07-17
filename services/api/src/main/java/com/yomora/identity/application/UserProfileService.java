@@ -34,7 +34,7 @@ public class UserProfileService {
                 current.email(),
                 current.passwordHash(),
                 command.bio() == null ? "" : command.bio().trim(),
-                normalizeNullable(command.avatarUrl()),
+                current.avatarUrl(),
                 command.publicProfile(),
                 current.createdAt(),
                 clock.instant()
@@ -49,10 +49,4 @@ public class UserProfileService {
         repository.deleteById(userId);
     }
 
-    private String normalizeNullable(String value) {
-        if (value == null || value.isBlank()) {
-            return null;
-        }
-        return value.trim();
-    }
 }

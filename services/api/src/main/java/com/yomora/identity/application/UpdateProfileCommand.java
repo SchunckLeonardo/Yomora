@@ -4,7 +4,6 @@ public record UpdateProfileCommand(
         String name,
         String username,
         String bio,
-        String avatarUrl,
         boolean publicProfile
 ) {
 }

@@ -3,7 +3,11 @@ package com.yomora;
 import com.yomora.catalog.domain.BookCandidate;
 import com.yomora.catalog.domain.BookCatalogRepository;
 import com.yomora.social.domain.Post;
+import com.yomora.social.domain.ActivityRepository;
+import com.yomora.social.domain.ActivityType;
+import com.yomora.social.domain.CommunityActivity;
 import com.yomora.social.domain.PostType;
+import com.yomora.social.domain.FollowStatus;
 import com.yomora.social.domain.SocialRepository;
 import com.yomora.social.domain.Visibility;
 import jakarta.persistence.EntityManager;
@@ -35,6 +39,9 @@ class PersistenceQueryIntegrationTest {
 
     @Autowired
     SocialRepository socialRepository;
+
+    @Autowired
+    ActivityRepository activityRepository;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -111,7 +118,7 @@ class PersistenceQueryIntegrationTest {
         UUID authorId = UUID.randomUUID();
         insertUser(followerId, "reader");
         insertUser(authorId, "author");
-        socialRepository.setFollowing(followerId, authorId, true);
+        socialRepository.setFollowing(followerId, authorId, FollowStatus.ACCEPTED);
         Post post = savePublicPost(authorId, "Leitura compartilhada");
 
         var feed = socialRepository.followingFeed(followerId, null, 20);
@@ -125,9 +132,64 @@ class PersistenceQueryIntegrationTest {
         insertUser(authorId, "discover-author");
         Post post = savePublicPost(authorId, "Recomendação pública");
 
-        var discovered = socialRepository.discover(null, 20);
+        var discovered = socialRepository.discover(authorId, null, 20);
 
         assertThat(discovered).extracting(Post::id).contains(post.id());
+    }
+
+    @Test
+    void persistsPendingFollowUntilItIsAccepted() {
+        UUID followerId = UUID.randomUUID();
+        UUID privateProfileId = UUID.randomUUID();
+        insertUser(followerId, "pending-reader");
+        insertUser(privateProfileId, "private-reader");
+
+        socialRepository.setFollowing(followerId, privateProfileId, FollowStatus.PENDING);
+
+        assertThat(socialRepository.followStatus(followerId, privateProfileId)).contains(FollowStatus.PENDING);
+        assertThat(socialRepository.followers(privateProfileId)).isEmpty();
+        assertThat(socialRepository.pendingFollowRequests(privateProfileId))
+                .extracting(request -> request.followerId())
+                .containsExactly(followerId);
+
+        socialRepository.setFollowing(followerId, privateProfileId, FollowStatus.ACCEPTED);
+
+        assertThat(socialRepository.followers(privateProfileId)).containsExactly(followerId);
+        assertThat(socialRepository.pendingFollowRequests(privateProfileId)).isEmpty();
+    }
+
+    @Test
+    void excludesBlockedAuthorsFromDiscover() {
+        UUID viewerId = UUID.randomUUID();
+        UUID authorId = UUID.randomUUID();
+        insertUser(viewerId, "blocked-viewer");
+        insertUser(authorId, "blocked-author");
+        Post post = savePublicPost(authorId, "Conteúdo ocultado pelo bloqueio");
+        jdbcTemplate.update("""
+                INSERT INTO blocked_users (id, blocker_id, blocked_id, created_at)
+                VALUES (?, ?, ?, ?)
+                """, UUID.randomUUID(), authorId, viewerId, Timestamp.from(NOW));
+
+        var discovered = socialRepository.discover(viewerId, null, 20);
+
+        assertThat(discovered).extracting(Post::id).doesNotContain(post.id());
+    }
+
+    @Test
+    void persistsCommunityActivitiesInChronologicalInbox() {
+        UUID recipientId = UUID.randomUUID();
+        UUID actorId = UUID.randomUUID();
+        insertUser(recipientId, "activity-recipient");
+        insertUser(actorId, "activity-actor");
+        CommunityActivity activity = new CommunityActivity(
+                UUID.randomUUID(), recipientId, actorId, ActivityType.USER_FOLLOWED,
+                null, false, NOW
+        );
+
+        activityRepository.save(activity);
+        entityManager.flush();
+
+        assertThat(activityRepository.list(recipientId, 20)).containsExactly(activity);
     }
 
     @Test

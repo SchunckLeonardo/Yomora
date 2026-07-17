@@ -7,6 +7,7 @@ struct BookDetailsView: View {
     @State private var adding = false
     @State private var added: LibraryBook?
     @State private var errorMessage: String?
+    @State private var showingComposer = false
 
     var body: some View {
         ScrollView {
@@ -14,11 +15,16 @@ struct BookDetailsView: View {
                 HStack(alignment: .top, spacing: 20) {
                     BookCover(url: book.coverUrl, width: 120, height: 178)
                     VStack(alignment: .leading, spacing: 10) {
-                        Text(book.title).font(.yomoraTitle)
+                        Text(book.title)
+                            .font(.yomoraTitle)
+                            .accessibilityIdentifier("bookDetailsTitle")
                         Text(book.authorLine).foregroundStyle(.secondary)
                         if let pages = book.pageCount { Label("\(pages) páginas", systemImage: "book.pages") }
                         ShareLink(item: URL(string: "https://yomora.app/books/\(book.editionId)")!) {
                             Label("Compartilhar", systemImage: "square.and.arrow.up")
+                        }
+                        Button { showingComposer = true } label: {
+                            Label("Publicar sobre o livro", systemImage: "text.bubble")
                         }
                     }
                 }
@@ -38,11 +44,18 @@ struct BookDetailsView: View {
                         Task { await add() }
                     }.accessibilityIdentifier("addToLibraryButton")
                 }
-            }.padding()
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("bookDetailsContent")
         }
         .navigationTitle("Detalhes")
         .navigationBarTitleDisplayMode(.inline)
         .background(YomoraColor.canvas)
+        .sheet(isPresented: $showingComposer) {
+            NavigationStack { PostComposerView(api: api, editionId: book.editionId) }
+        }
     }
 
     @MainActor

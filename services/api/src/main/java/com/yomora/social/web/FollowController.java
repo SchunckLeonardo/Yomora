@@ -2,6 +2,9 @@ package com.yomora.social.web;
 
 import com.yomora.shared.security.CurrentUser;
 import com.yomora.social.application.SocialService;
+import com.yomora.social.domain.FollowRequest;
+import com.yomora.social.domain.FollowStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,9 +29,10 @@ class FollowController {
     }
 
     @PostMapping("/{id}/follow")
-    ResponseEntity<Void> follow(Authentication authentication, @PathVariable UUID id) {
-        service.follow(currentUser.id(authentication), id);
-        return ResponseEntity.noContent().build();
+    ResponseEntity<FollowStatusResponse> follow(Authentication authentication, @PathVariable UUID id) {
+        FollowStatus status = service.follow(currentUser.id(authentication), id);
+        HttpStatus responseStatus = status == FollowStatus.PENDING ? HttpStatus.ACCEPTED : HttpStatus.OK;
+        return ResponseEntity.status(responseStatus).body(new FollowStatusResponse(status));
     }
 
     @DeleteMapping("/{id}/follow")
@@ -38,12 +42,37 @@ class FollowController {
     }
 
     @GetMapping("/{id}/followers")
-    List<UUID> followers(@PathVariable UUID id) {
-        return service.followers(id);
+    List<UUID> followers(Authentication authentication, @PathVariable UUID id) {
+        return service.followers(currentUser.id(authentication), id);
     }
 
     @GetMapping("/{id}/following")
-    List<UUID> following(@PathVariable UUID id) {
-        return service.following(id);
+    List<UUID> following(Authentication authentication, @PathVariable UUID id) {
+        return service.following(currentUser.id(authentication), id);
+    }
+
+    @GetMapping("/{id}/follow-status")
+    FollowStatusResponse followStatus(Authentication authentication, @PathVariable UUID id) {
+        return new FollowStatusResponse(service.followStatus(currentUser.id(authentication), id).orElse(null));
+    }
+
+    @GetMapping("/me/follow-requests")
+    List<FollowRequest> pendingRequests(Authentication authentication) {
+        return service.pendingFollowRequests(currentUser.id(authentication));
+    }
+
+    @PostMapping("/me/follow-requests/{followerId}/approve")
+    ResponseEntity<Void> approve(Authentication authentication, @PathVariable UUID followerId) {
+        service.approveFollow(currentUser.id(authentication), followerId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/me/follow-requests/{followerId}")
+    ResponseEntity<Void> reject(Authentication authentication, @PathVariable UUID followerId) {
+        service.rejectFollow(currentUser.id(authentication), followerId);
+        return ResponseEntity.noContent().build();
+    }
+
+    record FollowStatusResponse(FollowStatus status) {
     }
 }

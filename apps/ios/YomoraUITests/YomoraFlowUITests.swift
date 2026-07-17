@@ -70,6 +70,73 @@ final class YomoraFlowUITests: XCTestCase {
     }
 
     @MainActor
+    func testCommunityNavigationActivityBadgeDatesAndBookLayout() {
+        let app = launchAuthenticatedApp(email: "community@yomora.local")
+
+        app.tabBars.buttons["Comunidade"].tap()
+        let author = app.buttons["postAuthorProfileButton_70000000-0000-0000-0000-000000000001"]
+        XCTAssertTrue(author.waitForExistence(timeout: 3))
+        author.tap()
+        XCTAssertTrue(app.navigationBars["Perfil"].waitForExistence(timeout: 3))
+        app.navigationBars.buttons.firstMatch.tap()
+
+        let comments = app.buttons["Abrir comentários"]
+        XCTAssertTrue(comments.waitForExistence(timeout: 3))
+        comments.tap()
+        let commentAuthor = app.buttons["commentAuthorProfileButton_80000000-0000-0000-0000-000000000001"]
+        XCTAssertTrue(commentAuthor.waitForExistence(timeout: 3))
+        commentAuthor.tap()
+        XCTAssertTrue(app.navigationBars["Perfil"].waitForExistence(timeout: 3))
+        app.navigationBars.buttons.firstMatch.tap()
+        XCTAssertTrue(app.navigationBars["Publicação"].waitForExistence(timeout: 3))
+        app.navigationBars.buttons.firstMatch.tap()
+
+        let inbox = app.buttons["activityInboxButton"]
+        XCTAssertTrue(inbox.waitForExistence(timeout: 3))
+        expectation(
+            for: NSPredicate(format: "value == %@", "2 não lidas"),
+            evaluatedWith: inbox
+        )
+        waitForExpectations(timeout: 3)
+        inbox.tap()
+
+        let rawISODate = app.staticTexts.matching(
+            NSPredicate(format: "label MATCHES %@", ".*T[0-9]{2}:[0-9]{2}:[0-9]{2}.*Z")
+        ).firstMatch
+        XCTAssertFalse(rawISODate.waitForExistence(timeout: 1))
+
+        let follow = app.buttons["activityRow_71000000-0000-0000-0000-000000000001"]
+        XCTAssertTrue(follow.waitForExistence(timeout: 3))
+        follow.tap()
+        XCTAssertTrue(app.navigationBars["Perfil"].waitForExistence(timeout: 3))
+        app.navigationBars.buttons.firstMatch.tap()
+
+        XCTAssertTrue(inbox.waitForExistence(timeout: 3))
+        inbox.tap()
+        let postActivity = app.buttons["activityRow_72000000-0000-0000-0000-000000000001"]
+        XCTAssertTrue(postActivity.waitForExistence(timeout: 3))
+        postActivity.tap()
+        XCTAssertTrue(app.navigationBars["Publicação"].waitForExistence(timeout: 3))
+        app.navigationBars.buttons.firstMatch.tap()
+
+        app.tabBars.buttons["Descobrir"].tap()
+        let search = app.textFields["bookSearchField"]
+        XCTAssertTrue(search.waitForExistence(timeout: 3))
+        search.tap(); search.typeText("biblioteca"); search.typeKey("\n", modifierFlags: [])
+        app.staticTexts["A Biblioteca da Meia-Noite"].tap()
+
+        let content = app.otherElements["bookDetailsContent"]
+        XCTAssertTrue(content.waitForExistence(timeout: 3))
+        let title = app.staticTexts["bookDetailsTitle"]
+        XCTAssertTrue(title.waitForExistence(timeout: 3))
+        let titleOriginBeforeAdding = title.frame.origin
+        app.buttons["addToLibraryButton"].tap()
+        XCTAssertTrue(app.staticTexts["Adicionado à sua biblioteca"].waitForExistence(timeout: 3))
+        XCTAssertEqual(title.frame.origin.x, titleOriginBeforeAdding.x, accuracy: 1)
+        XCTAssertEqual(title.frame.origin.y, titleOriginBeforeAdding.y, accuracy: 1)
+    }
+
+    @MainActor
     private func launchAuthenticatedApp(email address: String) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments = ["--ui-testing", "--skip-onboarding"]

@@ -51,10 +51,11 @@ class PostController {
 
     @GetMapping("/discover")
     List<Post> discover(
+            Authentication authentication,
             @RequestParam(required = false) Instant cursor,
             @RequestParam(defaultValue = "20") @Min(1) @Max(50) int limit
     ) {
-        return service.discover(cursor, limit);
+        return service.discover(currentUser.id(authentication), cursor, limit);
     }
 
     @GetMapping("/{id}")
@@ -100,8 +101,8 @@ class PostController {
     }
 
     @GetMapping("/{id}/comments")
-    List<Comment> comments(@PathVariable UUID id) {
-        return service.comments(id);
+    List<Comment> comments(Authentication authentication, @PathVariable UUID id) {
+        return service.comments(currentUser.id(authentication), id);
     }
 
     @PostMapping("/{id}/comments")
@@ -120,7 +121,7 @@ class PostController {
             @PathVariable UUID postId,
             @PathVariable UUID commentId
     ) {
-        service.getPost(postId);
+        service.getPostFor(currentUser.id(authentication), postId);
         service.deleteComment(currentUser.id(authentication), commentId);
         return ResponseEntity.noContent().build();
     }

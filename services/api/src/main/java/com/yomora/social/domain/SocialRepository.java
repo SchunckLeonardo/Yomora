@@ -12,7 +12,7 @@ public interface SocialRepository {
 
     void deletePost(UUID postId);
 
-    void setLike(UUID postId, UUID userId, boolean liked);
+    boolean setLike(UUID postId, UUID userId, boolean liked);
 
     Comment saveComment(Comment comment);
 
@@ -22,7 +22,15 @@ public interface SocialRepository {
 
     List<Comment> comments(UUID postId);
 
-    void setFollowing(UUID followerId, UUID followedId, boolean following);
+    FollowStatus setFollowing(UUID followerId, UUID followedId, FollowStatus status);
+
+    Optional<FollowStatus> followStatus(UUID followerId, UUID followedId);
+
+    void removeFollowing(UUID followerId, UUID followedId);
+
+    void removeConnectionsBetween(UUID firstUserId, UUID secondUserId);
+
+    List<FollowRequest> pendingFollowRequests(UUID followedId);
 
     List<UUID> followers(UUID userId);
 
@@ -30,5 +38,5 @@ public interface SocialRepository {
 
     List<Post> followingFeed(UUID userId, Instant cursor, int limit);
 
-    List<Post> discover(Instant cursor, int limit);
+    List<Post> discover(UUID viewerId, Instant cursor, int limit);
 }
