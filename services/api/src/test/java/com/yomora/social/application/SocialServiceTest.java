@@ -133,6 +133,67 @@ class SocialServiceTest {
                 .isInstanceOf(ContentForbiddenException.class);
     }
 
+    @Test
+    void publishesActivitiesForNewLikesCommentsAndFollowDecisions() {
+        UUID author = UUID.randomUUID();
+        UUID reader = UUID.randomUUID();
+        InMemorySocialRepository repository = new InMemorySocialRepository();
+        RecordingActivityPublisher activities = new RecordingActivityPublisher();
+        SocialService service = new SocialService(
+                repository,
+                ignored -> false,
+                (firstUserId, secondUserId) -> false,
+                activities,
+                Clock.fixed(Instant.parse("2026-07-13T18:00:00Z"), ZoneOffset.UTC)
+        );
+        Post post = service.createPost(
+                author, "Uma publicação", null, PostType.NOTE,
+                false, null, Visibility.PUBLIC
+        );
+
+        service.like(reader, post.id());
+        service.like(reader, post.id());
+        service.comment(reader, post.id(), "Quero ler também");
+        service.follow(reader, author);
+        service.approveFollow(author, reader);
+
+        assertThat(activities.events).containsExactly(
+                "liked:" + author + ":" + reader + ":" + post.id(),
+                "commented:" + author + ":" + reader + ":" + post.id(),
+                "requested:" + author + ":" + reader,
+                "accepted:" + reader + ":" + author
+        );
+    }
+
+    private static final class RecordingActivityPublisher implements ActivityPublisher {
+        private final List<String> events = new ArrayList<>();
+
+        @Override
+        public void postLiked(UUID recipientId, UUID actorId, UUID postId) {
+            events.add("liked:" + recipientId + ":" + actorId + ":" + postId);
+        }
+
+        @Override
+        public void postCommented(UUID recipientId, UUID actorId, UUID postId) {
+            events.add("commented:" + recipientId + ":" + actorId + ":" + postId);
+        }
+
+        @Override
+        public void followRequested(UUID recipientId, UUID actorId) {
+            events.add("requested:" + recipientId + ":" + actorId);
+        }
+
+        @Override
+        public void followAccepted(UUID recipientId, UUID actorId) {
+            events.add("accepted:" + recipientId + ":" + actorId);
+        }
+
+        @Override
+        public void followed(UUID recipientId, UUID actorId) {
+            events.add("followed:" + recipientId + ":" + actorId);
+        }
+    }
+
     private static final class InMemorySocialRepository implements SocialRepository {
         private final Map<UUID, Post> posts = new HashMap<>();
         private final Map<UUID, Comment> comments = new HashMap<>();
@@ -162,12 +223,12 @@ class SocialServiceTest {
         }
 
         @Override
-        public void setLike(UUID postId, UUID userId, boolean liked) {
+        public boolean setLike(UUID postId, UUID userId, boolean liked) {
             Set<UUID> postLikes = likes.computeIfAbsent(postId, ignored -> new HashSet<>());
             if (liked) {
-                postLikes.add(userId);
+                return postLikes.add(userId);
             } else {
-                postLikes.remove(userId);
+                return postLikes.remove(userId);
             }
         }
 

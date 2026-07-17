@@ -54,14 +54,17 @@ class JpaSocialRepository implements SocialRepository {
     }
 
     @Override
-    public void setLike(UUID postId, UUID userId, boolean liked) {
+    public boolean setLike(UUID postId, UUID userId, boolean liked) {
         Optional<LikeEntity> existing = likeRepository.findByPostIdAndUserId(postId, userId);
         if (liked && existing.isEmpty()) {
             likeRepository.save(new LikeEntity(UUID.randomUUID(), postId, userId, clock.instant()));
+            return true;
         }
-        if (!liked) {
-            existing.ifPresent(likeRepository::delete);
+        if (!liked && existing.isPresent()) {
+            likeRepository.delete(existing.get());
+            return true;
         }
+        return false;
     }
 
     @Override

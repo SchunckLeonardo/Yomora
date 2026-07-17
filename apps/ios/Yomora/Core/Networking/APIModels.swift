@@ -41,6 +41,24 @@ struct FollowRequest: Codable, Identifiable, Sendable, Equatable {
     var id: UUID { followerId }
 }
 
+enum CommunityActivityType: String, Codable, Sendable, Equatable {
+    case followRequest = "FOLLOW_REQUEST"
+    case followAccepted = "FOLLOW_ACCEPTED"
+    case userFollowed = "USER_FOLLOWED"
+    case postLiked = "POST_LIKED"
+    case postCommented = "POST_COMMENTED"
+}
+
+struct CommunityActivity: Codable, Identifiable, Sendable, Equatable {
+    let id: UUID
+    let recipientId: UUID
+    let actorId: UUID
+    let type: CommunityActivityType
+    let postId: UUID?
+    let read: Bool
+    let createdAt: String
+}
+
 struct Book: Codable, Identifiable, Sendable, Equatable, Hashable {
     let workId: UUID
     let editionId: UUID

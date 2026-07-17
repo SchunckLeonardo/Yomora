@@ -12,7 +12,7 @@ public interface SocialRepository {
 
     void deletePost(UUID postId);
 
-    void setLike(UUID postId, UUID userId, boolean liked);
+    boolean setLike(UUID postId, UUID userId, boolean liked);
 
     Comment saveComment(Comment comment);
 

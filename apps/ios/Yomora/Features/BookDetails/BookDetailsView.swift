@@ -7,6 +7,7 @@ struct BookDetailsView: View {
     @State private var adding = false
     @State private var added: LibraryBook?
     @State private var errorMessage: String?
+    @State private var showingComposer = false
 
     var body: some View {
         ScrollView {
@@ -19,6 +20,9 @@ struct BookDetailsView: View {
                         if let pages = book.pageCount { Label("\(pages) páginas", systemImage: "book.pages") }
                         ShareLink(item: URL(string: "https://yomora.app/books/\(book.editionId)")!) {
                             Label("Compartilhar", systemImage: "square.and.arrow.up")
+                        }
+                        Button { showingComposer = true } label: {
+                            Label("Publicar sobre o livro", systemImage: "text.bubble")
                         }
                     }
                 }
@@ -43,6 +47,9 @@ struct BookDetailsView: View {
         .navigationTitle("Detalhes")
         .navigationBarTitleDisplayMode(.inline)
         .background(YomoraColor.canvas)
+        .sheet(isPresented: $showingComposer) {
+            NavigationStack { PostComposerView(api: api, editionId: book.editionId) }
+        }
     }
 
     @MainActor

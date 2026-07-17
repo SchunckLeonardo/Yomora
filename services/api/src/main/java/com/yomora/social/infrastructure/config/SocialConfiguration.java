@@ -2,8 +2,11 @@ package com.yomora.social.infrastructure.config;
 
 import com.yomora.identity.domain.UserRepository;
 import com.yomora.moderation.domain.ModerationRepository;
+import com.yomora.social.application.ActivityPublisher;
+import com.yomora.social.application.CommunityActivityService;
 import com.yomora.social.application.InvalidFollowException;
 import com.yomora.social.application.SocialService;
+import com.yomora.social.domain.ActivityRepository;
 import com.yomora.social.domain.SocialRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +16,16 @@ import java.time.Clock;
 @Configuration(proxyBeanMethods = false)
 class SocialConfiguration {
     @Bean
+    CommunityActivityService communityActivityService(ActivityRepository repository, Clock clock) {
+        return new CommunityActivityService(repository, clock);
+    }
+
+    @Bean
     SocialService socialService(
             SocialRepository repository,
             UserRepository userRepository,
             ModerationRepository moderationRepository,
+            ActivityPublisher activityPublisher,
             Clock clock
     ) {
         return new SocialService(
@@ -25,6 +34,7 @@ class SocialConfiguration {
                         .orElseThrow(() -> new InvalidFollowException("Usuário não encontrado"))
                         .publicProfile(),
                 moderationRepository::isBlockedEitherWay,
+                activityPublisher,
                 clock
         );
     }
