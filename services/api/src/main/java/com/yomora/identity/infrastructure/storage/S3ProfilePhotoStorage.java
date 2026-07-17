@@ -38,7 +38,6 @@ final class S3ProfilePhotoStorage implements ProfilePhotoStorage, AutoCloseable 
                 .bucket(bucket)
                 .key(objectKey)
                 .contentType(contentType)
-                .contentLength(contentLength)
                 .build();
         PutObjectPresignRequest request = PutObjectPresignRequest.builder()
                 .signatureDuration(durationUntil(expiresAt))
