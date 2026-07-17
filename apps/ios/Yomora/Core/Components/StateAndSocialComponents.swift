@@ -40,6 +40,7 @@ struct PostCard: View {
     var onOpen: (() -> Void)?
     var onLike: (() -> Void)?
     var onComment: (() -> Void)?
+    var onReport: (() -> Void)?
 
     @State private var author: UserProfile?
     @State private var spoilerRevealed = false
@@ -129,6 +130,17 @@ struct PostCard: View {
                         .padding(.horizontal, 9).padding(.vertical, 6)
                         .background(YomoraColor.progressGold.opacity(0.12), in: Capsule())
                 }
+            }
+            if let onReport {
+                Menu {
+                    Button(role: .destructive, action: onReport) {
+                        Label("Denunciar publicação", systemImage: "exclamationmark.bubble")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .frame(width: 32, height: 32)
+                }
+                .accessibilityLabel("Opções da publicação")
             }
         }
     }

@@ -77,5 +77,15 @@ class ModerationServiceTest {
         public Report saveReport(Report report) {
             return report;
         }
+
+        @Override
+        public Optional<Report> findReportById(UUID reportId) {
+            return Optional.empty();
+        }
+
+        @Override
+        public List<Report> findReportsByStatus(String status) {
+            return List.of();
+        }
     }
 }

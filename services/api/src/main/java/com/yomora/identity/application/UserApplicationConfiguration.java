@@ -17,4 +17,13 @@ public class UserApplicationConfiguration {
     ) {
         return new UserRegistrationService(repository, passwordEncoder, clock);
     }
+
+    @Bean
+    ProfilePhotoService profilePhotoService(
+            UserRepository repository,
+            ProfilePhotoStorage storage,
+            Clock clock
+    ) {
+        return new ProfilePhotoService(repository, storage, clock);
+    }
 }

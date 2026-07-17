@@ -29,12 +29,13 @@ class UserProfileServiceTest {
 
         User updated = service.update(user.id(), new UpdateProfileCommand(
                 "  Marina Rainha  ", "  Marina.Lê  ", " Leitora constante. ",
-                "https://images.example/avatar.jpg", false
+                false
         ));
 
         assertThat(updated.name()).isEqualTo("Marina Rainha");
         assertThat(updated.username()).isEqualTo("marina.lê");
         assertThat(updated.bio()).isEqualTo("Leitora constante.");
+        assertThat(updated.avatarUrl()).isNull();
         assertThat(updated.publicProfile()).isFalse();
         assertThat(updated.updatedAt()).isEqualTo(NOW);
     }
@@ -45,7 +46,7 @@ class UserProfileServiceTest {
         repository.save(user("ana", "ana@example.com"));
 
         assertThatThrownBy(() -> service.update(marina.id(), new UpdateProfileCommand(
-                "Marina", "ANA", "", null, true
+                "Marina", "ANA", "", true
         )))
                 .isInstanceOf(IdentityConflictException.class)
                 .hasMessage("Nome de usuário já cadastrado");

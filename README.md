@@ -50,6 +50,8 @@ Ao adicionar arquivos ou targets no app, execute `cd apps/ios && xcodegen genera
 
 Copie `.env.example` para `.env`. Todas as credenciais incluídas são locais e descartáveis. Defina uma chave aleatória de pelo menos 32 bytes em `JWT_SECRET` fora do ambiente local. `GOOGLE_BOOKS_API_KEY` é opcional durante o desenvolvimento; quando preenchida, eleva a cota do provedor. O fallback Open Library não requer chave. O comando `make backend` carrega automaticamente as variáveis desse arquivo; reinicie a API depois de preencher ou alterar a chave.
 
+Administradores da moderação são definidos por UUID, separados por vírgula, em `YOMORA_ADMIN_USER_IDS`. Fotos de perfil usam um bucket Amazon S3 privado quando `AWS_S3_AVATAR_BUCKET` está preenchido; a API assina URLs temporárias de upload e leitura usando a cadeia padrão de credenciais da AWS. Nenhuma credencial AWS deve ser versionada. Veja [a configuração do bucket e da política IAM](docs/aws-s3-profile-photos.md).
+
 ## Dados de demonstração
 
 Depois de `make seed`, use:
@@ -69,9 +71,9 @@ A API mantém uma única sessão ativa por usuário e persiste pausa, tempo deco
 
 ## Decisões e limitações do MVP
 
-As cinco decisões estruturais estão em `docs/decisions`. Sign in with Apple ainda exige entitlements e credenciais do time Apple. Recuperação de senha usa uma caixa local em memória no profile `local`; produção deve fornecer o adapter de e-mail. Aprovação de seguidores de contas privadas, notificações push remotas e links web universais ficam para a próxima versão.
+As decisões estruturais estão em `docs/decisions`. Sign in with Apple ainda exige entitlements e credenciais do time Apple. Recuperação de senha usa uma caixa local em memória no profile `local`; produção deve fornecer o adapter de e-mail. Notificações push remotas e links web universais ficam para uma próxima versão.
 
-Próximos passos naturais: adapter de e-mail, APNs, Universal Links, moderação administrativa e telemetria de produto com consentimento.
+Próximos passos naturais: adapter de e-mail, APNs, Universal Links, painel administrativo consumindo os endpoints de moderação e telemetria de produto com consentimento.
 
 ## Licença
 

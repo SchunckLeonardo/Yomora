@@ -4,6 +4,7 @@ import com.yomora.identity.application.IdentityConflictException;
 import com.yomora.identity.application.InvalidCredentialsException;
 import com.yomora.identity.application.InvalidRefreshTokenException;
 import com.yomora.identity.application.InvalidPasswordResetTokenException;
+import com.yomora.identity.infrastructure.storage.ProfilePhotoStorageUnavailableException;
 import com.yomora.identity.web.UserNotFoundException;
 import com.yomora.library.application.InvalidBookProgressException;
 import com.yomora.library.application.LibraryConflictException;
@@ -18,6 +19,7 @@ import com.yomora.review.application.NoteNotFoundException;
 import com.yomora.review.application.ReviewNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -72,6 +74,16 @@ class GlobalExceptionHandler {
     @ExceptionHandler(ContentForbiddenException.class)
     ProblemDetail forbidden(ContentForbiddenException exception) {
         return problem(HttpStatus.FORBIDDEN, "Operação não permitida", exception.getMessage());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    ProblemDetail accessDenied(AccessDeniedException exception) {
+        return problem(HttpStatus.FORBIDDEN, "Acesso negado", exception.getMessage());
+    }
+
+    @ExceptionHandler(ProfilePhotoStorageUnavailableException.class)
+    ProblemDetail storageUnavailable(ProfilePhotoStorageUnavailableException exception) {
+        return problem(HttpStatus.SERVICE_UNAVAILABLE, "Armazenamento indisponível", exception.getMessage());
     }
 
     @ExceptionHandler(InvalidFollowException.class)

@@ -17,6 +17,7 @@ tags:
   - name: Social
   - name: Reviews
   - name: Moderation
+  - name: Admin Moderation
 paths:
   /auth/register:
     post:
@@ -408,6 +409,77 @@ paths:
         required: true
         content: {application/json: {schema: {type: object, required: [reason], properties: {reportedUserId: {type: [string, 'null'], format: uuid}, postId: {type: [string, 'null'], format: uuid}, reason: {type: string, maxLength: 100}, details: {type: [string, 'null'], maxLength: 2000}}}}}
       responses: {'201': {description: Denúncia criada}}
+  /community/access:
+    get:
+      tags: [Moderation]
+      summary: Consultar acesso do usuário autenticado à Comunidade
+      responses:
+        '200': {description: Situação do acesso, content: {application/json: {schema: {$ref: '#/components/schemas/CommunityAccess'}}}}
+  /users/me/avatar/upload-url:
+    post:
+      tags: [Users]
+      summary: Criar URL temporária para upload privado da foto de perfil
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [contentType, contentLength], properties: {contentType: {type: string, enum: [image/jpeg, image/png, image/webp]}, contentLength: {type: integer, minimum: 1, maximum: 5242880}}}}}
+      responses:
+        '200': {description: Upload autorizado, content: {application/json: {schema: {$ref: '#/components/schemas/ProfilePhotoUpload'}}}}
+        '503': {$ref: '#/components/responses/Problem'}
+  /users/me/avatar/complete:
+    post:
+      tags: [Users]
+      summary: Confirmar upload da foto e ativá-la no perfil
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [objectKey], properties: {objectKey: {type: string, maxLength: 500}}}}}
+      responses:
+        '200': {description: Perfil atualizado, content: {application/json: {schema: {$ref: '#/components/schemas/UserProfile'}}}}
+  /admin/moderation/reports:
+    get:
+      tags: [Admin Moderation]
+      summary: Listar denúncias por situação
+      parameters:
+        - {name: status, in: query, schema: {type: string, enum: [OPEN, REVIEWED, DISMISSED, ACTIONED], default: OPEN}}
+      responses:
+        '200': {description: Denúncias, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/Report'}}}}}
+        '403': {$ref: '#/components/responses/Problem'}
+  /admin/moderation/reports/{reportId}:
+    parameters: [{name: reportId, in: path, required: true, schema: {type: string, format: uuid}}]
+    patch:
+      tags: [Admin Moderation]
+      summary: Registrar decisão sobre uma denúncia
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [status], properties: {status: {type: string, enum: [OPEN, REVIEWED, DISMISSED, ACTIONED]}}}}}
+      responses:
+        '200': {description: Denúncia atualizada, content: {application/json: {schema: {$ref: '#/components/schemas/Report'}}}}
+        '403': {$ref: '#/components/responses/Problem'}
+  /admin/moderation/suspensions:
+    post:
+      tags: [Admin Moderation]
+      summary: Suspender o acesso de um usuário à Comunidade
+      requestBody:
+        required: true
+        content: {application/json: {schema: {type: object, required: [userId, days, reason], properties: {userId: {type: string, format: uuid}, days: {type: integer, enum: [1, 7, 30]}, reason: {type: string, maxLength: 500}}}}}
+      responses:
+        '201': {description: Suspensão criada, content: {application/json: {schema: {$ref: '#/components/schemas/CommunitySuspension'}}}}
+        '403': {$ref: '#/components/responses/Problem'}
+  /admin/moderation/suspensions/{suspensionId}:
+    parameters: [{name: suspensionId, in: path, required: true, schema: {type: string, format: uuid}}]
+    delete:
+      tags: [Admin Moderation]
+      summary: Reverter manualmente uma suspensão
+      responses:
+        '200': {description: Suspensão revertida, content: {application/json: {schema: {$ref: '#/components/schemas/CommunitySuspension'}}}}
+        '403': {$ref: '#/components/responses/Problem'}
+  /admin/moderation/users/{userId}/community-access:
+    parameters: [{name: userId, in: path, required: true, schema: {type: string, format: uuid}}]
+    get:
+      tags: [Admin Moderation]
+      summary: Consultar a situação de acesso de um usuário
+      responses:
+        '200': {description: Situação do acesso, content: {application/json: {schema: {$ref: '#/components/schemas/CommunityAccess'}}}}
+        '403': {$ref: '#/components/responses/Problem'}
 components:
   securitySchemes:
     bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
@@ -446,11 +518,27 @@ components:
     UpdateProfileRequest:
       type: object
       required: [name, username, bio, publicProfile]
-      properties: {name: {type: string}, username: {type: string}, bio: {type: string, maxLength: 500}, avatarUrl: {type: [string, 'null'], format: uri}, publicProfile: {type: boolean}}
+      properties: {name: {type: string}, username: {type: string}, bio: {type: string, maxLength: 500}, publicProfile: {type: boolean}}
     UserProfile:
       type: object
       required: [id, name, username, bio, publicProfile, followers, following, finishedBooks, totalReadingMinutes, currentStreak, createdAt]
       properties: {id: {type: string, format: uuid}, name: {type: string}, username: {type: string}, email: {type: [string, 'null'], format: email}, bio: {type: string}, avatarUrl: {type: [string, 'null']}, publicProfile: {type: boolean}, followers: {type: integer}, following: {type: integer}, finishedBooks: {type: integer}, totalReadingMinutes: {type: integer}, currentStreak: {type: integer}, createdAt: {type: string, format: date-time}}
+    ProfilePhotoUpload:
+      type: object
+      required: [objectKey, uploadUrl, expiresAt]
+      properties: {objectKey: {type: string}, uploadUrl: {type: string, format: uri}, expiresAt: {type: string, format: date-time}}
+    CommunityAccess:
+      type: object
+      required: [allowed]
+      properties: {allowed: {type: boolean}, suspendedUntil: {type: [string, 'null'], format: date-time}, reason: {type: [string, 'null']}}
+    Report:
+      type: object
+      required: [id, reporterId, reason, status, createdAt]
+      properties: {id: {type: string, format: uuid}, reporterId: {type: string, format: uuid}, reportedUserId: {type: [string, 'null'], format: uuid}, postId: {type: [string, 'null'], format: uuid}, reason: {type: string}, details: {type: [string, 'null']}, status: {type: string, enum: [OPEN, REVIEWED, DISMISSED, ACTIONED]}, createdAt: {type: string, format: date-time}}
+    CommunitySuspension:
+      type: object
+      required: [id, userId, reason, startsAt, endsAt, createdBy, createdAt]
+      properties: {id: {type: string, format: uuid}, userId: {type: string, format: uuid}, reason: {type: string}, startsAt: {type: string, format: date-time}, endsAt: {type: string, format: date-time}, createdBy: {type: string, format: uuid}, reversedAt: {type: [string, 'null'], format: date-time}, reversedBy: {type: [string, 'null'], format: uuid}, createdAt: {type: string, format: date-time}}
     Book:
       type: object
       required: [workId, editionId, title, description, authors, categories, language]
