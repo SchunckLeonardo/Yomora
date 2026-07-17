@@ -59,6 +59,7 @@
 		CA64EE5AAD24908A5BD7339C /* ReadingTimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F235E2F0B4067A3D3CF3ABBC /* ReadingTimerTests.swift */; };
 		CC65F2EAD280143910287278 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C2C3336A394FE47A454AD6E /* Assets.xcassets */; };
 		D53C7A2A7B63DDA2E6943B1F /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2215BE91C77ADBBEB079C8E7 /* AuthenticationView.swift */; };
+		DCBE52B9D417238E96149290 /* ActivityInboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D160BD0821C1B003557F605 /* ActivityInboxView.swift */; };
 		E32E3B9CEE4876D6EBA3D63D /* SearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FF4C5AAF1437695E6AB765 /* SearchViewModelTests.swift */; };
 		E33C9AE4ECD9C0826D332A2D /* ReadingReminderPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59886A65482003871CBB5E1B /* ReadingReminderPlannerTests.swift */; };
 		E4BED93F559377F864462036 /* YomoraLiveActivity.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1CFD7774EC895EEB798178D2 /* YomoraLiveActivity.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -129,6 +130,7 @@
 		4856F971E7EA4C2108C665E5 /* Info.plist.example */ = {isa = PBXFileReference; path = Info.plist.example; sourceTree = "<group>"; };
 		4A4356C26FF119225726CC95 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		4AA224813C98DC6C8F6A4B1B /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
+		4D160BD0821C1B003557F605 /* ActivityInboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityInboxView.swift; sourceTree = "<group>"; };
 		4D62EAC9C1119F57DB91FE9F /* ReadingSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSessionView.swift; sourceTree = "<group>"; };
 		51AC79F5B483C2C2D5D762F1 /* AppNavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationCoordinator.swift; sourceTree = "<group>"; };
 		562995E8DEC6A4232FDF79F0 /* ActiveReadingSessionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveReadingSessionCoordinator.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 		58E7820DC7A3286C6D1AEEDE /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				4D160BD0821C1B003557F605 /* ActivityInboxView.swift */,
 				441653B834F985A0E8CAB165 /* FeedView.swift */,
 				7B97DE26C516A27D73325DA1 /* FeedViewModel.swift */,
 			);
@@ -623,6 +626,7 @@
 				67E1C9C0B837E855D06C956D /* APIModels.swift in Sources */,
 				A61016EE88F3554159196F6D /* ActiveReadingSessionBanner.swift in Sources */,
 				6083B435F24B4F1E4A5A9378 /* ActiveReadingSessionCoordinator.swift in Sources */,
+				DCBE52B9D417238E96149290 /* ActivityInboxView.swift in Sources */,
 				87DE58F5FFB8EEC8D725DDFC /* AppContainer.swift in Sources */,
 				783D9F2CA4172D371D850AA1 /* AppNavigationCoordinator.swift in Sources */,
 				7E52599BB0C078A1E5F11600 /* AppRouter.swift in Sources */,

@@ -3,6 +3,9 @@ package com.yomora;
 import com.yomora.catalog.domain.BookCandidate;
 import com.yomora.catalog.domain.BookCatalogRepository;
 import com.yomora.social.domain.Post;
+import com.yomora.social.domain.ActivityRepository;
+import com.yomora.social.domain.ActivityType;
+import com.yomora.social.domain.CommunityActivity;
 import com.yomora.social.domain.PostType;
 import com.yomora.social.domain.FollowStatus;
 import com.yomora.social.domain.SocialRepository;
@@ -36,6 +39,9 @@ class PersistenceQueryIntegrationTest {
 
     @Autowired
     SocialRepository socialRepository;
+
+    @Autowired
+    ActivityRepository activityRepository;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -167,6 +173,23 @@ class PersistenceQueryIntegrationTest {
         var discovered = socialRepository.discover(viewerId, null, 20);
 
         assertThat(discovered).extracting(Post::id).doesNotContain(post.id());
+    }
+
+    @Test
+    void persistsCommunityActivitiesInChronologicalInbox() {
+        UUID recipientId = UUID.randomUUID();
+        UUID actorId = UUID.randomUUID();
+        insertUser(recipientId, "activity-recipient");
+        insertUser(actorId, "activity-actor");
+        CommunityActivity activity = new CommunityActivity(
+                UUID.randomUUID(), recipientId, actorId, ActivityType.USER_FOLLOWED,
+                null, false, NOW
+        );
+
+        activityRepository.save(activity);
+        entityManager.flush();
+
+        assertThat(activityRepository.list(recipientId, 20)).containsExactly(activity);
     }
 
     @Test

@@ -19,10 +19,11 @@ public class SocialService {
     private final SocialRepository repository;
     private final ProfileVisibility profileVisibility;
     private final SocialBlockPolicy blockPolicy;
+    private final ActivityPublisher activityPublisher;
     private final Clock clock;
 
     public SocialService(SocialRepository repository, Clock clock) {
-        this(repository, ignored -> true, (first, second) -> false, clock);
+        this(repository, ignored -> true, (first, second) -> false, ActivityPublisher.noOp(), clock);
     }
 
     public SocialService(
@@ -31,9 +32,20 @@ public class SocialService {
             SocialBlockPolicy blockPolicy,
             Clock clock
     ) {
+        this(repository, profileVisibility, blockPolicy, ActivityPublisher.noOp(), clock);
+    }
+
+    public SocialService(
+            SocialRepository repository,
+            ProfileVisibility profileVisibility,
+            SocialBlockPolicy blockPolicy,
+            ActivityPublisher activityPublisher,
+            Clock clock
+    ) {
         this.repository = repository;
         this.profileVisibility = profileVisibility;
         this.blockPolicy = blockPolicy;
+        this.activityPublisher = activityPublisher;
         this.clock = clock;
     }
 
@@ -101,8 +113,10 @@ public class SocialService {
 
     @Transactional
     public Post like(UUID userId, UUID postId) {
-        getPostFor(userId, postId);
-        repository.setLike(postId, userId, true);
+        Post post = getPostFor(userId, postId);
+        if (repository.setLike(postId, userId, true)) {
+            activityPublisher.postLiked(post.authorId(), userId, postId);
+        }
         return getPostFor(userId, postId);
     }
 
@@ -115,10 +129,12 @@ public class SocialService {
 
     @Transactional
     public Comment comment(UUID authorId, UUID postId, String text) {
-        getPostFor(authorId, postId);
-        return repository.saveComment(new Comment(
+        Post post = getPostFor(authorId, postId);
+        Comment comment = repository.saveComment(new Comment(
                 UUID.randomUUID(), postId, authorId, normalizeText(text), clock.instant()
         ));
+        activityPublisher.postCommented(post.authorId(), authorId, postId);
+        return comment;
     }
 
     @Transactional
@@ -147,7 +163,13 @@ public class SocialService {
         FollowStatus requested = profileVisibility.isPublic(followedId)
                 ? FollowStatus.ACCEPTED
                 : FollowStatus.PENDING;
-        return repository.setFollowing(followerId, followedId, requested);
+        FollowStatus result = repository.setFollowing(followerId, followedId, requested);
+        if (current == null && result == FollowStatus.PENDING) {
+            activityPublisher.followRequested(followedId, followerId);
+        } else if (current == null && result == FollowStatus.ACCEPTED) {
+            activityPublisher.followed(followedId, followerId);
+        }
+        return result;
     }
 
     @Transactional
@@ -172,6 +194,7 @@ public class SocialService {
             throw new InvalidFollowException("A solicitação para seguir já foi processada");
         }
         repository.setFollowing(followerId, followedId, FollowStatus.ACCEPTED);
+        activityPublisher.followAccepted(followerId, followedId);
     }
 
     @Transactional

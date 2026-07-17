@@ -35,22 +35,21 @@ struct UserAvatar: View {
 
 struct PostCard: View {
     let post: Post
+    var api: (any APIClientProtocol)?
     var isLiked = false
     var onOpen: (() -> Void)?
     var onLike: (() -> Void)?
     var onComment: (() -> Void)?
 
+    @State private var author: UserProfile?
+    @State private var spoilerRevealed = false
+
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         VStack(alignment: .leading, spacing: YomoraSpacing.md) {
-            if let onOpen {
-                Button(action: onOpen) { editorialContent }
-                    .buttonStyle(.plain)
-                    .accessibilityHint("Abre a publicação e a conversa")
-            } else {
-                editorialContent
-            }
+            authorHeader
+            postContent
 
             HStack(spacing: YomoraSpacing.sm) {
                 if let onLike {
@@ -93,23 +92,36 @@ struct PostCard: View {
         .background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: YomoraRadius.card))
         .overlay(RoundedRectangle(cornerRadius: YomoraRadius.card).stroke(YomoraColor.outline.opacity(0.58)))
         .shadow(color: .black.opacity(colorScheme == .dark ? 0.26 : 0.06), radius: 12, y: 5)
+        .task(id: post.authorId) {
+            guard author == nil, let api else { return }
+            author = try? await api.send(
+                Endpoint(path: "/api/v1/users/\(post.authorId)"),
+                as: UserProfile.self
+            )
+        }
     }
 
-    private var editorialContent: some View {
-        VStack(alignment: .leading, spacing: 13) {
-            HStack(spacing: 11) {
-                UserAvatar(url: nil)
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("Leitor Yomora").font(.subheadline.weight(.semibold)).foregroundStyle(YomoraColor.textPrimary)
-                    HStack(spacing: 5) {
-                        Text(post.type.localizedTitle)
-                        Text("·")
-                        Text(SocialDate.relative(post.createdAt))
+    private var authorHeader: some View {
+        HStack(spacing: 11) {
+            NavigationLink(value: AppRoute.profile(post.authorId)) {
+                HStack(spacing: 11) {
+                    UserAvatar(url: author?.avatarUrl)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(author?.name ?? "Leitor Yomora")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(YomoraColor.textPrimary)
+                        Text("@\(author?.username ?? "leitor")")
+                            .font(.caption)
+                            .foregroundStyle(YomoraColor.textSecondary)
                     }
+                }
+            }
+            .buttonStyle(.plain)
+            Spacer(minLength: 8)
+            VStack(alignment: .trailing, spacing: 5) {
+                Text("\(post.type.localizedTitle) · \(SocialDate.relative(post.createdAt))")
                     .font(.caption)
                     .foregroundStyle(YomoraColor.textSecondary)
-                }
-                Spacer(minLength: 8)
                 if post.spoiler {
                     Label("Spoiler", systemImage: "eye.slash")
                         .font(.caption.weight(.semibold))
@@ -118,14 +130,49 @@ struct PostCard: View {
                         .background(YomoraColor.progressGold.opacity(0.12), in: Capsule())
                 }
             }
-            Text(post.text)
-                .font(.yomoraEditorial)
-                .foregroundStyle(YomoraColor.textPrimary)
-                .multilineTextAlignment(.leading)
-                .lineSpacing(4)
-                .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .contentShape(Rectangle())
+    }
+
+    @ViewBuilder
+    private var postContent: some View {
+        if post.spoiler && !spoilerRevealed {
+            Button {
+                withAnimation(.easeInOut(duration: 0.2)) { spoilerRevealed = true }
+            } label: {
+                VStack(alignment: .leading, spacing: 3) {
+                    Label("Conteúdo com spoiler", systemImage: "eye.slash.fill")
+                        .font(.headline)
+                    Text("Toque para mostrar esta publicação.")
+                        .font(.subheadline)
+                }
+                .foregroundStyle(YomoraColor.textSecondary)
+                .frame(maxWidth: .infinity, minHeight: 96)
+                .background(YomoraColor.surfaceElevated, in: RoundedRectangle(cornerRadius: 14))
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Mostrar spoiler")
+        } else if let onOpen {
+            Button(action: onOpen) { postText }
+                .buttonStyle(.plain)
+                .accessibilityHint("Abre a publicação e a conversa")
+        } else {
+            postText
+        }
+        if post.editionId != nil {
+            Label("Publicação vinculada a um livro", systemImage: "book.closed")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(YomoraColor.sereneTeal)
+        }
+    }
+
+    private var postText: some View {
+        Text(post.text)
+            .font(.yomoraEditorial)
+            .foregroundStyle(YomoraColor.textPrimary)
+            .multilineTextAlignment(.leading)
+            .lineSpacing(4)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
     }
 
     private func interactionLabel(_ title: String, systemImage: String) -> some View {
@@ -138,14 +185,25 @@ struct PostCard: View {
 
 struct CommentCard: View {
     let comment: Comment
+    var api: (any APIClientProtocol)?
     var highlighted = false
+
+    @State private var author: UserProfile?
 
     var body: some View {
         HStack(alignment: .top, spacing: 11) {
-            UserAvatar(url: nil, size: 36)
+            UserAvatar(url: author?.avatarUrl, size: 36)
             VStack(alignment: .leading, spacing: 6) {
                 HStack(alignment: .firstTextBaseline) {
-                    Text("Leitor Yomora").font(.subheadline.weight(.semibold))
+                    NavigationLink(value: AppRoute.profile(comment.authorId)) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(author?.name ?? "Leitor Yomora").font(.subheadline.weight(.semibold))
+                            Text("@\(author?.username ?? "leitor")")
+                                .font(.caption)
+                                .foregroundStyle(YomoraColor.textSecondary)
+                        }
+                    }
+                    .buttonStyle(.plain)
                     Spacer()
                     Text(SocialDate.relative(comment.createdAt))
                         .font(.caption)
@@ -168,6 +226,13 @@ struct CommentCard: View {
                 .stroke(highlighted ? YomoraColor.sereneTeal.opacity(0.55) : YomoraColor.outline.opacity(0.35))
         )
         .accessibilityElement(children: .combine)
+        .task(id: comment.authorId) {
+            guard author == nil, let api else { return }
+            author = try? await api.send(
+                Endpoint(path: "/api/v1/users/\(comment.authorId)"),
+                as: UserProfile.self
+            )
+        }
     }
 }
 

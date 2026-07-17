@@ -11,6 +11,7 @@ struct FeedView: View {
     let container: AppContainer
     @State private var viewModel: FeedViewModel
     @State private var showingComposer = false
+    @State private var showingActivities = false
     @State private var selectedPost: Post?
 
     init(container: AppContainer) {
@@ -38,11 +39,18 @@ struct FeedView: View {
                                 ForEach(viewModel.posts) { post in
                                     PostCard(
                                         post: post,
+                                        api: container.api,
                                         isLiked: viewModel.isLiked(post),
                                         onOpen: { selectedPost = post },
                                         onLike: { Task { await viewModel.toggleLike(post) } },
                                         onComment: { selectedPost = post }
                                     )
+                                }
+                                if let interactionError = viewModel.interactionError {
+                                    Label(interactionError, systemImage: "arrow.counterclockwise.circle")
+                                        .font(.footnote)
+                                        .foregroundStyle(YomoraColor.danger)
+                                        .padding()
                                 }
                             }
                             .padding(.horizontal, YomoraSpacing.md)
@@ -53,9 +61,17 @@ struct FeedView: View {
             }
         }
         .navigationTitle("Comunidade")
-        .toolbar { ToolbarItem(placement: .topBarTrailing) { Button { showingComposer = true } label: { Label("Publicar", systemImage: "square.and.pencil") } } }
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Button { showingActivities = true } label: { Label("Atividades", systemImage: "bell") }
+                Button { showingComposer = true } label: { Label("Publicar", systemImage: "square.and.pencil") }
+            }
+        }
         .sheet(isPresented: $showingComposer, onDismiss: { Task { await viewModel.load() } }) {
             NavigationStack { PostComposerView(api: container.api) }
+        }
+        .sheet(isPresented: $showingActivities) {
+            NavigationStack { ActivityInboxView(api: container.api) }
         }
         .navigationDestination(item: $selectedPost) { post in
             PostDetailsView(
@@ -106,6 +122,7 @@ struct PostDetailsView: View {
                     LazyVStack(alignment: .leading, spacing: YomoraSpacing.md) {
                         PostCard(
                             post: currentPost,
+                            api: api,
                             isLiked: isLiked,
                             onLike: { Task { await toggleLike() } },
                             onComment: { isComposerFocused = true }
@@ -142,7 +159,7 @@ struct PostDetailsView: View {
                             .background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: YomoraRadius.card))
                         } else {
                             ForEach(comments) { comment in
-                                CommentCard(comment: comment, highlighted: highlightedCommentID == comment.id)
+                                CommentCard(comment: comment, api: api, highlighted: highlightedCommentID == comment.id)
                                     .id(comment.id)
                             }
                         }
@@ -242,14 +259,24 @@ struct PostDetailsView: View {
 
     private func toggleLike() async {
         let shouldLike = !isLiked
+        let originalPost = currentPost
+        let originalLiked = isLiked
+        currentPost = currentPost.updatingEngagement(
+            likeCount: max(0, currentPost.likeCount + (shouldLike ? 1 : -1))
+        )
+        withAnimation(.spring(response: 0.32, dampingFraction: 0.72)) { isLiked = shouldLike }
+        onPostChange?(currentPost, shouldLike)
+
         var endpoint = Endpoint(path: "/api/v1/posts/\(post.id)/likes", method: shouldLike ? .post : .delete)
         if shouldLike { endpoint.body = Data("{}".utf8) }
         do {
             currentPost = try await api.send(endpoint, as: Post.self)
-            withAnimation(.spring(response: 0.32, dampingFraction: 0.72)) { isLiked = shouldLike }
             onPostChange?(currentPost, shouldLike)
             interactionError = nil
         } catch {
+            currentPost = originalPost
+            withAnimation(.easeOut(duration: 0.2)) { isLiked = originalLiked }
+            onPostChange?(currentPost, originalLiked)
             interactionError = error.localizedDescription
         }
     }

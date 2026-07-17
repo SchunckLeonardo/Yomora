@@ -128,6 +128,19 @@ final class FeedViewModelTests: XCTestCase {
         XCTAssertEqual(methods, [.get, .post, .delete])
     }
 
+    func testFailedOptimisticLikeRollsBackCountAndSelection() async {
+        let post = makePost(likeCount: 2)
+        let api = FailingFeedEngagementAPI(post: post)
+        let viewModel = FeedViewModel(api: api)
+        await viewModel.load()
+
+        await viewModel.toggleLike(post)
+
+        XCTAssertFalse(viewModel.isLiked(post))
+        XCTAssertEqual(viewModel.posts.first?.likeCount, 2)
+        XCTAssertNotNil(viewModel.interactionError)
+    }
+
     private func makePost(likeCount: Int) -> Post {
         Post(
             id: UUID(),
@@ -144,6 +157,21 @@ final class FeedViewModelTests: XCTestCase {
             commentCount: 2
         )
     }
+}
+
+private actor FailingFeedEngagementAPI: APIClientProtocol {
+    let post: Post
+
+    init(post: Post) { self.post = post }
+
+    func send<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T {
+        if endpoint.path.hasSuffix("/likes") {
+            throw APIError.server(status: 503, message: "Tente novamente")
+        }
+        return try JSONDecoder().decode(T.self, from: [post].encoded)
+    }
+
+    func sendVoid(_ endpoint: Endpoint) async throws { }
 }
 
 private actor FeedEngagementAPI: APIClientProtocol {
