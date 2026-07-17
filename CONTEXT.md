@@ -67,3 +67,7 @@ _Avoid_: Exposição do denunciante, aviso genérico sem prazo
 **Assinatura de autoria**:
 A identificação exibida com uma publicação ou comentário, composta por avatar, nome e @usuário de seu autor. O toque na assinatura abre o Perfil quando a pessoa observadora tem permissão para acessá-lo.
 _Avoid_: Leitor Yomora genérico, autoria anônima
+
+**Foto de perfil**:
+A imagem personalizada escolhida por uma pessoa para representar seu avatar na Assinatura de autoria e no Perfil.
+_Avoid_: Avatar gerado, imagem de uma publicação
