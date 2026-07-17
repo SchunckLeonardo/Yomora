@@ -38,6 +38,7 @@ struct PostCard: View {
     var api: (any APIClientProtocol)?
     var isLiked = false
     var onOpen: (() -> Void)?
+    var onOpenProfile: (() -> Void)?
     var onLike: (() -> Void)?
     var onComment: (() -> Void)?
     var onReport: (() -> Void)?
@@ -104,20 +105,7 @@ struct PostCard: View {
 
     private var authorHeader: some View {
         HStack(spacing: 11) {
-            NavigationLink(value: AppRoute.profile(post.authorId)) {
-                HStack(spacing: 11) {
-                    UserAvatar(url: author?.avatarUrl)
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text(author?.name ?? "Leitor Yomora")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(YomoraColor.textPrimary)
-                        Text("@\(author?.username ?? "leitor")")
-                            .font(.caption)
-                            .foregroundStyle(YomoraColor.textSecondary)
-                    }
-                }
-            }
-            .buttonStyle(.plain)
+            authorProfileControl
             Spacer(minLength: 8)
             VStack(alignment: .trailing, spacing: 5) {
                 Text("\(post.type.localizedTitle) · \(SocialDate.relative(post.createdAt))")
@@ -141,6 +129,35 @@ struct PostCard: View {
                         .frame(width: 32, height: 32)
                 }
                 .accessibilityLabel("Opções da publicação")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var authorProfileControl: some View {
+        if let onOpenProfile {
+            Button(action: onOpenProfile) { authorIdentity }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("postAuthorProfileButton_\(post.id)")
+        } else {
+            NavigationLink(value: AppRoute.profile(post.authorId)) {
+                authorIdentity
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("postAuthorProfileButton_\(post.id)")
+        }
+    }
+
+    private var authorIdentity: some View {
+        HStack(spacing: 11) {
+            UserAvatar(url: author?.avatarUrl)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(author?.name ?? "Leitor Yomora")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(YomoraColor.textPrimary)
+                Text("@\(author?.username ?? "leitor")")
+                    .font(.caption)
+                    .foregroundStyle(YomoraColor.textSecondary)
             }
         }
     }
@@ -199,15 +216,20 @@ struct CommentCard: View {
     let comment: Comment
     var api: (any APIClientProtocol)?
     var highlighted = false
+    let onOpenProfile: () -> Void
 
     @State private var author: UserProfile?
 
     var body: some View {
         HStack(alignment: .top, spacing: 11) {
-            UserAvatar(url: author?.avatarUrl, size: 36)
+            Button(action: onOpenProfile) {
+                UserAvatar(url: author?.avatarUrl, size: 36)
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("commentAuthorProfileButton_\(comment.id)")
             VStack(alignment: .leading, spacing: 6) {
                 HStack(alignment: .firstTextBaseline) {
-                    NavigationLink(value: AppRoute.profile(comment.authorId)) {
+                    Button(action: onOpenProfile) {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(author?.name ?? "Leitor Yomora").font(.subheadline.weight(.semibold))
                             Text("@\(author?.username ?? "leitor")")
@@ -237,7 +259,7 @@ struct CommentCard: View {
             RoundedRectangle(cornerRadius: 16)
                 .stroke(highlighted ? YomoraColor.sereneTeal.opacity(0.55) : YomoraColor.outline.opacity(0.35))
         )
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .contain)
         .task(id: comment.authorId) {
             guard author == nil, let api else { return }
             author = try? await api.send(

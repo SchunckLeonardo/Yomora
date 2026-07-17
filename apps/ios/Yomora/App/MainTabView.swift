@@ -40,7 +40,7 @@ struct MainTabView: View {
                 .tabItem { Label("Ler", systemImage: "timer") }
                 .tag(MainTab.read)
             FeatureNavigation(container: container, session: session, onExitToToday: selectToday, activeSessionRouteRequest: 0) {
-                CommunityAccessView(container: container)
+                CommunityAccessView(container: container, session: session)
                     .id(selectedTab == .community)
             }
                 .tabItem { Label("Comunidade", systemImage: "person.2") }
@@ -161,7 +161,7 @@ private struct FeatureNavigation<Content: View>: View {
                             title: "Sua leitura",
                             onExitToToday: finishReadingFlow
                         )
-                    case let .post(post): PostDetailsView(post: post, api: container.api)
+                    case let .post(post): PostDetailsView(post: post, container: container, session: session)
                     case .composer: PostComposerView(api: container.api)
                     case let .profile(id): ProfileView(userId: id, container: container, session: session)
                     case let .followers(id): FollowersView(userId: id, api: container.api)

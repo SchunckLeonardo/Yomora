@@ -15,7 +15,9 @@ struct BookDetailsView: View {
                 HStack(alignment: .top, spacing: 20) {
                     BookCover(url: book.coverUrl, width: 120, height: 178)
                     VStack(alignment: .leading, spacing: 10) {
-                        Text(book.title).font(.yomoraTitle)
+                        Text(book.title)
+                            .font(.yomoraTitle)
+                            .accessibilityIdentifier("bookDetailsTitle")
                         Text(book.authorLine).foregroundStyle(.secondary)
                         if let pages = book.pageCount { Label("\(pages) páginas", systemImage: "book.pages") }
                         ShareLink(item: URL(string: "https://yomora.app/books/\(book.editionId)")!) {
@@ -42,7 +44,11 @@ struct BookDetailsView: View {
                         Task { await add() }
                     }.accessibilityIdentifier("addToLibraryButton")
                 }
-            }.padding()
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("bookDetailsContent")
         }
         .navigationTitle("Detalhes")
         .navigationBarTitleDisplayMode(.inline)

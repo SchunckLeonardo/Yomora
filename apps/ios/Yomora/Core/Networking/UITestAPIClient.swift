@@ -3,12 +3,15 @@ import Foundation
 
 actor UITestAPIClient: APIClientProtocol {
     private let userId = UUID(uuidString: "10000000-0000-0000-0000-000000000001")!
+    private let actorId = UUID(uuidString: "10000000-0000-0000-0000-000000000002")!
     private let workId = UUID(uuidString: "20000000-0000-0000-0000-000000000001")!
     private let editionId = UUID(uuidString: "30000000-0000-0000-0000-000000000001")!
     private let libraryId = UUID(uuidString: "40000000-0000-0000-0000-000000000001")!
     private let sessionId = UUID(uuidString: "60000000-0000-0000-0000-000000000001")!
     private let postId = UUID(uuidString: "70000000-0000-0000-0000-000000000001")!
     private let commentId = UUID(uuidString: "80000000-0000-0000-0000-000000000001")!
+    private let followActivityId = UUID(uuidString: "71000000-0000-0000-0000-000000000001")!
+    private let postActivityId = UUID(uuidString: "72000000-0000-0000-0000-000000000001")!
     private var libraryAdded = false
     private var libraryStatus = ReadingStatus.reading
     private var currentPage = 96
@@ -16,6 +19,7 @@ actor UITestAPIClient: APIClientProtocol {
     private var sessionActive = false
     private var sessionPausedAt: String?
     private var sessionPausedSeconds = 0
+    private var readActivityIds: Set<UUID> = []
 
     func send<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T {
         let value: any Encodable
@@ -27,6 +31,16 @@ actor UITestAPIClient: APIClientProtocol {
                                 bio: "Lendo um pouco todos os dias.", avatarUrl: nil, publicProfile: true,
                                 followers: 1, following: 1, finishedBooks: 3, totalReadingMinutes: 480,
                                 currentStreak: 7, createdAt: "2026-07-01T12:00:00Z")
+        case (.get, "/api/v1/users/\(userId)"):
+            value = UserProfile(id: userId, name: "Marina Leitora", username: "marina", email: "marina@yomora.local",
+                                bio: "Lendo um pouco todos os dias.", avatarUrl: nil, publicProfile: true,
+                                followers: 1, following: 1, finishedBooks: 3, totalReadingMinutes: 480,
+                                currentStreak: 7, createdAt: "2026-07-01T12:00:00Z")
+        case (.get, "/api/v1/users/\(actorId)"):
+            value = UserProfile(id: actorId, name: "Maurício Leitor", username: "mauricio", email: nil,
+                                bio: "Ficção, história e boas conversas.", avatarUrl: nil, publicProfile: true,
+                                followers: 4, following: 3, finishedBooks: 8, totalReadingMinutes: 920,
+                                currentStreak: 11, createdAt: "2026-06-01T12:00:00Z")
         case (.get, "/api/v1/books/search"), (.get, "/api/v1/books/\(editionId)"):
             value = endpoint.path.hasSuffix("search") ? [book] : book
         case (.post, "/api/v1/library/books"):
@@ -86,8 +100,18 @@ actor UITestAPIClient: APIClientProtocol {
             value = CommunityAccess(allowed: true, suspendedUntil: nil, reason: nil)
         case (.get, "/api/v1/posts/feed"), (.get, "/api/v1/posts/discover"):
             value = [post]
+        case (.get, "/api/v1/posts/\(postId)"):
+            value = post
         case (.get, "/api/v1/posts/\(postId)/comments"):
             value = [comment]
+        case (.get, "/api/v1/community/activities"):
+            value = activities
+        case (.patch, "/api/v1/community/activities/\(followActivityId)/read"):
+            readActivityIds.insert(followActivityId)
+            value = activity(id: followActivityId, type: .userFollowed, postId: nil)
+        case (.patch, "/api/v1/community/activities/\(postActivityId)/read"):
+            readActivityIds.insert(postActivityId)
+            value = activity(id: postActivityId, type: .postLiked, postId: postId)
         case (.get, "/api/v1/shelves"):
             value = [Shelf]()
         default:
@@ -138,15 +162,34 @@ actor UITestAPIClient: APIClientProtocol {
     }
 
     private var post: Post {
-        Post(id: postId, authorId: userId, text: "Uma leitura acolhedora sobre recomeços. Recomendo!",
+        Post(id: postId, authorId: actorId, text: "Uma leitura acolhedora sobre recomeços. Recomendo!",
              editionId: editionId, type: .recommendation, spoiler: false, spoilerPage: nil,
              visibility: .publicPost, createdAt: "2026-07-14T12:00:00Z", updatedAt: "2026-07-14T12:00:00Z",
              likeCount: 1, commentCount: 1)
     }
 
     private var comment: Comment {
-        Comment(id: commentId, postId: postId, authorId: userId, text: "Concordo!",
+        Comment(id: commentId, postId: postId, authorId: actorId, text: "Concordo!",
                 createdAt: "2026-07-14T12:05:00Z")
+    }
+
+    private var activities: [CommunityActivity] {
+        [
+            activity(id: followActivityId, type: .userFollowed, postId: nil),
+            activity(id: postActivityId, type: .postLiked, postId: postId)
+        ]
+    }
+
+    private func activity(id: UUID, type: CommunityActivityType, postId: UUID?) -> CommunityActivity {
+        CommunityActivity(
+            id: id,
+            recipientId: userId,
+            actorId: actorId,
+            type: type,
+            postId: postId,
+            read: readActivityIds.contains(id),
+            createdAt: ISO8601DateFormatter().string(from: Date().addingTimeInterval(-120))
+        )
     }
 }
 

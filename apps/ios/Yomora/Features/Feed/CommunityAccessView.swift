@@ -34,10 +34,12 @@ final class CommunityAccessViewModel {
 
 struct CommunityAccessView: View {
     let container: AppContainer
+    let session: SessionStore
     @State private var model: CommunityAccessViewModel
 
-    init(container: AppContainer) {
+    init(container: AppContainer, session: SessionStore) {
         self.container = container
+        self.session = session
         _model = State(initialValue: CommunityAccessViewModel(api: container.api))
     }
 
@@ -48,7 +50,7 @@ struct CommunityAccessView: View {
                 ProgressView("Verificando acesso à Comunidade…")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             case .allowed:
-                FeedView(container: container)
+                FeedView(container: container, session: session)
             case let .suspended(access):
                 suspendedView(access)
             case let .error(message):

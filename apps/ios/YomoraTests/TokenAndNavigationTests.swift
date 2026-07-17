@@ -21,6 +21,35 @@ final class TokenAndNavigationTests: XCTestCase {
     }
 }
 
+@MainActor
+final class ActivityInboxTests: XCTestCase {
+    func testFormatsActivityDatesForPeopleInsteadOfShowingRawISO8601() throws {
+        let now = try XCTUnwrap(
+            ISO8601DateFormatter().date(from: "2026-07-17T18:22:04Z")
+        )
+
+        XCTAssertEqual(
+            ActivityDate.display(
+                "2026-07-17T18:20:03.433567Z",
+                relativeTo: now,
+                timeZone: try XCTUnwrap(TimeZone(secondsFromGMT: 0))
+            ),
+            "há 2 min"
+        )
+    }
+
+    func testMarkingActivityAsReadUpdatesUnreadBadgeCount() async {
+        let api = ActivityInboxAPI()
+        let model = ActivityInboxViewModel(api: api)
+
+        await model.load()
+        XCTAssertEqual(model.unreadCount, 2)
+
+        await model.markRead(model.activities[0])
+        XCTAssertEqual(model.unreadCount, 1)
+    }
+}
+
 final class YomoraDesignTests: XCTestCase {
     func testDarkPaletteKeepsReadingTextAtAAContrast() {
         let canvas = resolvedRGB(YomoraColor.canvas, style: .dark)
@@ -169,6 +198,61 @@ private actor FailingFeedEngagementAPI: APIClientProtocol {
             throw APIError.server(status: 503, message: "Tente novamente")
         }
         return try JSONDecoder().decode(T.self, from: [post].encoded)
+    }
+
+    func sendVoid(_ endpoint: Endpoint) async throws { }
+}
+
+private actor ActivityInboxAPI: APIClientProtocol {
+    private let recipientId = UUID()
+    private let actorId = UUID()
+    private var activities: [CommunityActivity]
+
+    init() {
+        activities = [
+            CommunityActivity(
+                id: UUID(),
+                recipientId: recipientId,
+                actorId: actorId,
+                type: .userFollowed,
+                postId: nil,
+                read: false,
+                createdAt: "2026-07-17T18:20:03Z"
+            ),
+            CommunityActivity(
+                id: UUID(),
+                recipientId: recipientId,
+                actorId: actorId,
+                type: .postLiked,
+                postId: UUID(),
+                read: false,
+                createdAt: "2026-07-17T18:21:03Z"
+            )
+        ]
+    }
+
+    func send<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T {
+        let data: Data
+        if endpoint.method == .get, endpoint.path == "/api/v1/community/activities" {
+            data = activities.encoded
+        } else if endpoint.method == .patch,
+                  let id = activities.first(where: { endpoint.path.hasSuffix("/\($0.id)/read") })?.id,
+                  let index = activities.firstIndex(where: { $0.id == id }) {
+            let current = activities[index]
+            activities[index] = CommunityActivity(
+                id: current.id,
+                recipientId: current.recipientId,
+                actorId: current.actorId,
+                type: current.type,
+                postId: current.postId,
+                read: true,
+                createdAt: current.createdAt
+            )
+            data = activities[index].encoded
+        } else {
+            throw APIError.server(status: 404, message: endpoint.path)
+        }
+        return try JSONDecoder().decode(T.self, from: data)
     }
 
     func sendVoid(_ endpoint: Endpoint) async throws { }

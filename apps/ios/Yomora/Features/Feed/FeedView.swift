@@ -9,15 +9,21 @@ enum KeyboardLayout {
 
 struct FeedView: View {
     let container: AppContainer
+    let session: SessionStore
     @State private var viewModel: FeedViewModel
+    @State private var activityModel: ActivityInboxViewModel
     @State private var showingComposer = false
     @State private var showingActivities = false
     @State private var selectedPost: Post?
+    @State private var selectedProfileID: UUID?
+    @State private var pendingActivityDestination: CommunityActivityDestination?
     @State private var reportingPost: Post?
 
-    init(container: AppContainer) {
+    init(container: AppContainer, session: SessionStore) {
         self.container = container
+        self.session = session
         _viewModel = State(initialValue: FeedViewModel(api: container.api))
+        _activityModel = State(initialValue: ActivityInboxViewModel(api: container.api))
     }
 
     var body: some View {
@@ -65,15 +71,37 @@ struct FeedView: View {
         .navigationTitle("Comunidade")
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
-                Button { showingActivities = true } label: { Label("Atividades", systemImage: "bell") }
+                Button { showingActivities = true } label: {
+                    ZStack(alignment: .topTrailing) {
+                        Image(systemName: "bell")
+                        if activityModel.unreadCount > 0 {
+                            Text(activityModel.unreadCount > 99 ? "99+" : "\(activityModel.unreadCount)")
+                                .font(.system(size: 9, weight: .bold, design: .rounded))
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 4)
+                                .frame(minWidth: 16, minHeight: 16)
+                                .background(YomoraColor.danger, in: Capsule())
+                                .offset(x: 9, y: -8)
+                                .accessibilityHidden(true)
+                        }
+                    }
+                }
+                    .accessibilityLabel("Atividades")
+                    .accessibilityValue(activityAccessibilityValue)
+                    .accessibilityIdentifier("activityInboxButton")
                 Button { showingComposer = true } label: { Label("Publicar", systemImage: "square.and.pencil") }
             }
         }
         .sheet(isPresented: $showingComposer, onDismiss: { Task { await viewModel.load() } }) {
             NavigationStack { PostComposerView(api: container.api) }
         }
-        .sheet(isPresented: $showingActivities) {
-            NavigationStack { ActivityInboxView(api: container.api) }
+        .sheet(isPresented: $showingActivities, onDismiss: openPendingActivityDestination) {
+            NavigationStack {
+                ActivityInboxView(api: container.api, model: activityModel) { destination in
+                    pendingActivityDestination = destination
+                    showingActivities = false
+                }
+            }
         }
         .sheet(item: $reportingPost) { post in
             NavigationStack { ReportPostView(post: post, api: container.api) }
@@ -82,19 +110,39 @@ struct FeedView: View {
             PostDetailsView(
                 post: post,
                 initiallyLiked: viewModel.isLiked(post),
-                api: container.api,
+                container: container,
+                session: session,
                 onPostChange: { updated, liked in viewModel.apply(updated, liked: liked) }
             )
         }
+        .navigationDestination(item: $selectedProfileID) { userId in
+            ProfileView(userId: userId, container: container, session: session)
+        }
         .task(id: viewModel.kind) { await viewModel.load() }
+        .task { await activityModel.load() }
         .refreshable { await viewModel.load() }
         .background(YomoraColor.canvas)
+    }
+
+    private var activityAccessibilityValue: String {
+        let count = activityModel.unreadCount
+        return count == 1 ? "1 não lida" : "\(count) não lidas"
+    }
+
+    private func openPendingActivityDestination() {
+        guard let destination = pendingActivityDestination else { return }
+        pendingActivityDestination = nil
+        switch destination {
+        case let .profile(userId): selectedProfileID = userId
+        case let .post(post): selectedPost = post
+        }
     }
 }
 
 struct PostDetailsView: View {
     let post: Post
-    let api: any APIClientProtocol
+    let container: AppContainer
+    let session: SessionStore
     let onPostChange: ((Post, Bool?) -> Void)?
     @State private var currentPost: Post
     @State private var comments: [Comment] = []
@@ -105,17 +153,20 @@ struct PostDetailsView: View {
     @State private var interactionError: String?
     @State private var highlightedCommentID: UUID?
     @State private var showingReport = false
+    @State private var selectedProfileID: UUID?
     @State private var keyboardBottomInset: CGFloat = 0
     @FocusState private var isComposerFocused: Bool
 
     init(
         post: Post,
         initiallyLiked: Bool = false,
-        api: any APIClientProtocol,
+        container: AppContainer,
+        session: SessionStore,
         onPostChange: ((Post, Bool?) -> Void)? = nil
     ) {
         self.post = post
-        self.api = api
+        self.container = container
+        self.session = session
         self.onPostChange = onPostChange
         _currentPost = State(initialValue: post)
         _isLiked = State(initialValue: initiallyLiked)
@@ -128,8 +179,9 @@ struct PostDetailsView: View {
                     LazyVStack(alignment: .leading, spacing: YomoraSpacing.md) {
                         PostCard(
                             post: currentPost,
-                            api: api,
+                            api: container.api,
                             isLiked: isLiked,
+                            onOpenProfile: { selectedProfileID = currentPost.authorId },
                             onLike: { Task { await toggleLike() } },
                             onComment: { isComposerFocused = true },
                             onReport: { showingReport = true }
@@ -166,7 +218,12 @@ struct PostDetailsView: View {
                             .background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: YomoraRadius.card))
                         } else {
                             ForEach(comments) { comment in
-                                CommentCard(comment: comment, api: api, highlighted: highlightedCommentID == comment.id)
+                                CommentCard(
+                                    comment: comment,
+                                    api: container.api,
+                                    highlighted: highlightedCommentID == comment.id,
+                                    onOpenProfile: { selectedProfileID = comment.authorId }
+                                )
                                     .id(comment.id)
                             }
                         }
@@ -204,9 +261,12 @@ struct PostDetailsView: View {
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle("Publicação")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationDestination(item: $selectedProfileID) { userId in
+            ProfileView(userId: userId, container: container, session: session)
+        }
         .task { await loadComments() }
         .sheet(isPresented: $showingReport) {
-            NavigationStack { ReportPostView(post: currentPost, api: api) }
+            NavigationStack { ReportPostView(post: currentPost, api: container.api) }
         }
     }
 
@@ -238,7 +298,7 @@ struct PostDetailsView: View {
     private func loadComments() async {
         isLoadingComments = true
         do {
-            comments = try await api.send(Endpoint(path: "/api/v1/posts/\(post.id)/comments"), as: [Comment].self)
+            comments = try await container.api.send(Endpoint(path: "/api/v1/posts/\(post.id)/comments"), as: [Comment].self)
             interactionError = nil
         } catch {
             interactionError = error.localizedDescription
@@ -254,7 +314,7 @@ struct PostDetailsView: View {
         endpoint.body = try? Endpoint.json(Body(text: message))
         isSending = true
         do {
-            let value = try await api.send(endpoint, as: Comment.self)
+            let value = try await container.api.send(endpoint, as: Comment.self)
             withAnimation(.easeOut(duration: 0.25)) { comments.append(value) }
             currentPost = currentPost.updatingEngagement(commentCount: currentPost.commentCount + 1)
             onPostChange?(currentPost, nil)
@@ -280,7 +340,7 @@ struct PostDetailsView: View {
         var endpoint = Endpoint(path: "/api/v1/posts/\(post.id)/likes", method: shouldLike ? .post : .delete)
         if shouldLike { endpoint.body = Data("{}".utf8) }
         do {
-            currentPost = try await api.send(endpoint, as: Post.self)
+            currentPost = try await container.api.send(endpoint, as: Post.self)
             onPostChange?(currentPost, shouldLike)
             interactionError = nil
         } catch {
