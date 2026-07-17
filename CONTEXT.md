@@ -83,3 +83,7 @@ _Avoid_: Reação permanente, contador sem estado pessoal
 **Caixa de atividades**:
 A central interna que reúne acontecimentos destinados a uma pessoa, inicialmente Curtidas, Comentários, Solicitações de seguimento e suas aprovações. Não depende de notificações push nesta etapa.
 _Avoid_: Push obrigatório, histórico genérico do feed
+
+**Em destaque**:
+A linha do tempo pública de descoberta que combina recência e engajamento saudável de publicações públicas. Não se apresenta como recomendação personalizada e respeita Bloqueios e a Audiência da publicação.
+_Avoid_: Para você, ranking pessoal inexistente
