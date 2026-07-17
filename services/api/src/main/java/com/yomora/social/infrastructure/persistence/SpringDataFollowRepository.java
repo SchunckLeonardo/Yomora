@@ -12,4 +12,6 @@ interface SpringDataFollowRepository extends JpaRepository<FollowEntity, UUID> {
     List<FollowEntity> findAllByFollowedIdAndStatus(UUID followedId, String status);
 
     List<FollowEntity> findAllByFollowerIdAndStatus(UUID followerId, String status);
+
+    void deleteByFollowerIdAndFollowedId(UUID followerId, UUID followedId);
 }

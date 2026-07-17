@@ -1,6 +1,8 @@
 package com.yomora.social.infrastructure.persistence;
 
 import com.yomora.social.domain.Comment;
+import com.yomora.social.domain.FollowRequest;
+import com.yomora.social.domain.FollowStatus;
 import com.yomora.social.domain.Post;
 import com.yomora.social.domain.SocialRepository;
 import org.springframework.stereotype.Repository;
@@ -85,16 +87,40 @@ class JpaSocialRepository implements SocialRepository {
     }
 
     @Override
-    public void setFollowing(UUID followerId, UUID followedId, boolean following) {
+    public FollowStatus setFollowing(UUID followerId, UUID followedId, FollowStatus status) {
         Optional<FollowEntity> existing = followRepository.findByFollowerIdAndFollowedId(followerId, followedId);
-        if (following && existing.isEmpty()) {
-            followRepository.save(new FollowEntity(
-                    UUID.randomUUID(), followerId, followedId, "ACCEPTED", clock.instant()
-            ));
-        }
-        if (!following) {
-            existing.ifPresent(followRepository::delete);
-        }
+        FollowEntity entity = existing.orElseGet(() -> new FollowEntity(
+                UUID.randomUUID(), followerId, followedId, status.name(), clock.instant()
+        ));
+        entity.status = status.name();
+        followRepository.save(entity);
+        return status;
+    }
+
+    @Override
+    public Optional<FollowStatus> followStatus(UUID followerId, UUID followedId) {
+        return followRepository.findByFollowerIdAndFollowedId(followerId, followedId)
+                .map(entity -> FollowStatus.valueOf(entity.status));
+    }
+
+    @Override
+    public void removeFollowing(UUID followerId, UUID followedId) {
+        followRepository.deleteByFollowerIdAndFollowedId(followerId, followedId);
+    }
+
+    @Override
+    public void removeConnectionsBetween(UUID firstUserId, UUID secondUserId) {
+        followRepository.deleteByFollowerIdAndFollowedId(firstUserId, secondUserId);
+        followRepository.deleteByFollowerIdAndFollowedId(secondUserId, firstUserId);
+    }
+
+    @Override
+    public List<FollowRequest> pendingFollowRequests(UUID followedId) {
+        return followRepository.findAllByFollowedIdAndStatus(followedId, FollowStatus.PENDING.name()).stream()
+                .map(entity -> new FollowRequest(
+                        entity.followerId, entity.followedId, FollowStatus.PENDING, entity.createdAt
+                ))
+                .toList();
     }
 
     @Override
@@ -117,8 +143,8 @@ class JpaSocialRepository implements SocialRepository {
     }
 
     @Override
-    public List<Post> discover(Instant cursor, int limit) {
-        return postRepository.discover(cursor, limit).stream().map(this::enriched).toList();
+    public List<Post> discover(UUID viewerId, Instant cursor, int limit) {
+        return postRepository.discover(viewerId, cursor, limit).stream().map(this::enriched).toList();
     }
 
     private Post enriched(PostEntity entity) {

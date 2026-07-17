@@ -4,10 +4,22 @@ struct ProfileView: View {
     let userId: UUID
     let container: AppContainer
     let session: SessionStore
-    @State private var profile: UserProfile?
+    @State private var model: ProfileViewModel
     @State private var showingEdit = false
 
-    private var isMe: Bool { session.user?.id == userId }
+    init(userId: UUID, container: AppContainer, session: SessionStore) {
+        self.userId = userId
+        self.container = container
+        self.session = session
+        _model = State(initialValue: ProfileViewModel(
+            userId: userId,
+            isCurrentUser: session.user?.id == userId,
+            api: container.api
+        ))
+    }
+
+    private var profile: UserProfile? { model.profile }
+    private var isMe: Bool { model.isCurrentUser }
 
     var body: some View {
         ScrollView {
@@ -25,8 +37,31 @@ struct ProfileView: View {
                 }
                 if isMe {
                     SecondaryButton(title: "Editar perfil") { showingEdit = true }
+                    NavigationLink {
+                        FollowRequestsView(model: model, api: container.api)
+                    } label: {
+                        HStack {
+                            Label("Solicitações para seguir", systemImage: "person.crop.circle.badge.clock")
+                            Spacer()
+                            if !model.pendingRequests.isEmpty {
+                                Text("\(model.pendingRequests.count)")
+                                    .font(.caption.bold())
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 4)
+                                    .background(YomoraColor.progressGold, in: Capsule())
+                            }
+                            Image(systemName: "chevron.right")
+                        }
+                        .padding()
+                        .background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: 16))
+                    }
+                    .buttonStyle(.plain)
                 } else {
-                    PrimaryButton(title: "Seguir", systemImage: "person.badge.plus") { Task { await follow() } }
+                    PrimaryButton(
+                        title: model.followButtonTitle,
+                        systemImage: model.followStatus == nil ? "person.badge.plus" : "person.badge.clock"
+                    ) { Task { await model.toggleFollow() } }
                 }
                 HStack {
                     stat("\(profile?.totalReadingMinutes ?? 0)", "minutos", "clock")
@@ -36,25 +71,19 @@ struct ProfileView: View {
                     EmptyStateView(title: "Perfil privado", message: "As leituras aparecem após a aprovação.", systemImage: "lock")
                 }
                 ShareLink(item: URL(string: "https://yomora.app/users/\(userId)")!) { Label("Compartilhar perfil", systemImage: "square.and.arrow.up") }
+                if let errorMessage = model.errorMessage {
+                    Text(errorMessage).font(.caption).foregroundStyle(.red)
+                }
             }.padding()
         }
         .navigationTitle("Perfil").navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if isMe { ToolbarItem(placement: .topBarTrailing) { NavigationLink { SettingsView(container: container, session: session) } label: { Image(systemName: "gearshape") } } }
         }
-        .sheet(isPresented: $showingEdit, onDismiss: { Task { await load() } }) {
+        .sheet(isPresented: $showingEdit, onDismiss: { Task { await model.load() } }) {
             if let profile { NavigationStack { ProfileEditView(profile: profile, api: container.api) } }
         }
-        .task { await load() }
-    }
-
-    private func load() async {
-        profile = try? await container.api.send(Endpoint(path: isMe ? "/api/v1/users/me" : "/api/v1/users/\(userId)"), as: UserProfile.self)
-    }
-
-    private func follow() async {
-        var endpoint = Endpoint(path: "/api/v1/users/\(userId)/follow", method: .post); endpoint.body = Data("{}".utf8)
-        try? await container.api.sendVoid(endpoint); await load()
+        .task { await model.load() }
     }
 
     private func count(_ value: Int, _ label: String) -> some View {
@@ -63,6 +92,61 @@ struct ProfileView: View {
     private func stat(_ value: String, _ label: String, _ icon: String) -> some View {
         VStack { Image(systemName: icon).foregroundStyle(YomoraColor.progressGold); Text(value).font(.title2.bold()); Text(label).font(.caption) }
             .frame(maxWidth: .infinity, minHeight: 110).background(YomoraColor.surface, in: RoundedRectangle(cornerRadius: 16))
+    }
+}
+
+private struct FollowRequestsView: View {
+    let model: ProfileViewModel
+    let api: any APIClientProtocol
+
+    var body: some View {
+        List(model.pendingRequests) { request in
+            FollowRequestRow(
+                request: request,
+                api: api,
+                approve: { await model.approve(request) },
+                reject: { await model.reject(request) }
+            )
+        }
+        .navigationTitle("Solicitações")
+        .overlay {
+            if model.pendingRequests.isEmpty {
+                EmptyStateView(
+                    title: "Nenhuma solicitação",
+                    message: "Novos pedidos para seguir seu perfil privado aparecem aqui.",
+                    systemImage: "person.crop.circle.badge.checkmark"
+                )
+            }
+        }
+    }
+}
+
+private struct FollowRequestRow: View {
+    let request: FollowRequest
+    let api: any APIClientProtocol
+    let approve: () async -> Void
+    let reject: () async -> Void
+    @State private var profile: UserProfile?
+
+    var body: some View {
+        HStack(spacing: 12) {
+            UserAvatar(url: profile?.avatarUrl, size: 44)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(profile?.name ?? "Leitor").font(.headline)
+                Text("@\(profile?.username ?? String(request.followerId.uuidString.prefix(8)))")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer()
+            Button("Recusar") { Task { await reject() } }.buttonStyle(.borderless)
+            Button("Aceitar") { Task { await approve() } }.buttonStyle(.borderedProminent)
+        }
+        .task {
+            profile = try? await api.send(
+                Endpoint(path: "/api/v1/users/\(request.followerId)"),
+                as: UserProfile.self
+            )
+        }
     }
 }
 

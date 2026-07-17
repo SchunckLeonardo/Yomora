@@ -6,12 +6,14 @@ import com.yomora.identity.application.UpdateProfileCommand;
 import com.yomora.identity.application.UserProfileService;
 import com.yomora.identity.application.ProfileMetrics;
 import com.yomora.identity.application.ProfileMetricsService;
+import com.yomora.moderation.domain.ModerationRepository;
 import com.yomora.shared.security.CurrentUser;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -30,13 +33,16 @@ class UserController {
     private final UserRepository userRepository;
     private final UserProfileService profileService;
     private final ProfileMetricsService metricsService;
+    private final ModerationRepository moderationRepository;
     private final CurrentUser currentUser;
 
     UserController(UserRepository userRepository, UserProfileService profileService,
-                   ProfileMetricsService metricsService, CurrentUser currentUser) {
+                   ProfileMetricsService metricsService, ModerationRepository moderationRepository,
+                   CurrentUser currentUser) {
         this.userRepository = userRepository;
         this.profileService = profileService;
         this.metricsService = metricsService;
+        this.moderationRepository = moderationRepository;
         this.currentUser = currentUser;
     }
 
@@ -62,7 +68,10 @@ class UserController {
     }
 
     @GetMapping("/{id}")
-    PublicUserResponse profile(@PathVariable UUID id) {
+    PublicUserResponse profile(Authentication authentication, @PathVariable UUID id) {
+        if (moderationRepository.isBlockedEitherWay(currentUser.id(authentication), id)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Perfil indisponível");
+        }
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         return PublicUserResponse.from(user, metricsService.forUser(user.id()));
     }

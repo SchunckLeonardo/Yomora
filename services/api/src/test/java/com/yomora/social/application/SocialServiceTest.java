@@ -1,6 +1,8 @@
 package com.yomora.social.application;
 
 import com.yomora.social.domain.Comment;
+import com.yomora.social.domain.FollowRequest;
+import com.yomora.social.domain.FollowStatus;
 import com.yomora.social.domain.Post;
 import com.yomora.social.domain.PostType;
 import com.yomora.social.domain.SocialRepository;
@@ -63,11 +65,79 @@ class SocialServiceTest {
                 .hasMessage("Você não pode seguir a si mesmo");
     }
 
+    @Test
+    void enforcesPostAudienceBeforeLikesAndComments() {
+        UUID author = UUID.randomUUID();
+        UUID outsider = UUID.randomUUID();
+        SocialService service = new SocialService(
+                new InMemorySocialRepository(),
+                Clock.fixed(Instant.parse("2026-07-13T18:00:00Z"), ZoneOffset.UTC)
+        );
+        Post followersOnly = service.createPost(
+                author, "Somente para seguidores.", null, PostType.NOTE,
+                false, null, Visibility.FOLLOWERS
+        );
+
+        assertThatThrownBy(() -> service.like(outsider, followersOnly.id()))
+                .isInstanceOf(ContentForbiddenException.class);
+        assertThatThrownBy(() -> service.comment(outsider, followersOnly.id(), "Não deveria entrar"))
+                .isInstanceOf(ContentForbiddenException.class);
+    }
+
+    @Test
+    void keepsPrivateProfileFollowPendingUntilOwnerApprovesIt() {
+        UUID follower = UUID.randomUUID();
+        UUID privateProfile = UUID.randomUUID();
+        InMemorySocialRepository repository = new InMemorySocialRepository();
+        SocialService service = new SocialService(
+                repository,
+                userId -> !userId.equals(privateProfile),
+                (firstUserId, secondUserId) -> false,
+                Clock.fixed(Instant.parse("2026-07-13T18:00:00Z"), ZoneOffset.UTC)
+        );
+
+        assertThat(service.follow(follower, privateProfile)).isEqualTo(FollowStatus.PENDING);
+        assertThat(service.followers(privateProfile)).isEmpty();
+        assertThat(service.pendingFollowRequests(privateProfile))
+                .extracting(FollowRequest::followerId)
+                .containsExactly(follower);
+
+        service.approveFollow(privateProfile, follower);
+
+        assertThat(service.followers(privateProfile)).containsExactly(follower);
+        assertThat(service.pendingFollowRequests(privateProfile)).isEmpty();
+    }
+
+    @Test
+    void mutualBlockDeniesProfilesPostsAndFollowAttempts() {
+        UUID author = UUID.randomUUID();
+        UUID blockedReader = UUID.randomUUID();
+        InMemorySocialRepository repository = new InMemorySocialRepository();
+        SocialService service = new SocialService(
+                repository,
+                ignored -> true,
+                (firstUserId, secondUserId) -> Set.of(firstUserId, secondUserId)
+                        .equals(Set.of(author, blockedReader)),
+                Clock.fixed(Instant.parse("2026-07-13T18:00:00Z"), ZoneOffset.UTC)
+        );
+        Post post = service.createPost(
+                author, "Publicação pública", null, PostType.NOTE,
+                false, null, Visibility.PUBLIC
+        );
+
+        assertThatThrownBy(() -> service.getPostFor(blockedReader, post.id()))
+                .isInstanceOf(ContentForbiddenException.class);
+        assertThatThrownBy(() -> service.follow(blockedReader, author))
+                .isInstanceOf(ContentForbiddenException.class);
+        assertThatThrownBy(() -> service.followers(blockedReader, author))
+                .isInstanceOf(ContentForbiddenException.class);
+    }
+
     private static final class InMemorySocialRepository implements SocialRepository {
         private final Map<UUID, Post> posts = new HashMap<>();
         private final Map<UUID, Comment> comments = new HashMap<>();
         private final Map<UUID, Set<UUID>> likes = new HashMap<>();
-        private final Set<String> follows = new HashSet<>();
+        private final Map<String, FollowRequest> follows = new HashMap<>();
 
         @Override
         public Post savePost(Post post) {
@@ -123,23 +193,54 @@ class SocialServiceTest {
         }
 
         @Override
-        public void setFollowing(UUID followerId, UUID followedId, boolean following) {
+        public FollowStatus setFollowing(UUID followerId, UUID followedId, FollowStatus status) {
             String key = followerId + ":" + followedId;
-            if (following) {
-                follows.add(key);
-            } else {
-                follows.remove(key);
-            }
+            FollowRequest current = follows.get(key);
+            Instant createdAt = current == null ? Instant.parse("2026-07-13T18:00:00Z") : current.createdAt();
+            follows.put(key, new FollowRequest(followerId, followedId, status, createdAt));
+            return status;
+        }
+
+        @Override
+        public Optional<FollowStatus> followStatus(UUID followerId, UUID followedId) {
+            return Optional.ofNullable(follows.get(followerId + ":" + followedId)).map(FollowRequest::status);
+        }
+
+        @Override
+        public void removeFollowing(UUID followerId, UUID followedId) {
+            follows.remove(followerId + ":" + followedId);
+        }
+
+        @Override
+        public void removeConnectionsBetween(UUID firstUserId, UUID secondUserId) {
+            removeFollowing(firstUserId, secondUserId);
+            removeFollowing(secondUserId, firstUserId);
+        }
+
+        @Override
+        public List<FollowRequest> pendingFollowRequests(UUID followedId) {
+            return follows.values().stream()
+                    .filter(request -> request.followedId().equals(followedId))
+                    .filter(request -> request.status() == FollowStatus.PENDING)
+                    .toList();
         }
 
         @Override
         public List<UUID> followers(UUID userId) {
-            return List.of();
+            return follows.values().stream()
+                    .filter(request -> request.followedId().equals(userId))
+                    .filter(request -> request.status() == FollowStatus.ACCEPTED)
+                    .map(FollowRequest::followerId)
+                    .toList();
         }
 
         @Override
         public List<UUID> following(UUID userId) {
-            return List.of();
+            return follows.values().stream()
+                    .filter(request -> request.followerId().equals(userId))
+                    .filter(request -> request.status() == FollowStatus.ACCEPTED)
+                    .map(FollowRequest::followedId)
+                    .toList();
         }
 
         @Override
@@ -148,7 +249,7 @@ class SocialServiceTest {
         }
 
         @Override
-        public List<Post> discover(Instant cursor, int limit) {
+        public List<Post> discover(UUID viewerId, Instant cursor, int limit) {
             return new ArrayList<>(posts.values());
         }
     }

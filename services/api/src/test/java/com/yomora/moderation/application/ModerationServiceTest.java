@@ -10,6 +10,8 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,6 +36,22 @@ class ModerationServiceTest {
         assertThatThrownBy(() -> service.block(user, user)).isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> service.report(user, null, null, "SPAM", null))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void blockingRemovesFollowConnectionsInBothDirections() {
+        UUID blocker = UUID.randomUUID();
+        UUID blocked = UUID.randomUUID();
+        List<String> removedConnections = new ArrayList<>();
+        ModerationService service = new ModerationService(
+                new InMemoryModerationRepository(),
+                (firstUserId, secondUserId) -> removedConnections.add(firstUserId + ":" + secondUserId),
+                Clock.fixed(Instant.parse("2026-07-13T18:00:00Z"), ZoneOffset.UTC)
+        );
+
+        service.block(blocker, blocked);
+
+        assertThat(removedConnections).containsExactly(blocker + ":" + blocked);
     }
 
     private static final class InMemoryModerationRepository implements ModerationRepository {
