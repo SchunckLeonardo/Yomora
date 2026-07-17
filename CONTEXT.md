@@ -52,6 +52,6 @@ _Avoid_: Usuário comum, denunciante
 Uma Denúncia sobre a presença ou conduta de uma pessoa na Comunidade, em vez de uma publicação ou comentário específico. Pode levar a uma Suspensão quando considerada procedente.
 _Avoid_: Denúncia de conteúdo
 
-**Suspensão**:
-Uma medida temporária de moderação aplicada por um Moderador à pessoa alvo de uma Denúncia procedente. A medida restringe o acesso definido pela política de suspensão.
-_Avoid_: Bloqueio mútuo, exclusão de conta
+**Suspensão da Comunidade**:
+Uma medida temporária de moderação aplicada por um Moderador à pessoa alvo de uma Denúncia procedente. A pessoa preserva leitura e Biblioteca, mas não pode acessar a Comunidade nem iniciar interações sociais.
+_Avoid_: Bloqueio mútuo, exclusão de conta, suspensão total da conta
