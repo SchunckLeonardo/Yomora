@@ -69,5 +69,5 @@ A identificação exibida com uma publicação ou comentário, composta por avat
 _Avoid_: Leitor Yomora genérico, autoria anônima
 
 **Foto de perfil**:
-A imagem personalizada escolhida por uma pessoa para representar seu avatar na Assinatura de autoria e no Perfil.
+A imagem personalizada escolhida por uma pessoa para representar seu avatar na Assinatura de autoria e no Perfil. Torna-se visível imediatamente, pode ser denunciada e pode ser removida por um Moderador sem excluir o Perfil.
 _Avoid_: Avatar gerado, imagem de uma publicação
