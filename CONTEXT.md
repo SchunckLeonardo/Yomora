@@ -79,3 +79,7 @@ _Avoid_: Selo sem ocultação, spoiler exibido automaticamente
 **Curtida**:
 A reação reversível de uma pessoa a uma publicação. A seleção e seu contador atualizam imediatamente; se a confirmação falhar, a interface restaura o estado anterior e oferece nova tentativa.
 _Avoid_: Reação permanente, contador sem estado pessoal
+
+**Caixa de atividades**:
+A central interna que reúne acontecimentos destinados a uma pessoa, inicialmente Curtidas, Comentários, Solicitações de seguimento e suas aprovações. Não depende de notificações push nesta etapa.
+_Avoid_: Push obrigatório, histórico genérico do feed
