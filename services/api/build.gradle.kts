@@ -1,6 +1,6 @@
 plugins {
 	java
-	id("com.github.spotbugs") version "6.5.8"
+	id("com.github.spotbugs") version "6.5.9"
 	id("org.springframework.boot") version "4.1.0"
 	id("io.spring.dependency-management") version "1.1.7"
 }
@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-	implementation(platform("software.amazon.awssdk:bom:2.46.8"))
+	implementation(platform("software.amazon.awssdk:bom:2.47.5"))
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-cache")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -47,7 +47,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
 	testImplementation("org.testcontainers:testcontainers-junit-jupiter")
 	testImplementation("org.testcontainers:testcontainers-postgresql")
-	testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
+	testImplementation("com.tngtech.archunit:archunit-junit5:1.4.2")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0")
 }
